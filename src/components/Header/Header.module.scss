@@ -1,0 +1,110 @@
+.header {
+    background-color: #ff4500;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: 50px; // 제목을 살짝 오른쪽으로 이동
+}
+
+.menuIcon {
+    font-size: 1.5em;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-family: inherit;
+    position: relative;
+    right: 70px; // 버튼을 약간 왼쪽으로 이동
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    top: 53px; // 드롭다운 메뉴의 위치 조정
+    right: 50px; // 드롭다운 메뉴의 위치 조정
+    background-color: #ff4500;
+
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.menu.show {
+    display: block;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.menu li:hover {
+    background-color: #ff6347;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px 10px; // 패딩을 조금 줄임
+    }
+
+    .logo {
+        margin-left: 20px; // 작은 화면에서는 더 작은 여백
+    }
+
+    .menuIcon {
+        right: 10px; // 작은 화면에서는 오른쪽 이동을 줄임
+    }
+
+    .menu {
+        top: 45px; // 드롭다운 메뉴 위치를 조금 조정
+        width: 100%; // 작은 화면에서 드롭다운 메뉴의 너비를 100%로 설정
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        border-radius: 0; // 작은 화면에서는 모서리 반경을 제거
+    }
+
+    .menu ul {
+        padding: 0;
+    }
+
+    .menu li {
+        padding: 10px 15px; // 작은 화면에서는 패딩을 줄임
+        text-align: center; // 항목을 가운데 정렬
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.2em; // 더 작은 화면에서는 폰트 크기를 줄임
+    }
+
+    .menuIcon {
+        font-size: 1.2em; // 더 작은 화면에서는 폰트 크기를 줄임
+        right: 5px; // 더 작은 화면에서는 오른쪽 이동을 줄임
+    }
+
+    .menu {
+        top: 40px; // 드롭다운 메뉴 위치를 더 조정
+    }
+
+    .menu li {
+        padding: 10px 10px; // 더 작은 화면에서는 패딩을 줄임
+        text-align: center; // 항목을 가운데 정렬
+    }
+}
