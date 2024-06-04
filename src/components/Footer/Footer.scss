@@ -1,0 +1,78 @@
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff4500;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+
+    margin: auto;
+}
+
+.stack-section {
+    display: flex;
+    align-items: start;
+    justify-content: flex-end;
+    width: 100%;
+    div:not(:last-child) {
+        margin-right: 40px; // 오른쪽 마진을 40px로 설정하여 간격을 넓힘
+    }
+}
+
+.logo-section img {
+    width: 100%;
+    max-width: 300px; // 최대 로고 크기
+    height: auto; // 비율 유지
+    margin-right: 150px;
+    display: flex;
+}
+
+.github-icon {
+    display: flex; // Flexbox를 사용하여 정렬
+    margin-left: 10px;
+    font-size: 4em; // 기본 폰트 크기
+    align-self: center; // 세로 중앙 정렬
+    margin-top: 10px;
+    align-items: center; // 가로 중앙 정렬
+    justify-content: center; // 가로 중앙 정렬
+}
+// 미디어 쿼리를 추가하여 다양한 화면 크기에 맞춰 조정
+@media (max-width: 1024px) {
+    .stack-section {
+        justify-content: center; // 너비가 좁아지면 중앙 정렬
+        margin-right: 0; // 고정된 마진 제거
+
+        div:not(:last-child) {
+            margin-right: 20px; // 더 작은 화면에서는 간격 줄이기
+        }
+    }
+
+    .logo-section img {
+        margin-right: 20px; // 모바일에서 로고 간격 조정
+    }
+}
+
+@media (max-width: 768px) {
+    .stack-section {
+        flex-direction: row; // 모바일 화면에서는 세로 정렬
+        align-items: center; // 모든 항목을 중앙에 배치
+
+        div {
+            margin-right: 0; // 세로 정렬에서는 오른쪽 마진 제거
+
+            font-size: 0.8em;
+        }
+    }
+
+    .logo-section img {
+        max-width: 200px; // 모바일 화면에서 로고 크기 조정
+        margin-right: 0; // 세로 배치 시 오른쪽 마진 제거
+    }
+
+    .github-icon {
+        margin-right: 100px !important;
+        font-size: 4em !important;
+    }
+}

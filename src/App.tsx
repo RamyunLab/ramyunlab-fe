@@ -8,6 +8,7 @@ import MainPage from "./page/MainPage.tsx";
 import MbtiPage from "./page/MbtiPage.tsx";
 import WorldcupPage from "./page/WorldcupPage.tsx";
 import store from "./Redux/store.tsx";
+import Footer from "./components/Footer/Footer.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App: React.FC = () => {
                         <Route path="/worldcup" element={<WorldcupPage />} />
                         <Route path="/" element={<MainPage />} /> {/* MainPage as default */}
                     </Routes>
+                    <Footer />
                 </Router>
             </QueryClientProvider>
         </Provider>
