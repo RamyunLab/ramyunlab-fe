@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addAnswer } from "../../Redux/slices/MbtiSlice.tsx"; // Adjust import
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addAnswer, questionsCount } from "../../Redux/slices/MbtiSlice.tsx";
+import { RootState } from "../../Redux/store.tsx";
 import styles from "./Question.module.scss";
 
 const questions = [
@@ -39,31 +40,33 @@ const questions = [
 ];
 
 const Question: React.FC = () => {
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const dispatch = useDispatch();
-    const currentQuestion = questions[currentQuestionIndex];
+    const answers = useSelector((state: RootState) => state.mbti.answers);
 
     const handleAnswer = (value: string) => {
         dispatch(addAnswer(value));
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        }
     };
+
+    const currentQuestion = questions[answers.length];
 
     return (
         <div className={styles.questionContainer}>
-            <h2 className={styles.questionText}>{currentQuestion.text}</h2>
-            <div className={styles.options}>
-                {currentQuestion.options.map((option, index) => (
-                    <button
-                        key={index}
-                        className={styles.optionButton}
-                        onClick={() => handleAnswer(option.value)}
-                    >
-                        {option.text}
-                    </button>
-                ))}
-            </div>
+            {currentQuestion && (
+                <>
+                    <div className={styles.questionText}>{currentQuestion.text}</div>
+                    <div className={styles.options}>
+                        {currentQuestion.options.map((option) => (
+                            <button
+                                key={option.value}
+                                className={styles.optionButton}
+                                onClick={() => handleAnswer(option.value)}
+                            >
+                                {option.text}
+                            </button>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { calculateMBTI, resetResult } from "../../Redux/slices/MbtiSlice.tsx";
+import { calculateMBTI, resetResult, questionsCount } from "../../Redux/slices/MbtiSlice.tsx";
 import { RootState } from "../../Redux/store";
 import styles from "./Result.module.scss";
 import { Link } from "react-router-dom";
@@ -11,14 +11,17 @@ const Result: React.FC = () => {
     const result = useSelector((state: RootState) => state.mbti.result);
 
     useEffect(() => {
-        if (answers.length === 4) {
+        console.log("useEffect triggered with answers:", answers);
+        if (answers.length === questionsCount) {
             dispatch(calculateMBTI(answers));
         }
     }, [answers, dispatch]);
 
-    // 결과를 공유하는 함수
+    useEffect(() => {
+        console.log("Result updated:", result);
+    }, [result]);
+
     const handleShareResult = () => {
-        // 여기에 결과를 공유하는 로직을 구현하세요
         alert("결과를 공유합니다: " + JSON.stringify(result));
     };
 
@@ -33,12 +36,14 @@ const Result: React.FC = () => {
                 </p>
                 <p className={styles.description}>{result.description}</p>
             </div>
-            <Link to="/" onClick={() => dispatch(resetResult())} className={styles.homeLink}>
-                <div>홈으로</div>
-            </Link>
-            <button className={styles.button} onClick={handleShareResult}>
-                결과 공유하기
-            </button>
+            <div className={styles.buttonContainer}>
+                <Link to="/" onClick={() => dispatch(resetResult())} className={styles.homeLink}>
+                    홈으로
+                </Link>
+                <button className={styles.button} onClick={handleShareResult}>
+                    결과 공유하기
+                </button>
+            </div>
         </div>
     );
 };

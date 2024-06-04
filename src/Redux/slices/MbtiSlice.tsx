@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface MBTIState {
     answers: string[];
     result: { mbtiType: string; ramenRecommendation: string; description: string } | null;
+    showResult: boolean;
 }
 
 const initialState: MBTIState = {
     answers: [],
     result: null,
+    showResult: false,
 };
 
 const mbtiSlice = createSlice({
@@ -26,16 +28,21 @@ const mbtiSlice = createSlice({
             }>
         ) => {
             state.result = action.payload;
+            state.showResult = true;
         },
-        // 액션을 추가합니다: 결과 상태를 초기화합니다.
         resetResult: (state) => {
             state.result = null;
+            state.answers = [];
+            state.showResult = false;
         },
     },
 });
 export const { addAnswer, setResult, resetResult } = mbtiSlice.actions;
 
+const questionsCount = 4; // 질문의 수를 정의합니다.
+
 const calculateMBTI = (answers: string[]) => (dispatch: any) => {
+    console.log("Calculating MBTI with answers:", answers);
     const typeCount = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
 
     answers.forEach((answer) => {
@@ -48,6 +55,7 @@ const calculateMBTI = (answers: string[]) => (dispatch: any) => {
         (typeCount.T >= typeCount.F ? "T" : "F") +
         (typeCount.J >= typeCount.P ? "J" : "P");
 
+    console.log("Determined MBTI type:", mbtiType);
     const ramenRecommendationMap = {
         ENTJ: {
             ramen: "왕뚜껑",
@@ -145,5 +153,5 @@ const calculateMBTI = (answers: string[]) => (dispatch: any) => {
     );
 };
 
-export { calculateMBTI };
+export { calculateMBTI, questionsCount };
 export default mbtiSlice.reducer;
