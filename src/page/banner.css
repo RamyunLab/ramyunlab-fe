@@ -1,0 +1,16 @@
+.banner {
+    background-color: #f0f0f0; /* 배너의 배경색을 설정합니다. */
+    padding: 20px; /* 배너의 안쪽 여백을 추가합니다. */
+    border-radius: 5px; /* 배너에 둥근 모서리를 만듭니다. */
+    width: 60%;
+}
+
+.banner-link {
+    color: #333; /* 링크의 텍스트 색상을 지정합니다. */
+    font-size: 18px; /* 링크의 글꼴 크기를 지정합니다. */
+    text-decoration: none; /* 밑줄을 제거합니다. */
+}
+
+.banner-link:hover {
+    color: #555; /* 마우스를 올렸을 때 링크의 텍스트 색상을 변경합니다. */
+}
