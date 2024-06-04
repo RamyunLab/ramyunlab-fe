@@ -1,20 +1,33 @@
 .banner {
     background-color: #f0f0f0; /* Set the background color of the banner */
     padding: 20px; /* Add padding to the banner */
-    border-radius: 5px; /* Create rounded corners on the banner */
-    width: 40%;
+    border-radius: 10px; /* Create more rounded corners on the banner */
+    width: 80%;
+    max-width: 700px;
+    margin: 20px auto; /* Center the banner horizontally */
     display: flex; /* Use flexbox */
     flex-direction: column; /* Set the flex direction to column */
     justify-content: center; /* Center the content horizontally */
     align-items: center; /* Center the content vertically */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Add transition for hover effects */
+    /* background-image: url("path/to/your/background-image.jpg");  */
+    background-size: cover; /* Make sure the background image covers the entire banner */
+    background-position: center; /* Center the background image */
+}
+
+.banner:hover {
+    transform: scale(1.05); /* Slightly scale up the banner on hover */
+    background-color: #e0e0e0; /* Lighten the background color on hover */
 }
 
 .banner-link {
     color: #333; /* Specifies the text color of the link */
-    font-size: 18px; /* Specifies the font size for the link */
+    font-size: 24px; /* Increase the font size for better readability */
     text-decoration: none; /* Remove the underscore */
+    transition: color 0.3s ease; /* Add a transition for the hover effect */
 }
 
 .banner-link:hover {
-    color: #555; /* Change the text color of the link when hovered over */
+    color: #007bff; /* Change the text color of the link when hovered over */
 }
