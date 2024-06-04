@@ -11,8 +11,8 @@ const Footer = () => {
                 <div>
                     <h4>Contributor</h4>
                     <ul>
-                        <li>신동원</li>
                         <li>진현정</li>
+                        <li>신동원</li>
                         <li>이대원</li>
                         <li>전재민</li>
                         <li>추수연</li>
@@ -25,6 +25,7 @@ const Footer = () => {
                         <li>Redux</li>
                         <li>SCSS</li>
                         <li>ReactQuery</li>
+                        <li>TypeScript</li>
                     </ul>
                 </div>
                 <div>
