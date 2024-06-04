@@ -1,0 +1,78 @@
+.questionContainer {
+    max-width: 800px; /* Increase container width */
+    margin: 0 auto;
+    padding: 20px; /* Add padding for spacing */
+    background-color: #fff; /* Add a background color */
+    border-radius: 10px; /* Add rounded corners */
+
+    transition: transform 0.3s ease;
+    transform: scale(1); /* Initial scale */
+
+    &:hover {
+        transform: scale(1.02); /* Slightly scale up on hover */
+    }
+}
+
+.questionText {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center; /* Center the question text */
+    font-weight: bold; /* Make the question text bold */
+    color: #333; /* Set a darker text color */
+}
+
+.options {
+    display: flex;
+    justify-content: space-around; /* Spread options evenly */
+    align-items: center; /* Vertically align options */
+    margin-bottom: 40px; /* Add a larger gap between questions */
+    flex-wrap: nowrap; /* Prevent wrapping of options */
+}
+
+.optionButton {
+    padding: 15px 30px; /* Increase padding for better touch area */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff; /* Change background color */
+    color: #fff; /* Change text color to white */
+    font-size: 18px; /* Increase font size */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: 10px; /* Add margin for spacing between buttons */
+
+    &:hover {
+        background-color: #0056b3; /* Darken background on hover */
+        transform: translateY(-2px); /* Slightly lift on hover */
+    }
+
+    &:active {
+        background-color: #004494; /* Further darken background on active */
+        transform: translateY(0); /* Reset transform on active */
+    }
+}
+
+.resetButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #dc3545; /* Set a different color for reset button */
+    color: #fff; /* Change text color to white */
+    font-size: 16px; /* Set font size */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        background-color: #c82333; /* Darken background on hover */
+        transform: translateY(-2px); /* Slightly lift on hover */
+    }
+
+    &:active {
+        background-color: #bd2130; /* Further darken background on active */
+        transform: translateY(0); /* Reset transform on active */
+    }
+}
+
+.questionContainer:not(:last-child) {
+    margin-bottom: 40px; /* Add a larger gap between questions */
+}
