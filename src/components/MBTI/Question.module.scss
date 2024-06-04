@@ -1,0 +1,50 @@
+// Question.module.scss
+
+.questionContainer {
+    max-width: 800px; /* Increase container width */
+    margin: 0 auto;
+    padding: 20px; /* Add padding for spacing */
+}
+
+.questionText {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertically align options */
+    margin-bottom: 40px; /* Add a larger gap between questions */
+    height: 200px;
+}
+.optionButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+.optionButton:hover {
+    background-color: #ddd;
+}
+
+.resetButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+.resetButton:hover {
+    background-color: #ddd;
+}
+
+.questionContainer:not(:last-child) {
+    margin-bottom: 40px; /* Add a larger gap between questions */
+}

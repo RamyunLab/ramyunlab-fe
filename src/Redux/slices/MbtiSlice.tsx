@@ -1,8 +1,10 @@
+// MbtiSlice.tsx
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface MBTIState {
     answers: string[];
-    result: string | null;
+    result: { mbtiType: string; ramenRecommendation: string; description: string } | null;
 }
 
 const initialState: MBTIState = {
@@ -17,17 +19,23 @@ const mbtiSlice = createSlice({
         addAnswer: (state, action: PayloadAction<string>) => {
             state.answers.push(action.payload);
         },
-        setResult: (state, action: PayloadAction<string>) => {
+        setResult: (
+            state,
+            action: PayloadAction<{
+                mbtiType: string;
+                ramenRecommendation: string;
+                description: string;
+            }>
+        ) => {
             state.result = action.payload;
         },
-        reset: (state) => {
-            state.answers = [];
+        // 액션을 추가합니다: 결과 상태를 초기화합니다.
+        resetResult: (state) => {
             state.result = null;
         },
     },
 });
-
-export const { addAnswer, setResult, reset } = mbtiSlice.actions;
+export const { addAnswer, setResult, resetResult } = mbtiSlice.actions;
 
 const calculateMBTI = (answers: string[]) => (dispatch: any) => {
     const typeCount = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };

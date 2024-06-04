@@ -1,16 +1,20 @@
 .banner {
-    background-color: #f0f0f0; /* 배너의 배경색을 설정합니다. */
-    padding: 20px; /* 배너의 안쪽 여백을 추가합니다. */
-    border-radius: 5px; /* 배너에 둥근 모서리를 만듭니다. */
-    width: 60%;
+    background-color: #f0f0f0; /* Set the background color of the banner */
+    padding: 20px; /* Add padding to the banner */
+    border-radius: 5px; /* Create rounded corners on the banner */
+    width: 40%;
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Set the flex direction to column */
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
 }
 
 .banner-link {
-    color: #333; /* 링크의 텍스트 색상을 지정합니다. */
-    font-size: 18px; /* 링크의 글꼴 크기를 지정합니다. */
-    text-decoration: none; /* 밑줄을 제거합니다. */
+    color: #333; /* Specifies the text color of the link */
+    font-size: 18px; /* Specifies the font size for the link */
+    text-decoration: none; /* Remove the underscore */
 }
 
 .banner-link:hover {
-    color: #555; /* 마우스를 올렸을 때 링크의 텍스트 색상을 변경합니다. */
+    color: #555; /* Change the text color of the link when hovered over */
 }

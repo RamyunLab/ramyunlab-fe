@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./banner.css"; // Import the CSS file for styling
+import "./Banner.css"; // Import the CSS file for styling
 
 const MainPage: React.FC = () => {
     return (

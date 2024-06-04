@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addAnswer, reset } from "../../Redux/slices/MbtiSlice.tsx";
+import { addAnswer } from "../../Redux/slices/MbtiSlice.tsx"; // Adjust import
 import styles from "./Question.module.scss";
+
 const questions = [
     {
         id: 1,
@@ -49,11 +50,6 @@ const Question: React.FC = () => {
         }
     };
 
-    const handleReset = () => {
-        dispatch(reset());
-        setCurrentQuestionIndex(0);
-    };
-
     return (
         <div className={styles.questionContainer}>
             <h2 className={styles.questionText}>{currentQuestion.text}</h2>
@@ -68,9 +64,6 @@ const Question: React.FC = () => {
                     </button>
                 ))}
             </div>
-            <button className={styles.resetButton} onClick={handleReset}>
-                Reset
-            </button>
         </div>
     );
 };
