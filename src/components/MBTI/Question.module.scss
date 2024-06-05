@@ -1,10 +1,10 @@
 .questionContainer {
     max-width: 800px; /* Increase container width */
+    min-width: 800px; /* Set minimum width */
     margin: 0 auto;
     padding: 20px; /* Add padding for spacing */
     background-color: #fff; /* Add a background color */
     border-radius: 10px; /* Add rounded corners */
-
     transition: transform 0.3s ease;
     transform: scale(1); /* Initial scale */
 
@@ -19,6 +19,7 @@
     text-align: center; /* Center the question text */
     font-weight: bold; /* Make the question text bold */
     color: #333; /* Set a darker text color */
+    min-height: 50px; /* Set minimum height */
 }
 
 .options {
@@ -39,6 +40,11 @@
     font-size: 18px; /* Increase font size */
     transition: background-color 0.3s ease, transform 0.3s ease;
     margin: 10px; /* Add margin for spacing between buttons */
+    width: 45%; /* Set fixed width */
+    height: 60px; /* Set fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
         background-color: #0056b3; /* Darken background on hover */
