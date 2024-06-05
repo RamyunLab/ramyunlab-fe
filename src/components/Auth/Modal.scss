@@ -38,6 +38,7 @@
             margin-top: 10px;
         }
 
+        .checkIdBtn,
         .checkNicknameBtn {
             width: 70px; /* 버튼의 너비 설정 */
             padding: 10px 0; /* 높이를 맞추기 위해 padding 조정 */
@@ -121,7 +122,8 @@
         justify-content: center; /* 가운데 정렬 */
         margin-top: 20px;
 
-        a {
+        a,
+        span {
             color: #e74c3c;
             text-decoration: none;
             font-size: 14px;

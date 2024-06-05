@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Modal.scss";
-import { Link } from "react-router-dom";
 
-const RegisterModal: React.FC = () => {
+interface RegisterModalProps {
+    toggleRegisterModal: () => void;
+    toggleLoginModal: () => void;
+}
+
+const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, toggleLoginModal }) => {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [nickname, setNickname] = useState("");
     const [nicknameChecked, setNicknameChecked] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(true);
+    const [idChecked, setIdChecked] = useState(false);
 
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
@@ -21,19 +26,26 @@ const RegisterModal: React.FC = () => {
             return;
         }
 
+        if (!idChecked) {
+            alert("아이디 중복 확인을 완료해주세요.");
+            return;
+        }
+
         if (!passwordMatch) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
         }
 
         try {
-            const response = await axios.post("/api/register", {
+            const response = await axios.post("/auth/signup", {
                 id,
                 password,
                 nickname,
             });
             if (response.data.success) {
                 alert("회원가입이 완료되었습니다.");
+                toggleRegisterModal();
+                toggleLoginModal(); // 회원가입 성공 후 로그인 모달로 전환
             } else {
                 alert("회원가입에 실패했습니다: " + response.data.message);
             }
@@ -44,7 +56,7 @@ const RegisterModal: React.FC = () => {
 
     const checkNickname = async () => {
         try {
-            const response = await axios.post("/api/check-nickname", { nickname });
+            const response = await axios.post("/auth/checkNickname", { nickname });
             if (response.data.success) {
                 setNicknameChecked(true);
                 alert("닉네임 중복 확인 완료");
@@ -56,15 +68,34 @@ const RegisterModal: React.FC = () => {
         }
     };
 
+    const checkId = async () => {
+        try {
+            const response = await axios.post("/auth/checkId", { id });
+            if (response.data.success) {
+                setIdChecked(true);
+                alert("아이디 중복 확인 완료");
+            } else {
+                alert("아이디가 이미 사용 중입니다.");
+            }
+        } catch (error) {
+            alert("아이디 중복 확인에 실패했습니다.");
+        }
+    };
+
     return (
         <div className="modal">
             <h2>회원가입</h2>
-            <input
-                type="text"
-                placeholder="아이디"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-            />
+            <div className="nickname">
+                <input
+                    type="text"
+                    placeholder="아이디"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                />
+                <button onClick={checkId} className="checkIdBtn">
+                    중복 확인
+                </button>
+            </div>
             <div className="nickname">
                 <input
                     type="text"
@@ -96,7 +127,14 @@ const RegisterModal: React.FC = () => {
             <button onClick={handleRegister}>회원가입</button>
 
             <div className="links">
-                <Link to="/login">로그인</Link>
+                <span
+                    onClick={() => {
+                        toggleRegisterModal();
+                        toggleLoginModal();
+                    }}
+                >
+                    로그인
+                </span>
             </div>
         </div>
     );
