@@ -22,7 +22,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("/auth/login", { id, password });
+            const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/auth/login`, {
+                userId: id,
+                password,
+            });
 
             if (response.data.success) {
                 if (rememberId) {

@@ -37,7 +37,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
         }
 
         try {
-            const response = await axios.post("/auth/signup", {
+            const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/auth/register`, {
                 id,
                 password,
                 nickname,
@@ -56,7 +56,11 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
 
     const checkNickname = async () => {
         try {
-            const response = await axios.post("/auth/checkNickname", { nickname });
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_SERVER}/auth/checkNickname`,
+                { nickname }
+            );
+            console.log(response.data);
             if (response.data.success) {
                 setNicknameChecked(true);
                 alert("닉네임 중복 확인 완료");
@@ -70,7 +74,11 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
 
     const checkId = async () => {
         try {
-            const response = await axios.post("/auth/checkId", { id });
+            console.log(id);
+            const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/auth/checkId`, {
+                userId: id,
+            });
+            console.log(id, response.data);
             if (response.data.success) {
                 setIdChecked(true);
                 alert("아이디 중복 확인 완료");
