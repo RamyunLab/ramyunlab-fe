@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAnswer, questionsCount } from "../../Redux/slices/MbtiSlice.tsx";
-import { RootState } from "../../Redux/store.tsx";
+import { RootState } from "../../Redux/store";
 import styles from "./Question.module.scss";
 
 const questions = [
@@ -25,8 +25,8 @@ const questions = [
         id: 3,
         text: "라면을 선택할 때 어떤 요소가 더 중요한가요?",
         options: [
-            { text: "가격과 성능.", value: "T" },
-            { text: "먹을 때 느껴지는 감정과 분위기.", value: "F" },
+            { text: "가격과 양.", value: "T" },
+            { text: "선호하는 맛.", value: "F" },
         ],
     },
     {
@@ -35,6 +35,38 @@ const questions = [
         options: [
             { text: "미리 계획하고 준비된 시간에 먹는다.", value: "J" },
             { text: "즉흥적으로 먹고 싶을 때 먹는다.", value: "P" },
+        ],
+    },
+    {
+        id: 5,
+        text: "라면의 국물 맛을 선택할 때, 어떤 것을 더 선호하나요?",
+        options: [
+            { text: "맑고 깔끔한 맛.", value: "S" },
+            { text: "진하고 강렬한 맛.", value: "N" },
+        ],
+    },
+    {
+        id: 6,
+        text: "라면을 먹을 때 주로 어떤 환경을 더 선호하나요?",
+        options: [
+            { text: "활기찬 분위기에서.", value: "E" },
+            { text: "조용하고 편안한 분위기에서.", value: "I" },
+        ],
+    },
+    {
+        id: 7,
+        text: "라면에 추가 재료를 넣는다면, 어떤 방식을 더 선호하나요?",
+        options: [
+            { text: "정해진 레시피를 따른다.", value: "J" },
+            { text: "자유롭게 창의적으로 넣는다.", value: "P" },
+        ],
+    },
+    {
+        id: 8,
+        text: "라면을 먹은 후에 어떤 기분을 더 선호하나요?",
+        options: [
+            { text: "든든하고 만족스러운 느낌.", value: "T" },
+            { text: "행복하고 편안한 느낌.", value: "F" },
         ],
     },
 ];

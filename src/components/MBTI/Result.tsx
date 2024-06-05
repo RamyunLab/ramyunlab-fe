@@ -31,6 +31,11 @@ const Result: React.FC = () => {
         <div className={styles.resultPage}>
             <div className={styles.resultContainer}>
                 <h2 className={styles.resultText}>Your MBTI Type: {result.mbtiType}</h2>
+                <img
+                    src={result.imageUrl}
+                    alt={result.ramenRecommendation}
+                    className={styles.ramenImage}
+                />
                 <p className={styles.ramenRecommendation}>
                     Ramen Recommendation: {result.ramenRecommendation}
                 </p>

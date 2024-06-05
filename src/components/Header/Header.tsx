@@ -6,7 +6,6 @@ import styles from "./Header.module.scss";
 import LoginModal from "../Auth/LoginModal.tsx";
 interface HeaderProps {
     toggleLoginModal: () => void;
-    toggleRegisterModal: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
@@ -70,7 +69,9 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
                     </div>
                 </div>
             ) : (
-                <button onClick={toggleLoginModal}>로그인</button>
+                <button className={styles.loginButton} onClick={toggleLoginModal}>
+                    로그인
+                </button>
             )}
         </header>
     );

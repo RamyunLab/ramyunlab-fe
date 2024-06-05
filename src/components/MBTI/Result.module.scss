@@ -22,6 +22,14 @@
     color: #333; /* Set a darker text color */
 }
 
+.ramenImage {
+    width: 100%;
+    max-width: 300px; /* Set max-width for the image */
+    height: auto;
+    margin-bottom: 20px; /* Add margin at the bottom */
+    border-radius: 10px; /* Add rounded corners to the image */
+}
+
 .ramenRecommendation {
     font-size: 20px;
     margin-bottom: 10px;
