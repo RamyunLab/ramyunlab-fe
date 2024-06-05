@@ -3,7 +3,7 @@ import Matchup from "../components/Tournament/Matchup.tsx";
 import FinalScreen from "../components/Tournament/FinalScreen.tsx";
 import "./Tournament.scss";
 
-const ramenList = [
+const ramenList: string[] = [
     "라면 1",
     "라면 2",
     "라면 3",
@@ -23,26 +23,27 @@ const ramenList = [
 ];
 
 const Tournament: React.FC = () => {
-    const [round, setRound] = useState(16);
-    const [currentMatchups, setCurrentMatchups] = useState([...ramenList]);
+    const [round, setRound] = useState<number>(16);
+    const [currentMatchups, setCurrentMatchups] = useState<string[]>([...ramenList]);
     const [winners, setWinners] = useState<string[]>([]);
     const [champion, setChampion] = useState<string | null>(null);
-    const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
+    const [currentMatchIndex, setCurrentMatchIndex] = useState<number>(0);
 
     const handleWinnerSelect = (winner: string) => {
-        setWinners((prev) => [...prev, winner]);
+        const newWinners = [...winners, winner];
+        setWinners(newWinners);
 
-        if (winners.length + 1 === currentMatchups.length / 2) {
+        if (newWinners.length === currentMatchups.length / 2) {
             if (round === 2) {
-                setChampion(winner);
+                setChampion(newWinners[0]);
             } else {
-                setCurrentMatchups([...winners, winner]);
+                setCurrentMatchups(newWinners);
                 setWinners([]);
                 setRound(round / 2);
                 setCurrentMatchIndex(0);
             }
         } else {
-            setCurrentMatchIndex((prev) => prev + 1);
+            setCurrentMatchIndex(currentMatchIndex + 1);
         }
     };
 

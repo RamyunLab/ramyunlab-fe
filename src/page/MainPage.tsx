@@ -9,9 +9,9 @@ const MainPage: React.FC = () => {
                 <div className="banner">Go to MBTI Page</div>
             </Link>
             {/* 월드컵 페이지로 가는 새로운 링크를 추가합니다. */}
-            {/* <Link to="/worldcup" className="banner-link">
+            <Link to="/tournament" className="banner-link">
                 <div className="banner">Go to Worldcup Page</div>
-            </Link> */}
+            </Link>
         </div>
     );
 };

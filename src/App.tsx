@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header.tsx";
 import MainPage from "./page/MainPage.tsx";
 import MbtiPage from "./page/MbtiPage.tsx";
-import WorldcupPage from "./page/WorldcupPage.tsx";
 import store from "./Redux/store.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import Tournament from "./page/Tournament.tsx";
@@ -21,7 +20,6 @@ const App: React.FC = () => {
                     <Header />
                     <Routes>
                         <Route path="/mbti" element={<MbtiPage />} />
-                        {/* <Route path="/worldcup" element={<WorldcupPage />} /> */}
                         <Route path="/" element={<MainPage />} /> {/* MainPage as default */}
                         <Route path="/tournament" element={<Tournament />} />
                     </Routes>
