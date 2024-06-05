@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Matchup from "../components/Tournament/Matchup";
-import FinalScreen from "../components/Tournament/FinalScreen";
+import Matchup from "../components/Tournament/Matchup.tsx";
+import FinalScreen from "../components/Tournament/FinalScreen.tsx";
 import "./Tournament.scss";
 
 const ramenList = [
