@@ -1,5 +1,5 @@
 .header {
-    background-color: #ff4500;
+    background-color: #e74c3c;
     padding: 0px;
     display: flex;
     justify-content: space-between;
@@ -16,7 +16,7 @@
     margin-left: 50px; // 제목을 살짝 오른쪽으로 이동
 }
 
-.menuIcon {
+.button {
     font-size: 1.5em;
     cursor: pointer;
     background: none;
@@ -27,13 +27,20 @@
     right: 70px; // 버튼을 약간 왼쪽으로 이동
 }
 
+.menuIcon {
+    @extend .button;
+}
+
+.loginButton {
+    @extend .button;
+}
+
 .menu {
     display: none;
     position: absolute;
     top: 53px; // 드롭다운 메뉴의 위치 조정
     right: 50px; // 드롭다운 메뉴의 위치 조정
-    background-color: #ff4500;
-
+    background-color: #e74c3c;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -66,7 +73,7 @@
         margin-left: 20px; // 작은 화면에서는 더 작은 여백
     }
 
-    .menuIcon {
+    .button {
         right: 10px; // 작은 화면에서는 오른쪽 이동을 줄임
     }
 
@@ -94,7 +101,7 @@
         font-size: 1.2em; // 더 작은 화면에서는 폰트 크기를 줄임
     }
 
-    .menuIcon {
+    .button {
         font-size: 1.2em; // 더 작은 화면에서는 폰트 크기를 줄임
         right: 5px; // 더 작은 화면에서는 오른쪽 이동을 줄임
     }

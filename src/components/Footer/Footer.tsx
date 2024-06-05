@@ -40,7 +40,7 @@ const Footer = () => {
                 </div>
                 <div className="github-icon">
                     <a
-                        href="https://github.com/sesac-laters-team/tetrist"
+                        href="https://github.com/RamyunLab/ramyunlab-be"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
