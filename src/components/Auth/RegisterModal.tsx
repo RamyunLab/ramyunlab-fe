@@ -37,20 +37,24 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
         }
 
         try {
+            console.log(id);
             const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/auth/register`, {
-                id,
+                userId: id,
                 password,
                 nickname,
             });
-            if (response.data.success) {
+            console.log(id);
+            console.log(response.data);
+            if (response.data.statusCode === 200) {
                 alert("회원가입이 완료되었습니다.");
                 toggleRegisterModal();
                 toggleLoginModal(); // 회원가입 성공 후 로그인 모달로 전환
             } else {
-                alert("회원가입에 실패했습니다: " + response.data.message);
+                alert("회원가입에 실패했습니다!!!!!: " + response.data.message);
             }
         } catch (error) {
             alert("회원가입에 실패했습니다.");
+            console.log(error);
         }
     };
 
@@ -60,8 +64,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                 `${process.env.REACT_APP_API_SERVER}/auth/checkNickname`,
                 { nickname }
             );
+
             console.log(response.data);
-            if (response.data.success) {
+            if (response.data.statusCode === 200) {
                 setNicknameChecked(true);
                 alert("닉네임 중복 확인 완료");
             } else {
@@ -79,7 +84,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                 userId: id,
             });
             console.log(id, response.data);
-            if (response.data.success) {
+            if (response.data.statusCode === 200) {
                 setIdChecked(true);
                 alert("아이디 중복 확인 완료");
             } else {
