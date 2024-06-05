@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAnswer, questionsCount } from "../../Redux/slices/MbtiSlice.tsx";
 import { RootState } from "../../Redux/store";
 import styles from "./Question.module.scss";
+import ProgressBar from "./ProgressBar.tsx";
 
 const questions = [
     {
@@ -74,6 +75,7 @@ const questions = [
 const Question: React.FC = () => {
     const dispatch = useDispatch();
     const answers = useSelector((state: RootState) => state.mbti.answers);
+    const showResult = useSelector((state: RootState) => state.mbti.showResult);
 
     const handleAnswer = (value: string) => {
         dispatch(addAnswer(value));
@@ -82,24 +84,29 @@ const Question: React.FC = () => {
     const currentQuestion = questions[answers.length];
 
     return (
-        <div className={styles.questionContainer}>
-            {currentQuestion && (
-                <>
-                    <div className={styles.questionText}>{currentQuestion.text}</div>
-                    <div className={styles.options}>
-                        {currentQuestion.options.map((option) => (
-                            <button
-                                key={option.value}
-                                className={styles.optionButton}
-                                onClick={() => handleAnswer(option.value)}
-                            >
-                                {option.text}
-                            </button>
-                        ))}
-                    </div>
-                </>
+        <>
+            {!showResult && (
+                <div className={styles.questionContainer}>
+                    <ProgressBar currentStep={answers.length + 1} totalSteps={questions.length} />
+                    {currentQuestion && (
+                        <>
+                            <div className={styles.questionText}>{currentQuestion.text}</div>
+                            <div className={styles.options}>
+                                {currentQuestion.options.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        className={styles.optionButton}
+                                        onClick={() => handleAnswer(option.value)}
+                                    >
+                                        {option.text}
+                                    </button>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
             )}
-        </div>
+        </>
     );
 };
 

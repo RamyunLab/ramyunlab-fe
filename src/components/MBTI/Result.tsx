@@ -30,15 +30,13 @@ const Result: React.FC = () => {
     return (
         <div className={styles.resultPage}>
             <div className={styles.resultContainer}>
-                <h2 className={styles.resultText}>Your MBTI Type: {result.mbtiType}</h2>
+                <h2 className={styles.resultText}>나의 라면 mbti는 {result.mbtiType}입니다</h2>
                 <img
                     src={result.imageUrl}
                     alt={result.ramenRecommendation}
                     className={styles.ramenImage}
                 />
-                <p className={styles.ramenRecommendation}>
-                    Ramen Recommendation: {result.ramenRecommendation}
-                </p>
+                <p className={styles.ramenRecommendation}>{result.ramenRecommendation}</p>
                 <p className={styles.description}>{result.description}</p>
             </div>
             <div className={styles.buttonContainer}>
