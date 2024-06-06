@@ -23,6 +23,20 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
         }
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const modal = document.querySelector(".modal-content");
+            if (modal && !modal.contains(event.target as Node)) {
+                toggleLoginModal();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [toggleLoginModal]);
+
     const handleLogin = async () => {
         try {
             const response = await axiosInstance.post(`/auth/login`, {
@@ -58,33 +72,35 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
 
     return (
         <div className="modal">
-            <h2>로그인</h2>
-            <input
-                type="text"
-                placeholder="아이디"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-            />
-            <div className="remember-me">
+            <div className="modal-content">
+                <h2>로그인</h2>
                 <input
-                    type="checkbox"
-                    id="rememberUsername"
-                    checked={rememberId}
-                    onChange={(e) => setRememberId(e.target.checked)}
+                    type="text"
+                    placeholder="아이디"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
                 />
-                <label htmlFor="rememberId">아이디 저장</label>
-            </div>
-            <input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                <div className="remember-me">
+                    <input
+                        type="checkbox"
+                        id="rememberUsername"
+                        checked={rememberId}
+                        onChange={(e) => setRememberId(e.target.checked)}
+                    />
+                    <label htmlFor="rememberId">아이디 저장</label>
+                </div>
+                <input
+                    type="password"
+                    placeholder="비밀번호"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-            <button onClick={handleLogin}>로그인</button>
-            <button onClick={toggleLoginModal}>닫기</button>
-            <div className="links">
-                <span onClick={toggleRegisterModal}>회원 가입</span>
+                <button onClick={handleLogin}>로그인</button>
+                <button onClick={toggleLoginModal}>닫기</button>
+                <div className="links">
+                    <span onClick={toggleRegisterModal}>회원 가입</span>
+                </div>
             </div>
         </div>
     );
