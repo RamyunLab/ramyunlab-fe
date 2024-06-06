@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance.tsx";
+import { useDispatch } from "react-redux";
+import { login } from "../../Redux/slices/AuthSlice.tsx";
 import "./Modal.scss";
 
 interface LoginModalProps {
@@ -11,6 +13,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [rememberId, setRememberId] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const storedId = localStorage.getItem("rememberedId");
@@ -22,23 +25,33 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/auth/login`, {
+            const response = await axiosInstance.post(`/auth/login`, {
                 userId: id,
                 password,
             });
 
-            if (response.data.success) {
+            console.log(response.data); // 서버 응답 확인
+
+            if (response.data.statusCode === 200) {
+                const { token, userId, idx } = response.data.data;
+
                 if (rememberId) {
                     localStorage.setItem("rememberedId", id);
                 } else {
                     localStorage.removeItem("rememberedId");
                 }
-                localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+
+                localStorage.setItem("token", token);
+                localStorage.setItem("userInfo", JSON.stringify({ userId, idx }));
+
+                // 리덕스 상태 업데이트
+                dispatch(login(token));
                 toggleLoginModal();
             } else {
                 alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.");
             }
         } catch (error) {
+            console.error("로그인 중 오류가 발생했습니다:", error);
             alert("로그인 중 오류가 발생했습니다.");
         }
     };
