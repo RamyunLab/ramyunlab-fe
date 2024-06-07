@@ -16,7 +16,7 @@ const ReviewForm: React.FC = () => {
                     </span>
                 ))}
             </div>
-            <textarea placeholder="리뷰 내용 블라블라블라블라"></textarea>
+            <textarea placeholder="내용을 입력하세요"></textarea>
             <button>등록</button>
         </div>
     );

@@ -2,16 +2,14 @@ import React from "react";
 
 interface RamenDetailProps {
     image: string;
-    name: string;
 }
 
-const RamenDetail: React.FC<RamenDetailProps> = ({ image, name }) => {
+const RamenDetail: React.FC<RamenDetailProps> = ({ image }) => {
     return (
         <div className="ramen-detail">
             <div className="ramen-image">
-                <img src={image} alt={name} />
+                <img src={image} alt="Ramen" />
             </div>
-            <div className="ramen-name">{name}</div>
         </div>
     );
 };

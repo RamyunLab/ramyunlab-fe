@@ -3,14 +3,16 @@
     padding: 20px;
 }
 
-.header {
+.ramen-info-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin-bottom: 20px;
 }
 
 .ramen-detail {
     width: 40%;
+    text-align: center;
 }
 
 .ramen-image img {
@@ -18,16 +20,22 @@
     height: auto;
 }
 
+.ramen-info-table-container {
+    width: 55%;
+    text-align: center;
+}
+
 .ramen-name {
     font-size: 24px;
     font-weight: bold;
-    text-align: center;
     margin-top: 10px;
 }
 
 .ramen-info-table {
-    width: 50%;
+    margin-top: 30px;
+    width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 .ramen-info-table td {
@@ -35,10 +43,10 @@
     padding: 8px;
 }
 
-.rating {
-    font-size: 24px;
-    text-align: center;
+.average-rating {
+    font-size: 50px;
     margin: 20px 0;
+    color: #f39c12;
 }
 
 .review-list {
@@ -47,34 +55,83 @@
     margin-bottom: 20px;
 }
 
+.best-review-container {
+    background-color: #ffeb3b;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.best-review-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.divider {
+    border-bottom: 2px solid #ccc;
+    margin: 20px 0;
+}
+
 .review {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.nickname {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.review-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
+    margin-bottom: 5px;
 }
 
-.review .nickname {
-    font-weight: bold;
+.likes-rating {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+}
+
+.likes,
+.rating {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #f39c12;
+}
+
+.likes {
+    color: red;
+}
+
+.star {
+    font-size: 14px;
+}
+
+.star.full {
+    color: #f39c12;
+}
+
+.star.half {
+    color: #f39c12;
+}
+
+.star.empty {
+    color: #ccc;
 }
 
 .review .content {
-    flex: 1;
-    margin: 0 10px;
+    margin: 10px 0;
 }
 
 .review .date {
     color: #888;
-}
-
-.review .likes {
-    color: red;
-}
-
-.review .rating {
-    font-size: 14px;
-    color: #f39c12;
 }
 
 .review-form {
