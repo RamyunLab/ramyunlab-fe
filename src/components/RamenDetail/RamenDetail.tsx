@@ -1,10 +1,17 @@
 import React from "react";
 
-const RamenDetail: React.FC = () => {
+interface RamenDetailProps {
+    image: string;
+    name: string;
+}
+
+const RamenDetail: React.FC<RamenDetailProps> = ({ image, name }) => {
     return (
         <div className="ramen-detail">
-            <div className="ramen-image">라면 이미지</div>
-            <div className="ramen-name">라면 이름</div>
+            <div className="ramen-image">
+                <img src={image} alt={name} />
+            </div>
+            <div className="ramen-name">{name}</div>
         </div>
     );
 };
