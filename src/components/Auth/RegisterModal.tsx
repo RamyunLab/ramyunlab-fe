@@ -40,7 +40,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
     }, [toggleRegisterModal]);
 
     const isValidUserId = (userId: string) => {
-        const userIdPattern = /^(?=[a-zA-Z])[a-zA-Z0-9_-]{4,20}$/;
+        const userIdPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z][a-zA-Z0-9]{3,19}$/;
         return userIdPattern.test(userId);
     };
 

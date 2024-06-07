@@ -85,11 +85,24 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                 dispatch(login(token));
                 toggleLoginModal();
             } else {
-                alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.");
+                alert(
+                    response.data.message ||
+                        "로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요."
+                );
             }
         } catch (error) {
-            console.error("로그인 중 오류가 발생했습니다:", error);
-            alert("로그인 중 오류가 발생했습니다.");
+            const errorMessage = error.response?.data?.error;
+            if (errorMessage) {
+                if (errorMessage === "존재하지 않는 아이디입니다.") {
+                    alert("아이디가 존재하지 않습니다.");
+                } else if (errorMessage === "비밀번호가 틀렸습니다.") {
+                    alert("비밀번호가 맞지 않습니다.");
+                } else {
+                    alert(errorMessage);
+                }
+            } else {
+                alert("로그인 중 오류가 발생했습니다.");
+            }
         }
     };
 
@@ -97,19 +110,23 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
         <div className="modal">
             <div className="modal-content">
                 <h2>로그인</h2>
-                <input
-                    type="text"
-                    placeholder="아이디"
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
-                />
+                <div className="input-group">
+                    <input
+                        type="text"
+                        placeholder="아이디"
+                        value={id}
+                        onChange={(e) => setId(e.target.value)}
+                    />
+                </div>
                 {idError && <div className="error-message invalid">{idError}</div>}
-                <input
-                    type="password"
-                    placeholder="비밀번호"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="input-group">
+                    <input
+                        type="password"
+                        placeholder="비밀번호"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
                 {passwordError && <div className="error-message invalid">{passwordError}</div>}
                 <div className="remember-me">
                     <input
