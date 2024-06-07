@@ -4,9 +4,11 @@
     align-items: center;
     justify-content: center;
     background-color: #e74c3c;
-    border-radius: 10px;
-    width: 100%;
+    // border-radius: 10px;
+    width: 97.1%;
+    margin-bottom: 0px;
     height: auto;
+
     padding: 20px; /* 추가: 패딩을 추가하여 내부 여백 확보 */
 }
 
@@ -14,7 +16,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center; /* 중앙 정렬 */
-    width: 100%;
+    // width: 100%;
     text-align: center;
     flex-wrap: wrap; /* 추가: 작은 화면에서 요소가 자동으로 줄바꿈되도록 설정 */
     div:not(:last-child) {

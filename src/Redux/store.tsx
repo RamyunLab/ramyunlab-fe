@@ -1,13 +1,31 @@
-import { configureStore } from "@reduxjs/toolkit";
+// Redux/store.ts
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import mbtiReducer from "./slices/MbtiSlice.tsx";
 import authReducer from "./slices/AuthSlice.tsx";
-const store = configureStore({
-    reducer: {
-        mbti: mbtiReducer,
-        auth: authReducer,
-    },
+import updownReducer from "./slices/UpdownSlice.tsx";
+
+const rootReducer = combineReducers({
+    mbti: mbtiReducer,
+    auth: authReducer,
+    updown: updownReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+const persistConfig = {
+    key: "root",
+    storage,
+    whitelist: ["updown"], // 유지할 슬라이스를 지정합니다.
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+    reducer: persistedReducer,
+});
+
+export const persistor = persistStore(store);
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
+
 export default store;

@@ -25,7 +25,7 @@ const Result: React.FC = () => {
         alert("결과를 공유합니다: " + JSON.stringify(result));
     };
 
-    if (!result) return <div>라면 찾는 중....</div>;
+    if (!result) return <div></div>;
 
     return (
         <div className={styles.resultPage}>

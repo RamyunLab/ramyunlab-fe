@@ -4,7 +4,7 @@ import { addAnswer, questionsCount } from "../../Redux/slices/MbtiSlice.tsx";
 import { RootState } from "../../Redux/store";
 import styles from "./Question.module.scss";
 import ProgressBar from "./ProgressBar.tsx";
-
+import loadingImage from "./pono.webp";
 const questions = [
     {
         id: 1,
@@ -102,6 +102,12 @@ const Question: React.FC = () => {
                                     </button>
                                 ))}
                             </div>
+                            <h2>라면 찾는 중...</h2>
+                            <img
+                                src={loadingImage}
+                                alt="라면 이미지"
+                                className={styles.questionImage}
+                            />
                         </>
                     )}
                 </div>
