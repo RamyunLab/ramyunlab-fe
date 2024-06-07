@@ -6,8 +6,13 @@
     padding: 20px;
     background-color: #f9f9f9;
     min-height: 100vh;
-    margin-top: -100px;
-    margin-bottom: -100px;
+    max-width: 700px;
+    margin: 0 auto; /* Center the container horizontally */
+
+    @media (min-width: 769px) {
+        margin-top: -100px;
+        margin-bottom: -100px;
+    }
 }
 
 .title {
@@ -20,10 +25,15 @@
 .ramenContainer {
     display: flex;
     justify-content: center; /* Center the ramen images */
-    gap: 20px; /* Add gap between ramen images */
+    gap: 60px; /* Add gap between ramen images */
     width: 100%;
     max-width: 1000px; /* Increase max width for larger images */
     margin: 20px 0;
+
+    @media (max-width: 768px) {
+        flex-direction: column; /* Stack ramen images vertically on smaller screens */
+        align-items: center;
+    }
 }
 
 .ramen {
@@ -38,24 +48,36 @@
     justify-content: center;
     background: #fff; /* Add background to make text more readable */
     border-radius: 10px;
-    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better separation */
     padding: 10px;
-
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     &:hover {
         transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        width: 80%; /* Adjust width for smaller screens */
+        height: auto; /* Adjust height for smaller screens */
+    }
+
+    @media (max-width: 480px) {
+        width: 100%; /* Full width on very small screens */
     }
 }
 
 .ramen img {
-    width: 300px; /* Ensure image takes up the full width of the container */
+    width: 100%; /* Ensure image takes up the full width of the container */
+    max-width: 300px;
     height: 300px;
     border-radius: 10px;
-    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin-bottom: 10px;
     transition: transform 0.3s ease;
 
     &:hover {
         transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+        height: auto; /* Adjust height for smaller screens */
     }
 }
 
@@ -64,6 +86,10 @@
     font-weight: bold;
     margin: 10px 0;
     text-align: center;
+
+    @media (max-width: 480px) {
+        font-size: 16px; /* Adjust font size for very small screens */
+    }
 }
 
 .gameOver {
@@ -73,16 +99,25 @@
     justify-content: center;
     text-align: center;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin: 20px;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+
+    @media (max-width: 480px) {
+        margin: 10px;
+    }
 }
 
 .gameOver p {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+
+    @media (max-width: 480px) {
+        font-size: 20px; /* Adjust font size for very small screens */
+    }
 }
 
 button {
@@ -109,4 +144,15 @@ button {
     &:focus {
         outline: none;
     }
+
+    @media (max-width: 480px) {
+        padding: 8px 16px; /* Adjust padding for very small screens */
+        font-size: 16px; /* Adjust font size for very small screens */
+    }
+}
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
 }

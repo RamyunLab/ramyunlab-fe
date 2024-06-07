@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../Redux/store";
 import {
     setRamen,
@@ -11,7 +12,9 @@ import {
     incrementRound,
     resetGame,
     setShowScoville,
+    addSeenRamen,
 } from "../../Redux/slices/UpdownSlice.tsx";
+import ProgressBar from "../MBTI/ProgressBar.tsx";
 import styles from "./UpDownGame.module.scss";
 
 const fetchRamenData = async () => {
@@ -21,14 +24,36 @@ const fetchRamenData = async () => {
 
 const UpDownGame: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
-    const { currentRamen, nextRamen, isGameOver, message, roundCount, finalRamen, showScoville } =
-        useSelector((state: RootState) => state.updown);
+    const {
+        currentRamen,
+        nextRamen,
+        isGameOver,
+        message,
+        roundCount,
+        finalRamen,
+        showScoville,
+        seenRamen,
+    } = useSelector((state: RootState) => state.updown);
 
     const { data, isError, refetch } = useQuery("ramenData", fetchRamenData, {
         onSuccess: (data) => {
             if (data.statusCode === 200) {
-                dispatch(setRamen({ current: data.data[0], next: data.data[1] }));
+                if (!currentRamen && !nextRamen) {
+                    const newRamen = data.data.filter(
+                        (ramen) =>
+                            seenRamen && !seenRamen.some((seen) => seen.r_idx === ramen.r_idx)
+                    );
+                    if (newRamen.length < 2) {
+                        dispatch(setMessage("더 이상 새로운 라면이 없습니다."));
+                        dispatch(setGameOver({ finalRamen: currentRamen, message: "게임 종료" }));
+                    } else {
+                        dispatch(setRamen({ current: newRamen[0], next: newRamen[1] }));
+                        dispatch(addSeenRamen(newRamen[0]));
+                        dispatch(addSeenRamen(newRamen[1]));
+                    }
+                }
             }
         },
         onError: () => {
@@ -39,8 +64,17 @@ const UpDownGame: React.FC = () => {
     const fetchNextRamen = async () => {
         const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/game/updown`);
         const { statusCode, data } = response.data;
-        if (statusCode === 200) {
-            dispatch(setNextRamen(data[0]));
+        if (statusCode === 200 && Array.isArray(data)) {
+            const newRamen = data.filter(
+                (ramen) => seenRamen && !seenRamen.some((seen) => seen.r_idx === ramen.r_idx)
+            );
+            if (newRamen.length === 0) {
+                dispatch(setMessage("더 이상 새로운 라면이 없습니다."));
+                dispatch(setGameOver({ finalRamen: currentRamen, message: "게임 종료" }));
+            } else {
+                dispatch(setNextRamen(newRamen[0]));
+                dispatch(addSeenRamen(newRamen[0]));
+            }
         } else {
             dispatch(
                 setGameOver({
@@ -53,9 +87,7 @@ const UpDownGame: React.FC = () => {
 
     const handleGuess = (selectedRamen) => {
         if (!currentRamen || !nextRamen) return;
-
         const otherRamen = currentRamen === selectedRamen ? nextRamen : currentRamen;
-
         if (selectedRamen.r_scoville > otherRamen.r_scoville) {
             dispatch(setMessage("맞췄습니다! 스코빌 지수를 확인하세요."));
             dispatch(setShowScoville(true));
@@ -85,6 +117,10 @@ const UpDownGame: React.FC = () => {
         refetch();
     };
 
+    const handleGoHome = () => {
+        navigate("/");
+    };
+
     if (isGameOver) {
         return (
             <div className={styles.gameOver}>
@@ -112,7 +148,10 @@ const UpDownGame: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <button onClick={handleResetGame}>다시 하기</button>
+                <div className={styles.buttonContainer}>
+                    <button onClick={handleResetGame}>다시 하기</button>
+                    <button onClick={handleGoHome}>홈으로 가기</button>
+                </div>
             </div>
         );
     }
@@ -120,6 +159,7 @@ const UpDownGame: React.FC = () => {
     return (
         <div className={styles.gameContainer}>
             <h1 className={styles.title}>라면 업앤다운 게임</h1>
+            <ProgressBar currentStep={roundCount + 1} totalSteps={10} /> {/* ProgressBar 추가 */}
             {currentRamen && nextRamen && (
                 <div className={styles.ramenContainer}>
                     <div className={styles.ramen} onClick={() => handleGuess(currentRamen)}>
