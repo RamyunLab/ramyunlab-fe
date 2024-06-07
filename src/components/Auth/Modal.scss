@@ -42,6 +42,19 @@
     background: #fff5e1;
 }
 
+.input-container {
+    position: relative;
+}
+
+.password-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+}
+
 .modal-content .nickname,
 .modal-content .userid {
     position: relative;
@@ -117,7 +130,7 @@
 .modal-content button {
     display: block;
     width: calc(100% - 20px);
-    margin: 45px auto 10px; // 위쪽에 여유 공간 추가
+    margin: 38px auto 10px; // 위쪽에 여유 공간 추가
     padding: 12px;
     background-color: #e74c3c;
     color: white;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Modal.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 interface RegisterModalProps {
     toggleRegisterModal: () => void;
@@ -20,6 +22,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
     const [passwordError, setPasswordError] = useState("");
     const [idValid, setIdValid] = useState(false);
     const [nicknameValid, setNicknameValid] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
@@ -211,23 +215,37 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                     {nicknameError}
                 </div>
                 <div className="password">
-                    <input
-                        type="password"
-                        placeholder="비밀번호"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
+                    <div className="input-container">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="비밀번호"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                        <FontAwesomeIcon
+                            icon={showPassword ? faEyeSlash : faEye}
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="password-icon"
+                        />
+                    </div>
                 </div>
                 <div className={`error-message ${passwordError ? "invalid" : "valid"}`}>
                     {passwordError}
                 </div>
                 <div className="confirm-password">
-                    <input
-                        type="password"
-                        placeholder="비밀번호 확인"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
+                    <div className="input-container">
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="비밀번호 확인"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                        <FontAwesomeIcon
+                            icon={showConfirmPassword ? faEyeSlash : faEye}
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            className="password-icon"
+                        />
+                    </div>
                     {!passwordMatch && (
                         <div className="error-message invalid">비밀번호가 일치하지 않습니다.</div>
                     )}
