@@ -1,7 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ReviewForm: React.FC = () => {
+    const ramyunIdx = "1"; // 임시 값 설정
     const [rating, setRating] = useState(3);
+    const [content, setContent] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [photo, setPhoto] = useState<File | null>(null);
+    const [userIdx, setUserIdx] = useState<string | null>(null);
+
+    useEffect(() => {
+        // 로컬 스토리지에서 토큰과 사용자 ID 확인
+        const token = localStorage.getItem("token");
+        const userInfo = localStorage.getItem("userInfo");
+        if (token && userInfo) {
+            const parsedUserInfo = JSON.parse(userInfo);
+            setIsLoggedIn(true);
+            setUserIdx(parsedUserInfo.userId); // 'userId'를 'userIdx'로 사용
+        }
+    }, []);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setPhoto(e.target.files[0]);
+        }
+    };
+
+    const handleSubmit = () => {
+        if (isLoggedIn && userIdx) {
+            const token = localStorage.getItem("token");
+            const currentDate = new Date().toISOString();
+            const reviewData = {
+                reviewContent: content,
+                rate: rating,
+                reviewPhoto: photo, // 사진 파일을 함께 전송
+                rvCreatedAt: currentDate,
+            };
+
+            // 콘솔에 전송 데이터 로그 출력
+            console.log("Authorization: Bearer " + token);
+            console.log("Review Data:", reviewData);
+
+            axios
+                .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, reviewData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => {
+                    alert("리뷰가 등록되었습니다.");
+                    setContent("");
+                    setRating(3);
+                    setPhoto(null);
+                })
+                .catch((error) => {
+                    console.error("리뷰 등록 실패:", error);
+                });
+        } else {
+            alert("로그인 상태를 확인할 수 없습니다.");
+        }
+    };
 
     return (
         <div className="review-form">
@@ -16,8 +75,15 @@ const ReviewForm: React.FC = () => {
                     </span>
                 ))}
             </div>
-            <textarea placeholder="내용을 입력하세요"></textarea>
-            <button>등록</button>
+            <textarea
+                placeholder="내용을 입력하세요"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+            />
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+            <button onClick={handleSubmit} disabled={!isLoggedIn}>
+                등록
+            </button>
         </div>
     );
 };
