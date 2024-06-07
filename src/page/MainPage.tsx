@@ -12,6 +12,9 @@ const MainPage: React.FC = () => {
             <Link to="/tournament" className="banner-link">
                 <div className="banner">Go to Worldcup Page</div>
             </Link>
+            <Link to="/ramen" className="banner-link">
+                <div className="banner">라면 상세페이지</div>
+            </Link>
         </div>
     );
 };

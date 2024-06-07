@@ -9,6 +9,7 @@ import MbtiPage from "./page/MbtiPage.tsx";
 import store from "./Redux/store.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import Tournament from "./page/Tournament.tsx";
+import RamenDetail from "./components/RamenDetail/RamenDetail.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App: React.FC = () => {
                         <Route path="/mbti" element={<MbtiPage />} />
                         <Route path="/" element={<MainPage />} /> {/* MainPage as default */}
                         <Route path="/tournament" element={<Tournament />} />
+                        <Route path="/ramen" element={<RamenDetail />} />
                     </Routes>
                     <Footer />
                 </Router>

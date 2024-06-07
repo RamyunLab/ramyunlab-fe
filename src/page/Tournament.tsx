@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Matchup from "../components/Tournament/Matchup.tsx";
 import FinalScreen from "../components/Tournament/FinalScreen.tsx";
+import TournamentModal from "../components/Tournament/TournamentModal.tsx";
 import "./Tournament.scss";
+import "./TournamentModal.scss";
 
-const ramenList: string[] = [
+const ramenList = [
     "라면 1",
     "라면 2",
     "라면 3",
@@ -20,16 +22,34 @@ const ramenList: string[] = [
     "라면 14",
     "라면 15",
     "라면 16",
+    "라면 17",
+    "라면 18",
+    "라면 19",
+    "라면 20",
+    "라면 21",
+    "라면 22",
+    "라면 23",
+    "라면 24",
+    "라면 25",
+    "라면 26",
+    "라면 27",
+    "라면 28",
+    "라면 29",
+    "라면 30",
+    "라면 31",
+    "라면 32",
 ];
 
 const Tournament: React.FC = () => {
-    const [round, setRound] = useState<number>(16);
-    const [currentMatchups, setCurrentMatchups] = useState<string[]>([...ramenList]);
+    const [round, setRound] = useState<number | null>(null);
+    const [currentMatchups, setCurrentMatchups] = useState<string[]>([]);
     const [winners, setWinners] = useState<string[]>([]);
     const [champion, setChampion] = useState<string | null>(null);
     const [currentMatchIndex, setCurrentMatchIndex] = useState<number>(0);
 
     const handleWinnerSelect = (winner: string) => {
+        if (round === null) return; // round가 null인 경우를 처리
+
         const newWinners = [...winners, winner];
         setWinners(newWinners);
 
@@ -46,6 +66,15 @@ const Tournament: React.FC = () => {
             setCurrentMatchIndex(currentMatchIndex + 1);
         }
     };
+
+    const handleTournamentStart = (rounds: number) => {
+        setRound(rounds);
+        setCurrentMatchups(ramenList.slice(0, rounds));
+    };
+
+    if (round === null) {
+        return <TournamentModal onSelect={handleTournamentStart} />;
+    }
 
     if (champion) {
         return <FinalScreen champion={champion} />;

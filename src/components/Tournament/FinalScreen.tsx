@@ -40,7 +40,7 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
                 content: {
                     title: "토너먼트 우승 라면",
                     description: `토너먼트에서 우승한 라면은 ${champion}입니다!`,
-                    imageUrl: "이미지 URL", // 우승 라면 이미지 URL로 변경하세요
+                    imageUrl: "이미지 URL",
                     link: {
                         mobileWebUrl: window.location.href,
                         webUrl: window.location.href,
