@@ -1,12 +1,13 @@
 // App.tsx
 import React, { useState } from "react";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header.tsx";
 import MainPage from "./page/MainPage.tsx";
 import MbtiPage from "./page/MbtiPage.tsx";
-import store from "./Redux/store.tsx";
+import store, { persistor } from "./Redux/store.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import Tournament from "./page/Tournament.tsx";
 import LoginModal from "./components/Auth/LoginModal.tsx";
@@ -36,33 +37,35 @@ const App: React.FC = () => {
 
     return (
         <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-                <Router>
-                    <Header toggleLoginModal={toggleLoginModal} />
-                    <Routes>
-                        <Route path="/mbti" element={<MbtiPage />} />
-                        {/* <Route path="/worldcup" element={<WorldcupPage />} /> */}
-                        <Route path="/" element={<MainPage />} /> {/* MainPage as default */}
-                        <Route path="/tournament" element={<Tournament />} />
-                        <Route path="/ramen/:idx" element={<RamenDetailPage />} />
-                        <Route path="/UpDownGame" element={<UpDownGamePage />} />{" "}
-                        {/* UpDownGamePage 경로 추가 */}
-                    </Routes>
-                    <Footer />
-                </Router>
-                {showLoginModal && (
-                    <LoginModal
-                        toggleLoginModal={toggleLoginModal}
-                        toggleRegisterModal={toggleRegisterModal}
-                    />
-                )}
-                {showRegisterModal && (
-                    <RegisterModal
-                        toggleRegisterModal={toggleRegisterModal}
-                        toggleLoginModal={toggleLoginModal}
-                    />
-                )}
-            </QueryClientProvider>
+            <PersistGate loading={null} persistor={persistor}>
+                <QueryClientProvider client={queryClient}>
+                    <Router>
+                        <Header toggleLoginModal={toggleLoginModal} />
+                        <Routes>
+                            <Route path="/mbti" element={<MbtiPage />} />
+                            {/* <Route path="/worldcup" element={<WorldcupPage />} /> */}
+                            <Route path="/" element={<MainPage />} /> {/* MainPage as default */}
+                            <Route path="/tournament" element={<Tournament />} />
+                            <Route path="/ramen/:idx" element={<RamenDetailPage />} />
+                            <Route path="/UpDownGame" element={<UpDownGamePage />} />{" "}
+                            {/* UpDownGamePage 경로 추가 */}
+                        </Routes>
+                        <Footer />
+                    </Router>
+                    {showLoginModal && (
+                        <LoginModal
+                            toggleLoginModal={toggleLoginModal}
+                            toggleRegisterModal={toggleRegisterModal}
+                        />
+                    )}
+                    {showRegisterModal && (
+                        <RegisterModal
+                            toggleRegisterModal={toggleRegisterModal}
+                            toggleLoginModal={toggleLoginModal}
+                        />
+                    )}
+                </QueryClientProvider>
+            </PersistGate>
         </Provider>
     );
 };

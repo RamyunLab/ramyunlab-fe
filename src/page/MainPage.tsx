@@ -16,7 +16,7 @@ const MainPage: React.FC = () => {
                 <div className="banner">라면 상세페이지</div>
             </Link>
             <Link to="/UpDownGame" className="banner-link">
-                <div className="banner">Go to Worldcup Page</div>
+                <div className="banner">Go to UPDOWNGAME Page</div>
             </Link>
         </div>
     );
