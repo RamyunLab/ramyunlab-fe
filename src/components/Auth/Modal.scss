@@ -1,5 +1,5 @@
 .modal {
-    background: rgba(0, 0, 0, 0.5); // 배경 색을 반투명하게 설정
+    background: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
     left: 0;
@@ -16,7 +16,8 @@
     padding: 40px 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 90%;
+    max-width: 400px;
     box-sizing: border-box;
     text-align: center;
     font-family: "Nanum Gothic", sans-serif;
@@ -29,36 +30,48 @@
     color: #e74c3c;
 }
 
-.modal-content .nickname {
-    position: relative;
-    margin-bottom: 15px;
-    display: flex;
-}
-
-.modal-content .nickname input {
-    width: calc(100% - 70px); // 버튼의 너비를 고려하여 input의 너비 조절
-    padding: 10px 12px; // 높이를 맞추기 위해 padding 조정
+.modal-content input {
+    display: block;
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 16px;
     background: #fff5e1;
-    margin-top: 10px;
+}
+
+.modal-content .nickname,
+.modal-content .userid {
+    position: relative;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    width: calc(100% - 20px);
+    margin-left: 10px;
+}
+
+.modal-content .nickname input,
+.modal-content .userid input {
+    flex: 1;
+    width: 70%;
+    margin-right: 10px;
 }
 
 .modal-content .checkIdBtn,
 .modal-content .checkNicknameBtn {
-    width: 70px; // 버튼의 너비 설정
-    padding: 10px 0; // 높이를 맞추기 위해 padding 조정
+    padding: 10px 0;
     background-color: #e74c3c;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
-    margin-left: 10px; // 버튼과 input 사이의 간격
-    margin-bottom: 15px; // 버튼의 margin-bottom 제거
     transition: background-color 0.3s;
+    width: 60px;
+    height: 42px;
+    margin-top: 10px;
 }
 
 .modal-content .checkIdBtn:hover,
@@ -79,27 +92,32 @@
     margin-top: 2px;
 }
 
-.modal-content input {
-    display: block;
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-    background: #fff5e1;
+.modal-content .error-message {
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 14px;
+}
+
+.modal-content .error-message.valid {
+    color: green;
+}
+
+.modal-content .error-message.invalid {
+    color: red;
 }
 
 .modal-content button {
-    padding: 12px 20px;
+    display: block;
+    width: calc(100% - 20px);
+    margin: 20px auto 10px; // 위쪽에 여유 공간 추가
+    padding: 12px;
     background-color: #e74c3c;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 10px;
-    width: 100%;
     font-size: 16px;
     transition: background-color 0.3s;
 }
@@ -110,25 +128,24 @@
 
 .modal-content .remember-me {
     display: flex;
-    align-items: center; // 세로 가운데 정렬
+    align-items: center;
+    justify-content: center;
     margin-bottom: 10px;
-    height: 20px;
 }
 
 .modal-content .remember-me input[type="checkbox"] {
-    width: auto; // 체크박스의 가로 영역을 줄입니다
-    margin-right: 10px; // 체크박스와 텍스트 사이의 간격 조절
+    width: auto;
+    margin-right: 10px;
 }
 
 .modal-content .remember-me label {
     font-size: 14px;
-    margin: 0; // 레이블의 마진을 없애서 체크박스와 텍스트가 더 가까워지게 합니다
-    margin-top: -10px;
+    margin: 0;
 }
 
 .modal-content .links {
     display: flex;
-    justify-content: center; // 가운데 정렬
+    justify-content: center;
     margin-top: 20px;
 }
 
@@ -144,4 +161,34 @@
 .modal-content .links a:hover,
 .modal-content .links span:hover {
     color: #c0392b;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        padding: 30px 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .modal-content input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .modal-content button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .modal-content .checkIdBtn,
+    .modal-content .checkNicknameBtn {
+        padding: 8px 0;
+        font-size: 10px;
+        width: 50px;
+    }
 }
