@@ -1,24 +1,6 @@
-// Redux/slices/updownSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-interface Ramen {
-    r_idx: number;
-    r_name: string;
-    r_img: string;
-    r_scoville: number;
-}
-
-interface GameState {
-    currentRamen: Ramen | null;
-    nextRamen: Ramen | null;
-    isGameOver: boolean;
-    message: string;
-    roundCount: number;
-    finalRamen: Ramen | null;
-    showScoville: boolean;
-}
-
-const initialState: GameState = {
+const initialState = {
     currentRamen: null,
     nextRamen: null,
     isGameOver: false,
@@ -26,25 +8,26 @@ const initialState: GameState = {
     roundCount: 0,
     finalRamen: null,
     showScoville: false,
+    seenRamen: [], // 초기화된 상태
 };
 
 const updownSlice = createSlice({
     name: "updown",
     initialState,
     reducers: {
-        setRamen(state, action: PayloadAction<{ current: Ramen; next: Ramen }>) {
+        setRamen(state, action) {
             state.currentRamen = action.payload.current;
             state.nextRamen = action.payload.next;
         },
-        setNextRamen(state, action: PayloadAction<Ramen>) {
+        setNextRamen(state, action) {
             state.nextRamen = action.payload;
         },
-        setGameOver(state, action: PayloadAction<{ finalRamen: Ramen | null; message: string }>) {
+        setGameOver(state, action) {
             state.isGameOver = true;
             state.finalRamen = action.payload.finalRamen;
             state.message = action.payload.message;
         },
-        setMessage(state, action: PayloadAction<string>) {
+        setMessage(state, action) {
             state.message = action.payload;
         },
         incrementRound(state) {
@@ -58,9 +41,13 @@ const updownSlice = createSlice({
             state.roundCount = 0;
             state.finalRamen = null;
             state.showScoville = false;
+            state.seenRamen = []; // 상태 초기화
         },
-        setShowScoville(state, action: PayloadAction<boolean>) {
+        setShowScoville(state, action) {
             state.showScoville = action.payload;
+        },
+        addSeenRamen(state, action) {
+            state.seenRamen.push(action.payload);
         },
     },
 });
@@ -73,6 +60,7 @@ export const {
     incrementRound,
     resetGame,
     setShowScoville,
+    addSeenRamen,
 } = updownSlice.actions;
 
 export default updownSlice.reducer;
