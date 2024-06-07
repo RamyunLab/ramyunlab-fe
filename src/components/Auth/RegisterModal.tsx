@@ -15,6 +15,11 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
     const [nicknameChecked, setNicknameChecked] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [idChecked, setIdChecked] = useState(false);
+    const [idError, setIdError] = useState("");
+    const [nicknameError, setNicknameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [idValid, setIdValid] = useState(false);
+    const [nicknameValid, setNicknameValid] = useState(false);
 
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
@@ -34,7 +39,76 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
         };
     }, [toggleRegisterModal]);
 
+    const isValidUserId = (userId: string) => {
+        const userIdPattern = /^(?=[a-zA-Z])[a-zA-Z0-9_-]{4,20}$/;
+        return userIdPattern.test(userId);
+    };
+
+    const isValidPassword = (password: string) => {
+        const passwordPattern =
+            /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_=+\\|/.,<>?:;'\"{}[\]\\]).{8,}$/;
+        return passwordPattern.test(password);
+    };
+
+    const isValidNickname = (nickname: string) => {
+        const nicknamePattern = /^[a-zA-Z가-힣0-9]{2,10}$/;
+        return nicknamePattern.test(nickname);
+    };
+
+    const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setId(value);
+
+        if (!isValidUserId(value)) {
+            setIdError(
+                "아이디는 4~20자 사이이며, 영어 대소문자와 숫자가 포함되어야 하고 숫자로 시작할 수 없습니다."
+            );
+            setIdValid(false);
+        } else {
+            setIdError("사용 가능한 아이디입니다.");
+            setIdValid(true);
+        }
+    };
+
+    const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setNickname(value);
+
+        if (!isValidNickname(value)) {
+            setNicknameError(
+                "닉네임은 2~10자 사이이며, 영어, 한글, 숫자가 포함되어야 하고 숫자로 시작할 수 있습니다."
+            );
+            setNicknameValid(false);
+        } else {
+            setNicknameError("사용 가능한 닉네임입니다.");
+            setNicknameValid(true);
+        }
+    };
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setPassword(value);
+
+        if (!isValidPassword(value)) {
+            setPasswordError(
+                "비밀번호는 최소 8자 이상이며, 한글, 영어 대소문자, 특수기호, 숫자가 포함되어야 합니다."
+            );
+        } else {
+            setPasswordError("");
+        }
+    };
+
     const handleRegister = async () => {
+        if (!idValid) {
+            alert("유효한 아이디를 입력해주세요.");
+            return;
+        }
+
+        if (!nicknameValid) {
+            alert("유효한 닉네임을 입력해주세요.");
+            return;
+        }
+
         if (!nicknameChecked) {
             alert("닉네임 중복 확인을 완료해주세요.");
             return;
@@ -109,34 +183,36 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
         <div className="modal">
             <div className="modal-content">
                 <h2>회원가입</h2>
-                <div className="nickname">
-                    <input
-                        type="text"
-                        placeholder="아이디"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                    />
+                <div className="userid">
+                    <input type="text" placeholder="아이디" value={id} onChange={handleIdChange} />
                     <button onClick={checkId} className="checkIdBtn">
                         중복 확인
                     </button>
                 </div>
+                <div className={`error-message ${idValid ? "valid" : "invalid"}`}>{idError}</div>
                 <div className="nickname">
                     <input
                         type="text"
                         placeholder="닉네임"
                         value={nickname}
-                        onChange={(e) => setNickname(e.target.value)}
+                        onChange={handleNicknameChange}
                     />
                     <button onClick={checkNickname} className="checkNicknameBtn">
                         중복 확인
                     </button>
                 </div>
+                <div className={`error-message ${nicknameValid ? "valid" : "invalid"}`}>
+                    {nicknameError}
+                </div>
                 <input
                     type="password"
                     placeholder="비밀번호"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                 />
+                <div className={`error-message ${passwordError ? "invalid" : "valid"}`}>
+                    {passwordError}
+                </div>
                 <div className="confirm-password">
                     <input
                         type="password"
@@ -145,7 +221,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     {!passwordMatch && (
-                        <div className="error-message">비밀번호가 일치하지 않습니다.</div>
+                        <div className="error-message invalid">비밀번호가 일치하지 않습니다.</div>
                     )}
                 </div>
                 <button onClick={handleRegister}>회원가입</button>

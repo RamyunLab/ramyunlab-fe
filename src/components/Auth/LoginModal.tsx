@@ -13,6 +13,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [rememberId, setRememberId] = useState(false);
+    const [idError, setIdError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -23,21 +25,42 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
         }
     }, []);
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const modal = document.querySelector(".modal-content");
-            if (modal && !modal.contains(event.target as Node)) {
-                toggleLoginModal();
-            }
-        };
+    const isValidUserId = (userId: string) => {
+        const userIdPattern = /^(?=[a-zA-Z])[a-zA-Z0-9_-]{4,20}$/;
+        return userIdPattern.test(userId);
+    };
 
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [toggleLoginModal]);
+    const isValidPassword = (password: string) => {
+        const passwordPattern =
+            /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_=+\\|/.,<>?:;'\"{}[\]\\]).{8,}$/;
+        return passwordPattern.test(password);
+    };
 
     const handleLogin = async () => {
+        let valid = true;
+
+        if (!isValidUserId(id)) {
+            setIdError(
+                "아이디는 4~20자 사이이며, 영어 대소문자와 숫자가 포함되어야 하고 숫자로 시작할 수 없습니다."
+            );
+            valid = false;
+        } else {
+            setIdError("");
+        }
+
+        if (!isValidPassword(password)) {
+            setPasswordError(
+                "비밀번호는 최소 8자 이상이며, 한글, 영어 대소문자, 특수기호, 숫자가 포함되어야 합니다."
+            );
+            valid = false;
+        } else {
+            setPasswordError("");
+        }
+
+        if (!valid) {
+            return;
+        }
+
         try {
             const response = await axiosInstance.post(`/auth/login`, {
                 userId: id,
@@ -80,6 +103,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                     value={id}
                     onChange={(e) => setId(e.target.value)}
                 />
+                {idError && <div className="error-message invalid">{idError}</div>}
+                <input
+                    type="password"
+                    placeholder="비밀번호"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                {passwordError && <div className="error-message invalid">{passwordError}</div>}
                 <div className="remember-me">
                     <input
                         type="checkbox"
@@ -89,13 +120,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                     />
                     <label htmlFor="rememberId">아이디 저장</label>
                 </div>
-                <input
-                    type="password"
-                    placeholder="비밀번호"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-
                 <button onClick={handleLogin}>로그인</button>
                 <button onClick={toggleLoginModal}>닫기</button>
                 <div className="links">
