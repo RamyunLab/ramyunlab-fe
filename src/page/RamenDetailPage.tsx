@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./RamenDetailPage.scss";
 import RamenDetail from "../components/RamenDetail/RamenDetail.tsx";
 import RamenInfoTable from "../components/RamenDetail/RamenInfoTable.tsx";
 import ReviewList from "../components/RamenDetail/ReviewList.tsx";
 import ReviewForm from "../components/RamenDetail/ReviewForm.tsx";
+import "./RamenDetailPage.scss";
 
 const RamenDetailPage: React.FC = () => {
     const { idx } = useParams<{ idx: string }>();
 
-    const [ramen] = useState({
-        image: "/path/to/image.png",
+    const [ramen, setRamen] = useState({
+        image: "/path/to/image.png", // 이미지 경로를 설정하세요.
         name: "라면 이름",
         brand: "오뚜기",
         weight: "1,000g",
@@ -27,11 +27,11 @@ const RamenDetailPage: React.FC = () => {
 
     return (
         <div className="ramen-detail-page">
-            <div className="header">
-                <RamenDetail image={ramen.image} name={ramen.name} />
-                <RamenInfoTable ramen={ramen} />
+            <div className="ramen-info-container">
+                <RamenDetail image={ramen.image} />
+                <RamenInfoTable ramen={ramen} name={ramen.name} />
             </div>
-            <div className="rating">
+            <div className="average-rating">
                 <span>★ ★ ★ ★ ★</span>
             </div>
             <ReviewList />
