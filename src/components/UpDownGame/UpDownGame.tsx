@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../Redux/store";
 import {
     setRamen,
@@ -23,6 +24,7 @@ const fetchRamenData = async () => {
 
 const UpDownGame: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const {
         currentRamen,
@@ -115,6 +117,10 @@ const UpDownGame: React.FC = () => {
         refetch();
     };
 
+    const handleGoHome = () => {
+        navigate("/");
+    };
+
     if (isGameOver) {
         return (
             <div className={styles.gameOver}>
@@ -142,7 +148,10 @@ const UpDownGame: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <button onClick={handleResetGame}>다시 하기</button>
+                <div className={styles.buttonContainer}>
+                    <button onClick={handleResetGame}>다시 하기</button>
+                    <button onClick={handleGoHome}>홈으로 가기</button>
+                </div>
             </div>
         );
     }
