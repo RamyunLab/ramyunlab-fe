@@ -9,7 +9,7 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
     const navigate = useNavigate();
 
     const handleDetailPage = () => {
-        navigate(`/detail/${champion}`);
+        navigate("/ramen/:idx");
     };
 
     const handleHome = () => {

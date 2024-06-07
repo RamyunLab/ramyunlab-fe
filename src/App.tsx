@@ -9,10 +9,10 @@ import MbtiPage from "./page/MbtiPage.tsx";
 import store from "./Redux/store.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import Tournament from "./page/Tournament.tsx";
-import RamenDetail from "./components/RamenDetail/RamenDetail.tsx";
 
 import LoginModal from "./components/Auth/LoginModal.tsx";
 import RegisterModal from "./components/Auth/RegisterModal.tsx";
+import RamenDetailPage from "./page/RamenDetailPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +44,7 @@ const App: React.FC = () => {
                         {/* <Route path="/worldcup" element={<WorldcupPage />} /> */}
                         <Route path="/" element={<MainPage />} /> {/* MainPage as default */}
                         <Route path="/tournament" element={<Tournament />} />
-                        <Route path="/ramen" element={<RamenDetail />} />
+                        <Route path="/ramen/:idx" element={<RamenDetailPage />} />
                     </Routes>
                     <Footer />
                 </Router>
