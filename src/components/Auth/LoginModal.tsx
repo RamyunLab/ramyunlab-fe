@@ -25,6 +25,20 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
         }
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const modal = document.querySelector(".modal-content");
+            if (modal && !modal.contains(event.target as Node)) {
+                toggleLoginModal();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [toggleLoginModal]);
+
     const isValidUserId = (userId: string) => {
         const userIdPattern = /^(?=[a-zA-Z])[a-zA-Z0-9_-]{4,20}$/;
         return userIdPattern.test(userId);
@@ -106,8 +120,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
         }
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter") {
+            handleLogin();
+        }
+    };
+
     return (
-        <div className="modal">
+        <div className="modal" onKeyPress={handleKeyPress}>
             <div className="modal-content">
                 <h2>로그인</h2>
                 <div className="input-group">

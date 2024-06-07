@@ -40,7 +40,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
     }, [toggleRegisterModal]);
 
     const isValidUserId = (userId: string) => {
-        const userIdPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z][a-zA-Z0-9]{3,19}$/;
+        const userIdPattern = /^(?=.*[a-zA-Z])[a-zA-Z0-9_-]{4,20}$/;
         return userIdPattern.test(userId);
     };
 
@@ -179,8 +179,14 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
         }
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter") {
+            handleRegister();
+        }
+    };
+
     return (
-        <div className="modal">
+        <div className="modal" onKeyPress={handleKeyPress}>
             <div className="modal-content">
                 <h2>회원가입</h2>
                 <div className="userid">
@@ -204,12 +210,14 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                 <div className={`error-message ${nicknameValid ? "valid" : "invalid"}`}>
                     {nicknameError}
                 </div>
-                <input
-                    type="password"
-                    placeholder="비밀번호"
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
+                <div className="password">
+                    <input
+                        type="password"
+                        placeholder="비밀번호"
+                        value={password}
+                        onChange={handlePasswordChange}
+                    />
+                </div>
                 <div className={`error-message ${passwordError ? "invalid" : "valid"}`}>
                     {passwordError}
                 </div>
