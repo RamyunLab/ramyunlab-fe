@@ -13,6 +13,7 @@ import {
     setShowScoville,
     addSeenRamen,
 } from "../../Redux/slices/UpdownSlice.tsx";
+import ProgressBar from "../MBTI/ProgressBar.tsx";
 import styles from "./UpDownGame.module.scss";
 
 const fetchRamenData = async () => {
@@ -84,9 +85,7 @@ const UpDownGame: React.FC = () => {
 
     const handleGuess = (selectedRamen) => {
         if (!currentRamen || !nextRamen) return;
-
         const otherRamen = currentRamen === selectedRamen ? nextRamen : currentRamen;
-
         if (selectedRamen.r_scoville > otherRamen.r_scoville) {
             dispatch(setMessage("맞췄습니다! 스코빌 지수를 확인하세요."));
             dispatch(setShowScoville(true));
@@ -151,6 +150,7 @@ const UpDownGame: React.FC = () => {
     return (
         <div className={styles.gameContainer}>
             <h1 className={styles.title}>라면 업앤다운 게임</h1>
+            <ProgressBar currentStep={roundCount + 1} totalSteps={10} /> {/* ProgressBar 추가 */}
             {currentRamen && nextRamen && (
                 <div className={styles.ramenContainer}>
                     <div className={styles.ramen} onClick={() => handleGuess(currentRamen)}>
