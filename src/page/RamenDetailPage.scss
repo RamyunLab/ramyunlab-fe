@@ -181,6 +181,10 @@
     border-radius: 4px;
 }
 
+.review-form input[type="file"] {
+    margin-bottom: 10px;
+}
+
 .review-form button {
     align-self: flex-end;
     padding: 10px 20px;

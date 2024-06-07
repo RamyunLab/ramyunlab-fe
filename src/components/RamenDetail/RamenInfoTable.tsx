@@ -25,7 +25,7 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
 
     return (
         <div className="ramen-info-table-container">
-            {ramen.r_img && <img src={ramen.r_img} alt={ramen.r_name} />}
+            <div className="ramen-name">{ramen.r_name}</div>
             <table className="ramen-info-table">
                 <tbody>
                     <tr>
