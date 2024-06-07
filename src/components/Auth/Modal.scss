@@ -33,7 +33,7 @@
 .modal-content input {
     display: block;
     width: calc(100% - 20px);
-    margin: 10px auto;
+    margin: 1px auto !important;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -42,10 +42,23 @@
     background: #fff5e1;
 }
 
+.input-container {
+    position: relative;
+}
+
+.password-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+}
+
 .modal-content .nickname,
 .modal-content .userid {
     position: relative;
-    margin-bottom: 15px;
+    margin-bottom: 2px;
     display: flex;
     align-items: center;
     width: calc(100% - 20px);
@@ -81,6 +94,7 @@
 
 .modal-content .confirm-password {
     position: relative;
+    margin-top: 20px !important;
 }
 
 .modal-content .confirm-password .error-message {
@@ -90,11 +104,15 @@
     top: 100%;
     left: 0;
     margin-top: 2px;
+    margin-bottom: 10px !important;
 }
-
+.modal-content .password {
+    margin-top: 15px !important;
+    margin-bottom: 1px;
+}
 .modal-content .error-message {
     font-size: 12px;
-    margin-top: -10px;
+
     margin-bottom: 10px;
     text-align: left;
     margin-left: 14px;
@@ -106,12 +124,13 @@
 
 .modal-content .error-message.invalid {
     color: red;
+    margin-top: 15px;
 }
 
 .modal-content button {
     display: block;
     width: calc(100% - 20px);
-    margin: 20px auto 10px; // 위쪽에 여유 공간 추가
+    margin: 38px auto 10px; // 위쪽에 여유 공간 추가
     padding: 12px;
     background-color: #e74c3c;
     color: white;

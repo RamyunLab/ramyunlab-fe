@@ -4,69 +4,96 @@
     align-items: center;
     justify-content: center;
     background-color: #e74c3c;
-
     border-radius: 10px;
     width: 100%;
+    height: auto;
+    padding: 20px; /* 추가: 패딩을 추가하여 내부 여백 확보 */
 }
 
 .stack-section {
     display: flex;
-    align-items: start;
-    justify-content: flex-end;
+    align-items: flex-start;
+    justify-content: center; /* 중앙 정렬 */
     width: 100%;
     text-align: center;
+    flex-wrap: wrap; /* 추가: 작은 화면에서 요소가 자동으로 줄바꿈되도록 설정 */
     div:not(:last-child) {
-        margin-right: 40px; // 오른쪽 마진을 40px로 설정하여 간격을 넓힘
+        margin-right: 40px; /* 오른쪽 마진을 40px로 설정하여 간격을 넓힘 */
     }
 }
 
 .logo-section img {
     width: 100%;
-    max-width: 300px; // 최대 로고 크기
-    height: auto; // 비율 유지
+    max-width: 300px; /* 최대 로고 크기 */
+    height: auto; /* 비율 유지 */
     margin-right: 150px;
     display: flex;
 }
 
 .github-icon {
-    display: flex; // Flexbox를 사용하여 정렬
-    margin-left: 10px;
-    font-size: 4em; // 기본 폰트 크기
-    align-self: center; // 세로 중앙 정렬
+    display: flex; /* Flexbox를 사용하여 정렬 */
+    margin-left: 20px;
+    margin-right: 15px;
+    font-size: 4em; /* 기본 폰트 크기 */
+    align-self: center; /* 세로 중앙 정렬 */
     margin-top: 10px;
-    align-items: center; // 가로 중앙 정렬
-    justify-content: center; // 가로 중앙 정렬
+    align-items: center; /* 가로 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
 }
-// 미디어 쿼리를 추가하여 다양한 화면 크기에 맞춰 조정
+
+/* 미디어 쿼리를 추가하여 다양한 화면 크기에 맞춰 조정 */
 @media (max-width: 1024px) {
     .stack-section {
-        justify-content: center; // 너비가 좁아지면 중앙 정렬
-        margin-right: 0; // 고정된 마진 제거
-
+        justify-content: center; /* 너비가 좁아지면 중앙 정렬 */
+        margin-right: 0; /* 고정된 마진 제거 */
         div:not(:last-child) {
-            margin-right: 20px; // 더 작은 화면에서는 간격 줄이기
+            margin-right: 20px; /* 더 작은 화면에서는 간격 줄이기 */
         }
     }
 
     .logo-section img {
-        margin-right: 20px; // 모바일에서 로고 간격 조정
+        margin-right: 20px; /* 모바일에서 로고 간격 조정 */
+    }
+
+    .github-icon {
+        margin-right: 20px;
+        font-size: 3em; /* 폰트 크기 조정 */
     }
 }
 
 @media (max-width: 768px) {
     .stack-section {
-        flex-direction: row; /* Keep items aligned horizontally */
-        align-items: flex-start; /* Align items to the start vertically */
-        justify-content: center; /* Center align items horizontally */
+        flex-direction: row; /* 가로로 배열 유지 */
+        align-items: center; /* 세로 중앙 정렬 */
+        justify-content: center; /* 중앙 정렬 */
+        flex-wrap: nowrap; /* 줄바꿈 방지 */
     }
 
     .logo-section img {
-        max-width: 200px;
-        margin-right: 0;
+        max-width: 200px; /* 로고 크기 조정 */
+        margin-right: 0; /* 오른쪽 마진 제거 */
     }
 
     .github-icon {
-        margin-right: 0;
-        font-size: 2em; /* Adjust font size */
+        font-size: 2em; /* 폰트 크기 조정 */
+    }
+}
+
+@media (max-width: 480px) {
+    .stack-section {
+        flex-direction: row; /* 가로로 배열 유지 */
+        justify-content: center; /* 중앙 정렬 */
+        font-size: 10px;
+        div:not(:last-child) {
+            margin-right: 10px; /* 더 작은 화면에서는 간격 줄이기 */
+        }
+    }
+
+    .logo-section img {
+        max-width: 150px; /* 로고 크기 더 줄이기 */
+    }
+
+    .github-icon {
+        font-size: 1.6em; /* 폰트 크기 더 줄이기 */
     }
 }

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../axiosInstance.tsx";
 import { useDispatch } from "react-redux";
 import { login } from "../../Redux/slices/AuthSlice.tsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Modal.scss";
 
 interface LoginModalProps {
@@ -15,6 +17,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
     const [rememberId, setRememberId] = useState(false);
     const [idError, setIdError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,6 +27,20 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
             setRememberId(true);
         }
     }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const modal = document.querySelector(".modal-content");
+            if (modal && !modal.contains(event.target as Node)) {
+                toggleLoginModal();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [toggleLoginModal]);
 
     const isValidUserId = (userId: string) => {
         const userIdPattern = /^(?=[a-zA-Z])[a-zA-Z0-9_-]{4,20}$/;
@@ -106,8 +123,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
         }
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter") {
+            handleLogin();
+        }
+    };
+
     return (
-        <div className="modal">
+        <div className="modal" onKeyPress={handleKeyPress}>
             <div className="modal-content">
                 <h2>로그인</h2>
                 <div className="input-group">
@@ -120,12 +143,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                 </div>
                 {idError && <div className="error-message invalid">{idError}</div>}
                 <div className="input-group">
-                    <input
-                        type="password"
-                        placeholder="비밀번호"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <div className="input-container">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="비밀번호"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <FontAwesomeIcon
+                            icon={showPassword ? faEyeSlash : faEye}
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="password-icon"
+                        />
+                    </div>
                 </div>
                 {passwordError && <div className="error-message invalid">{passwordError}</div>}
                 <div className="remember-me">
@@ -138,7 +168,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                     <label htmlFor="rememberId">아이디 저장</label>
                 </div>
                 <button onClick={handleLogin}>로그인</button>
-                <button onClick={toggleLoginModal}>닫기</button>
                 <div className="links">
                     <span onClick={toggleRegisterModal}>회원 가입</span>
                 </div>

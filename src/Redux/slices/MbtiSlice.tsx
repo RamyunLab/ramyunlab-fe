@@ -134,7 +134,7 @@ const calculateMBTI = (answers: string[]) => (dispatch: any) => {
             ramen: "사리곰탕",
             description:
                 "이상적이고 감성적인 INFP는 깊은 감정을 느끼며, 사리곰탕의 부드럽고 따뜻한 맛을 좋아합니다.",
-            imageUrl: "https://dc7ne3bdq944q.cloudfront.net/img/ramyun/농심_사리곰탕.jpg",
+            imageUrl: "https://dc7ne3bdq944q.cloudfront.net/img/ramyun/농심_사리곰탕면.jpg",
         },
         ISTJ: {
             ramen: "육개장",
