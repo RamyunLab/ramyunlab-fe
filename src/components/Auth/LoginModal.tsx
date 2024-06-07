@@ -158,7 +158,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                     <label htmlFor="rememberId">아이디 저장</label>
                 </div>
                 <button onClick={handleLogin}>로그인</button>
-                <button onClick={toggleLoginModal}>닫기</button>
+                {/* <button onClick={toggleLoginModal}>닫기</button> */}
                 <div className="links">
                     <span onClick={toggleRegisterModal}>회원 가입</span>
                 </div>
