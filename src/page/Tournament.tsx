@@ -1,54 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Matchup from "../components/Tournament/Matchup.tsx";
 import FinalScreen from "../components/Tournament/FinalScreen.tsx";
 import TournamentModal from "../components/Tournament/TournamentModal.tsx";
 import "./Tournament.scss";
 import "./TournamentModal.scss";
-
-const ramenList = [
-    "라면 1",
-    "라면 2",
-    "라면 3",
-    "라면 4",
-    "라면 5",
-    "라면 6",
-    "라면 7",
-    "라면 8",
-    "라면 9",
-    "라면 10",
-    "라면 11",
-    "라면 12",
-    "라면 13",
-    "라면 14",
-    "라면 15",
-    "라면 16",
-    "라면 17",
-    "라면 18",
-    "라면 19",
-    "라면 20",
-    "라면 21",
-    "라면 22",
-    "라면 23",
-    "라면 24",
-    "라면 25",
-    "라면 26",
-    "라면 27",
-    "라면 28",
-    "라면 29",
-    "라면 30",
-    "라면 31",
-    "라면 32",
-];
+import { GameDTO } from "../types";
 
 const Tournament: React.FC = () => {
     const [round, setRound] = useState<number | null>(null);
-    const [currentMatchups, setCurrentMatchups] = useState<string[]>([]);
-    const [winners, setWinners] = useState<string[]>([]);
-    const [champion, setChampion] = useState<string | null>(null);
+    const [currentMatchups, setCurrentMatchups] = useState<GameDTO[]>([]);
+    const [winners, setWinners] = useState<GameDTO[]>([]);
+    const [champion, setChampion] = useState<GameDTO | null>(null);
     const [currentMatchIndex, setCurrentMatchIndex] = useState<number>(0);
 
-    const handleWinnerSelect = (winner: string) => {
-        if (round === null) return; // round가 null인 경우를 처리
+    useEffect(() => {
+        if (round !== null) {
+            axios
+                .get(`${process.env.REACT_APP_API_SERVER}/game/worldCup/${round}`)
+                .then((response) => {
+                    const data: GameDTO[] = response.data.data;
+                    if (Array.isArray(data)) {
+                        setCurrentMatchups(data);
+                    } else {
+                        console.error("응답 데이터가 배열이 아닙니다:", data);
+                    }
+                    setCurrentMatchIndex(0);
+                })
+                .catch((error) => {
+                    console.error("라면 목록 조회 실패:", error);
+                });
+        }
+    }, [round]);
+
+    const handleWinnerSelect = (winner: GameDTO) => {
+        if (round === null) return;
 
         const newWinners = [...winners, winner];
         setWinners(newWinners);
@@ -57,10 +43,12 @@ const Tournament: React.FC = () => {
             if (round === 2) {
                 setChampion(newWinners[0]);
             } else {
-                setCurrentMatchups(newWinners);
-                setWinners([]);
-                setRound(round / 2);
-                setCurrentMatchIndex(0);
+                setTimeout(() => {
+                    setCurrentMatchups(newWinners);
+                    setWinners([]);
+                    setRound(round / 2);
+                    setCurrentMatchIndex(0);
+                }, 0);
             }
         } else {
             setCurrentMatchIndex(currentMatchIndex + 1);
@@ -69,7 +57,8 @@ const Tournament: React.FC = () => {
 
     const handleTournamentStart = (rounds: number) => {
         setRound(rounds);
-        setCurrentMatchups(ramenList.slice(0, rounds));
+        setWinners([]);
+        setChampion(null);
     };
 
     if (round === null) {

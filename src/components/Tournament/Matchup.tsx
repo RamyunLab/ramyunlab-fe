@@ -1,12 +1,12 @@
 import React from "react";
-
+import { GameDTO } from "../../types";
 interface MatchupProps {
     round: number;
     matchNumber: number;
     totalMatches: number;
-    ramen1: string;
-    ramen2: string;
-    onWinnerSelect: (winner: string) => void;
+    ramen1: GameDTO;
+    ramen2: GameDTO;
+    onWinnerSelect: (winner: GameDTO) => void;
 }
 
 const Matchup: React.FC<MatchupProps> = ({
@@ -24,13 +24,13 @@ const Matchup: React.FC<MatchupProps> = ({
             </div>
             <div className="matchup">
                 <div className="ramen-option" onClick={() => onWinnerSelect(ramen1)}>
-                    <img src={`images/${ramen1}.jpg`} alt={ramen1} />
-                    <div>{ramen1}</div>
+                    <img src={ramen1.r_img} alt={ramen1.r_name} />
+                    <div>{ramen1.r_name}</div>
                 </div>
                 <div className="vs">vs</div>
                 <div className="ramen-option" onClick={() => onWinnerSelect(ramen2)}>
-                    <img src={`images/${ramen2}.jpg`} alt={ramen2} />
-                    <div>{ramen2}</div>
+                    <img src={ramen2.r_img} alt={ramen2.r_name} />
+                    <div>{ramen2.r_name}</div>
                 </div>
             </div>
         </div>
