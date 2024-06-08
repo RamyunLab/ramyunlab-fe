@@ -1,6 +1,7 @@
 .ramen-detail-page {
     background-color: #f5f5f5;
     padding: 20px;
+    font-family: "Nanum Gothic", sans-serif;
 }
 
 .ramen-info-container {
@@ -18,6 +19,8 @@
 .ramen-image img {
     width: 100%;
     height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ramen-info-table-container {
@@ -26,21 +29,64 @@
 }
 
 .ramen-name {
-    font-size: 24px;
+    font-size: 48px;
     font-weight: bold;
-    margin-top: 10px;
+}
+
+.ramen-name-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.favorite-icon {
+    font-size: 48px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.favorite-icon.favorite {
+    color: #f39c12;
+}
+
+.favorite-icon:hover {
+    color: #e74c3c;
 }
 
 .ramen-info-table {
-    margin-top: 30px;
+    margin-top: 10px;
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.ramen-info-table th,
+.ramen-info-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    font-size: 16px;
+}
+
+.ramen-info-table th {
+    background-color: #f39c12;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .ramen-info-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    background-color: #fff;
+    color: #333;
+}
+
+.ramen-info-table tr:last-child td {
+    border-bottom: none;
 }
 
 .average-rating {
@@ -153,9 +199,11 @@
 
 .review-form {
     background-color: #fff;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .review-form .rating {
@@ -179,10 +227,43 @@
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 16px;
 }
 
 .review-form input[type="file"] {
     margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.review-form .file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.review-form .file-label:hover {
+    background-color: #0056b3;
+}
+
+.review-form .photo-preview {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.review-form .photo-preview img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 4px;
 }
 
 .review-form button {

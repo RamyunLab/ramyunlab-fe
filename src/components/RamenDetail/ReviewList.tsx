@@ -30,7 +30,7 @@ const ReviewList: React.FC = () => {
 
         // 리뷰 목록을 서버에서 가져옴
         axios
-            .get("/api/reviews")
+            .get(`${process.env.REACT_APP_API_SERVER}/api/reviews`)
             .then((response) => {
                 setReviews(response.data);
             })
@@ -71,7 +71,7 @@ const ReviewList: React.FC = () => {
 
     const handleDelete = (rv_idx: number) => {
         axios
-            .delete(`/api/review/${rv_idx}`)
+            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rv_idx}`)
             .then((response) => {
                 if (response.data.success) {
                     setReviews(reviews.filter((review) => review.rv_idx !== rv_idx));
@@ -92,7 +92,9 @@ const ReviewList: React.FC = () => {
 
     const handleSave = (rv_idx: number) => {
         axios
-            .patch(`/api/review/${rv_idx}`, { rv_content: editContent })
+            .patch(`${process.env.REACT_APP_API_SERVER}/api/review/${rv_idx}`, {
+                rv_content: editContent,
+            })
             .then((response) => {
                 if (response.data.success) {
                     setReviews(

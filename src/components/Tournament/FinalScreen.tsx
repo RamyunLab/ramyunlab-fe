@@ -68,8 +68,9 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
             <div className="championImg">
                 <img src={champion.r_img} alt={champion.r_name} />
             </div>
-            <button onClick={handleDetailPage}>상세 페이지 이동</button>
             <button onClick={handleHome}>홈으로</button>
+
+            <button onClick={handleDetailPage}>상세 페이지 이동</button>
             <button className="share-button" onClick={handleShare}>
                 결과 공유하기
             </button>
