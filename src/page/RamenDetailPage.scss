@@ -26,9 +26,30 @@
 }
 
 .ramen-name {
-    font-size: 24px;
+    font-size: 48px;
     font-weight: bold;
     margin-top: 10px;
+}
+
+.ramen-name-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.favorite-icon {
+    font-size: 48px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.favorite-icon.favorite {
+    color: #f39c12;
+}
+
+.favorite-icon:hover {
+    color: #e74c3c;
 }
 
 .ramen-info-table {
