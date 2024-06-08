@@ -153,9 +153,11 @@
 
 .review-form {
     background-color: #fff;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .review-form .rating {
@@ -179,10 +181,43 @@
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 16px;
 }
 
 .review-form input[type="file"] {
     margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.review-form .file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.review-form .file-label:hover {
+    background-color: #0056b3;
+}
+
+.review-form .photo-preview {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.review-form .photo-preview img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 4px;
 }
 
 .review-form button {
