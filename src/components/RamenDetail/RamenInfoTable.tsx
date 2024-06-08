@@ -65,6 +65,12 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
                 />
             </div>
             <table className="ramen-info-table">
+                <thead>
+                    <tr>
+                        <th>항목</th>
+                        <th>정보</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td>브랜드</td>
