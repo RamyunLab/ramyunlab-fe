@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import Matchup from "../components/Tournament/Matchup.tsx";
 import FinalScreen from "../components/Tournament/FinalScreen.tsx";
 import TournamentModal from "../components/Tournament/TournamentModal.tsx";
 import "./Tournament.scss";
 import "./TournamentModal.scss";
 import { GameDTO } from "../types";
+import {
+    setRound,
+    setCurrentMatchups,
+    addWinner,
+    clearWinners,
+    setChampion,
+    setCurrentMatchIndex,
+} from "../Redux/slices/TournamentSlice.tsx";
+import { RootState } from "../Redux/store";
 
 const Tournament: React.FC = () => {
-    const [round, setRound] = useState<number | null>(null);
-    const [currentMatchups, setCurrentMatchups] = useState<GameDTO[]>([]);
-    const [winners, setWinners] = useState<GameDTO[]>([]);
-    const [champion, setChampion] = useState<GameDTO | null>(null);
-    const [currentMatchIndex, setCurrentMatchIndex] = useState<number>(0);
+    const dispatch = useDispatch();
+    const { round, currentMatchups, winners, champion, currentMatchIndex } = useSelector(
+        (state: RootState) => state.tournament
+    );
 
     useEffect(() => {
         if (round !== null) {
@@ -21,44 +30,41 @@ const Tournament: React.FC = () => {
                 .then((response) => {
                     const data: GameDTO[] = response.data.data;
                     if (Array.isArray(data)) {
-                        setCurrentMatchups(data);
+                        dispatch(setCurrentMatchups(data));
                     } else {
                         console.error("응답 데이터가 배열이 아닙니다:", data);
                     }
-                    setCurrentMatchIndex(0);
                 })
                 .catch((error) => {
                     console.error("라면 목록 조회 실패:", error);
                 });
         }
-    }, [round]);
+    }, [round, dispatch]);
 
     const handleWinnerSelect = (winner: GameDTO) => {
         if (round === null) return;
 
         const newWinners = [...winners, winner];
-        setWinners(newWinners);
+        dispatch(addWinner(winner));
 
         if (newWinners.length === currentMatchups.length / 2) {
             if (round === 2) {
-                setChampion(newWinners[0]);
+                dispatch(setChampion(newWinners[0]));
             } else {
-                setTimeout(() => {
-                    setCurrentMatchups(newWinners);
-                    setWinners([]);
-                    setRound(round / 2);
-                    setCurrentMatchIndex(0);
-                }, 0);
+                dispatch(setCurrentMatchups(newWinners));
+                dispatch(clearWinners());
+                dispatch(setRound(round / 2));
+                dispatch(setCurrentMatchIndex(0));
             }
         } else {
-            setCurrentMatchIndex(currentMatchIndex + 1);
+            dispatch(setCurrentMatchIndex(currentMatchIndex + 1));
         }
     };
 
     const handleTournamentStart = (rounds: number) => {
-        setRound(rounds);
-        setWinners([]);
-        setChampion(null);
+        dispatch(setRound(rounds));
+        dispatch(clearWinners());
+        dispatch(setChampion(null));
     };
 
     if (round === null) {
