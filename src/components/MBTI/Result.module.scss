@@ -25,19 +25,80 @@
         padding: 15px; /* Reduce padding on smaller screens */
     }
 }
-
 .resultText {
     font-size: 24px;
     margin-bottom: 20px;
-    font-weight: bold; /* Make the text bold */
-    color: #333; /* Set a darker text color */
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #333;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 2s ease-in-out;
 
     @media (max-width: 820px) {
-        font-size: 20px; /* Reduce font size on smaller screens */
-        margin-bottom: 15px; /* Reduce margin on smaller screens */
+        font-size: 20px;
+        margin-bottom: 15px;
     }
 }
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.ISTJ {
+    color: #001f3f; /* 네이비 블루 */
+}
+.ISFJ {
+    color: #7fdbff; /* 파스텔 블루 */
+}
+.INFJ {
+    color: #85144b; /* 퍼플 */
+}
+.INTJ {
+    color: #3d9970; /* 다크 퍼플 */
+}
+.ISTP {
+    color: #2ecc40; /* 다크 그린 */
+}
+.ISFP {
+    color: #01ff70; /* 라이트 그린 */
+}
+.INFP {
+    color: #b10dc9; /* 라벤더 */
+}
+.INTP {
+    color: #39cccc; /* 시안 */
+}
+.ESTP {
+    color: #ff851b; /* 오렌지 */
+}
+.ESFP {
+    color: #ffdc00; /* 골드 */
+}
+.ENFP {
+    color: #f012be; /* 핑크 */
+}
+.ENTP {
+    color: #01ff70; /* 라임 */
+}
+.ESTJ {
+    color: #b5651d; /* 브라운 */
+}
+.ESFJ {
+    color: #ffdc00; /* 옐로우 */
+}
+.ENFJ {
+    color: #ff4136; /* 레드 */
+}
+.ENTJ {
+    color: #111111; /* 블랙 */
+}
 .ramenImage {
     width: 100%;
     max-width: 300px; /* Set max-width for the image */
@@ -49,8 +110,8 @@
 .ramenRecommendation {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #007bff; /* Set a color for the recommendation text */
 
+    color: #ffab21;
     @media (max-width: 820px) {
         font-size: 18px; /* Reduce font size on smaller screens */
         margin-bottom: 8px; /* Reduce margin on smaller screens */
@@ -70,10 +131,12 @@
 
 .buttonContainer {
     display: flex;
+    flex-direction: row; /* Ensure buttons are in a row */
+    flex-wrap: wrap; /* Allow buttons to wrap if needed */
+    justify-content: center; /* Center the buttons */
     gap: 10px; /* Add space between buttons */
 
     @media (max-width: 820px) {
-        flex-direction: column; /* Stack buttons on smaller screens */
         gap: 5px; /* Reduce gap on smaller screens */
     }
 }
@@ -88,11 +151,11 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+
     text-decoration: none; /* Remove underline from link */
     transition: background-color 0.3s ease, transform 0.3s ease;
     margin-bottom: 10px;
-    margin-top: 30px;
-    margin-right: 10px;
+    margin-top: 20px;
 
     &:hover {
         background-color: #0056b3; /* Darken background on hover */
@@ -105,7 +168,8 @@
     }
 
     @media (max-width: 820px) {
-        width: 95%; /* Full width on smaller screens */
+        width: auto; /* Adjust width on smaller screens */
         font-size: 16px; /* Reduce font size on smaller screens */
+        padding: 8px 16px; /* Adjust padding on smaller screens */
     }
 }

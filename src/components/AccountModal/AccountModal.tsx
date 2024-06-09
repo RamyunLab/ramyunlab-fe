@@ -16,6 +16,8 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [password, setPassword] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
+    const [message, setMessage] = useState(""); // 피드백 메시지 상태 추가
 
     if (!isOpen) return null;
 
@@ -24,6 +26,7 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     };
 
     const handleDeleteAccount = async () => {
+        setLoading(true);
         try {
             const token = localStorage.getItem("token"); // 인증 토큰 가져오기
             const response = await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/user`, {
@@ -35,20 +38,23 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             });
 
             if (response.data.statusCode === 200) {
-                alert("계정이 삭제되었습니다.");
+                setMessage("계정이 삭제되었습니다.");
                 dispatch(logout()); // 로그아웃 액션 디스패치
                 localStorage.removeItem("token"); // 로컬 스토리지에서 토큰 삭제
-                onClose();
+                setTimeout(onClose, 2000); // 2초 후 모달 닫기
             } else {
-                alert("계정 삭제에 실패했습니다.");
+                setMessage("계정 삭제에 실패했습니다.");
             }
         } catch (error) {
             console.error("Error deleting account:", error);
-            alert("계정 삭제에 실패했습니다.");
+            setMessage("계정 삭제에 실패했습니다.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleNicknameChange = async () => {
+        setLoading(true);
         try {
             const token = localStorage.getItem("token"); // 인증 토큰 가져오기
             const response = await axios.patch(
@@ -63,17 +69,20 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             );
 
             if (response.data.statusCode === 200) {
-                alert("닉네임이 변경되었습니다.");
-                onClose();
+                setMessage("닉네임이 변경되었습니다.");
+                setTimeout(onClose, 2000); // 2초 후 모달 닫기
             } else {
-                alert("닉네임 변경에 실패했습니다.");
+                setMessage("닉네임 변경에 실패했습니다.");
             }
         } catch (error) {
-            alert("닉네임 변경에 실패했습니다.");
+            setMessage("닉네임 변경에 실패했습니다.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handlePasswordChange = async () => {
+        setLoading(true);
         try {
             const token = localStorage.getItem("token"); // 인증 토큰 가져오기
             const response = await axios.patch(
@@ -88,17 +97,20 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             );
 
             if (response.data.statusCode === 200) {
-                alert("비밀번호가 변경되었습니다.");
-                onClose();
+                setMessage("비밀번호가 변경되었습니다.");
+                setTimeout(onClose, 2000); // 2초 후 모달 닫기
             } else {
-                alert("비밀번호 변경에 실패했습니다.");
+                setMessage("비밀번호 변경에 실패했습니다.");
             }
         } catch (error) {
-            alert("비밀번호 변경에 실패했습니다.");
+            setMessage("비밀번호 변경에 실패했습니다.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleCurrentPasswordCheck = async () => {
+        setLoading(true);
         try {
             const token = localStorage.getItem("token"); // 인증 토큰 가져오기
             const response = await axios.post(
@@ -113,12 +125,14 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             );
 
             if (response.data.statusCode === 200) {
-                alert("비밀번호가 확인되었습니다.");
+                setMessage("비밀번호가 확인되었습니다.");
             } else {
-                alert("비밀번호 확인에 실패했습니다.");
+                setMessage("비밀번호 확인에 실패했습니다.");
             }
         } catch (error) {
-            alert("비밀번호 확인에 실패했습니다.");
+            setMessage("비밀번호 확인에 실패했습니다.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -161,6 +175,7 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     </button>
                 </div>
                 <div className={styles.tabContent}>
+                    {message && <p className={styles.message}>{message}</p>}
                     {activeTab === "deleteAccount" && (
                         <div className={styles.tabPane}>
                             <h2>회원 탈퇴</h2>
@@ -171,8 +186,12 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 className={styles.inputField}
                             />
-                            <button className={styles.actionButton} onClick={handleDeleteAccount}>
-                                계정 삭제
+                            <button
+                                className={styles.actionButton}
+                                onClick={handleDeleteAccount}
+                                disabled={loading}
+                            >
+                                {loading ? "삭제 중..." : "계정 영구 삭제"}
                             </button>
                         </div>
                     )}
@@ -186,8 +205,12 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 placeholder="새 닉네임"
                                 className={styles.inputField}
                             />
-                            <button className={styles.actionButton} onClick={handleNicknameChange}>
-                                닉네임 변경
+                            <button
+                                className={styles.actionButton}
+                                onClick={handleNicknameChange}
+                                disabled={loading}
+                            >
+                                {loading ? "변경 중..." : "닉네임 변경"}
                             </button>
                         </div>
                     )}
@@ -204,8 +227,9 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                             <button
                                 className={styles.actionButton}
                                 onClick={handleCurrentPasswordCheck}
+                                disabled={loading}
                             >
-                                비밀번호 확인
+                                {loading ? "확인 중..." : "비밀번호 확인"}
                             </button>
                             <input
                                 type="password"
@@ -214,8 +238,12 @@ const AccountModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 placeholder="새 비밀번호"
                                 className={styles.inputField}
                             />
-                            <button className={styles.actionButton} onClick={handlePasswordChange}>
-                                비밀번호 변경
+                            <button
+                                className={styles.actionButton}
+                                onClick={handlePasswordChange}
+                                disabled={loading}
+                            >
+                                {loading ? "변경 중..." : "비밀번호 변경"}
                             </button>
                         </div>
                     )}

@@ -17,8 +17,9 @@
 }
 
 .button {
-    font-size: 1.5em;
+    font-size: 1.4em;
     cursor: pointer;
+    margin-top: 2px;
     background: #ffab21;
     border: none;
     color: white;
@@ -30,7 +31,9 @@
 .menuIcon {
     @extend .button;
 }
-
+.button:hover {
+    background: #ffab21;
+}
 .loginButton {
     @extend .button;
 }

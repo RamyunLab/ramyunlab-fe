@@ -1,3 +1,12 @@
+// Variables for common styles
+$modal-background-color: white;
+$modal-border-color: #ffa500;
+$primary-color: #007bff;
+$primary-hover-color: #0056b3;
+$input-focus-color: $primary-color;
+$input-focus-shadow: rgba(0, 123, 255, 0.5);
+$font-family: "Nanum Gothic", sans-serif;
+
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -9,11 +18,11 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    overflow: auto; /* 모달 내용이 길어지면 스크롤 가능하게 */
+    overflow: auto; // Enable scroll if content overflows
 }
 
 .modalContent {
-    background: white;
+    background: $modal-background-color;
     padding: 40px 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -21,8 +30,8 @@
     max-width: 500px;
     position: relative;
     text-align: center;
-    font-family: "Nanum Gothic", sans-serif;
-    border: 2px solid #ffa500;
+    font-family: $font-family;
+    border: 2px solid $modal-border-color;
 }
 
 .closeButton {
@@ -55,11 +64,11 @@
     border-radius: 4px;
     font-size: 16px;
     transition: background 0.3s, color 0.3s;
-}
 
-.tabButton.active {
-    background: #007bff;
-    color: white;
+    &.active {
+        background: $primary-color;
+        color: white;
+    }
 }
 
 .tabContent {
@@ -83,8 +92,8 @@
     transition: border-color 0.3s, box-shadow 0.3s;
 
     &:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        border-color: $input-focus-color;
+        box-shadow: 0 0 5px $input-focus-shadow;
         outline: none;
     }
 }
@@ -93,7 +102,7 @@
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
-    background: #007bff;
+    background: $primary-color;
     color: white;
     cursor: pointer;
     font-size: 16px;
@@ -101,6 +110,6 @@
     transition: background 0.3s;
 
     &:hover {
-        background: #0056b3;
+        background: $primary-hover-color;
     }
 }
