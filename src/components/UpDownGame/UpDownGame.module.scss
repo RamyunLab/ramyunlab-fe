@@ -38,6 +38,7 @@
     @media (max-width: 768px) {
         flex-direction: column; /* Stack ramen images vertically on smaller screens */
         align-items: center;
+        gap: 10px;
     }
     margin-bottom: 150px;
 }
@@ -61,12 +62,13 @@
     }
 
     @media (max-width: 768px) {
-        width: 80%; /* Adjust width for smaller screens */
+        width: 45%; /* Adjust width for smaller screens */
         height: auto; /* Adjust height for smaller screens */
     }
 
     @media (max-width: 480px) {
-        width: 100%; /* Full width on very small screens */
+        width: 45%; /* Adjust width for very small screens */
+        height: auto; /* Adjust height for very small screens */
     }
 }
 
@@ -83,7 +85,11 @@
     // }
 
     @media (max-width: 768px) {
-        height: auto; /* Adjust height for smaller screens */
+        height: 140px; /* Adjust height for smaller screens */
+    }
+
+    @media (max-width: 480px) {
+        height: 125px; /* Adjust height for very small screens */
     }
 }
 
