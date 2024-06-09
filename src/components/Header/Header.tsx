@@ -4,7 +4,7 @@ import { RootState } from "../../Redux/store";
 import { logout } from "../../Redux/slices/AuthSlice.tsx";
 import styles from "./Header.module.scss";
 import LoginModal from "../Auth/LoginModal.tsx";
-import logo from "./lower_half1.png"; // 로고 이미지 파일 경로
+import logo from "./lower_half2.png"; // 로고 이미지 파일 경로
 
 interface HeaderProps {
     toggleLoginModal: () => void;
