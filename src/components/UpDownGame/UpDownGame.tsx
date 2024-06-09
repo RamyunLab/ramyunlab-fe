@@ -138,7 +138,21 @@ const UpDownGame: React.FC = () => {
             )}
             {message && !isGameOver && <p>{message}</p>}
             {isGameOver && finalRamen && <p>{message}</p>}
-            {isGameOver && !finalRamen && <p>게임 오버</p>}
+            {isGameOver && !finalRamen && (
+                <div className={styles.gameResult}>
+                    <h1 className={styles.gameOverTitle}>
+                        <span>G</span>
+                        <span>a</span>
+                        <span>m</span>
+                        <span>e</span>
+                        <span>&nbsp;</span>
+                        <span>O</span>
+                        <span>v</span>
+                        <span>e</span>
+                        <span>r</span>
+                    </h1>
+                </div>
+            )}
             {currentRamen && nextRamen && !isGameOver && (
                 <div className={styles.ramenContainer}>
                     <div className={styles.ramen} onClick={() => handleGuess(currentRamen)}>
