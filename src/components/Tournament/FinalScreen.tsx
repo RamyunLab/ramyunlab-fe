@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { GameDTO } from "../../types";
+import { GameDTO } from "../../Redux/types";
 import { resetTournament } from "../../Redux/slices/TournamentSlice.tsx";
 
 interface FinalScreenProps {

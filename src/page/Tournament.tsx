@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import Matchup from "../components/Tournament/Matchup.tsx";
 import FinalScreen from "../components/Tournament/FinalScreen.tsx";
 import TournamentModal from "../components/Tournament/TournamentModal.tsx";
-import "./Tournament.scss";
-import "./TournamentModal.scss";
-import { GameDTO } from "../types";
+import { useSelector, useDispatch } from "react-redux";
 import {
     setRound,
     setCurrentMatchups,
@@ -14,8 +11,12 @@ import {
     clearWinners,
     setChampion,
     setCurrentMatchIndex,
+    resetTournament,
 } from "../Redux/slices/TournamentSlice.tsx";
 import { RootState } from "../Redux/store";
+import "./Tournament.scss";
+import "./TournamentModal.scss";
+import { GameDTO } from "../Redux/types";
 
 const Tournament: React.FC = () => {
     const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const Tournament: React.FC = () => {
                     } else {
                         console.error("응답 데이터가 배열이 아닙니다:", data);
                     }
+                    dispatch(setCurrentMatchIndex(0));
                 })
                 .catch((error) => {
                     console.error("라면 목록 조회 실패:", error);
@@ -44,17 +46,18 @@ const Tournament: React.FC = () => {
     const handleWinnerSelect = (winner: GameDTO) => {
         if (round === null) return;
 
-        const newWinners = [...winners, winner];
         dispatch(addWinner(winner));
 
-        if (newWinners.length === currentMatchups.length / 2) {
+        if (winners.length + 1 === currentMatchups.length / 2) {
             if (round === 2) {
-                dispatch(setChampion(newWinners[0]));
+                dispatch(setChampion(winner));
             } else {
-                dispatch(setCurrentMatchups(newWinners));
-                dispatch(clearWinners());
-                dispatch(setRound(round / 2));
-                dispatch(setCurrentMatchIndex(0));
+                setTimeout(() => {
+                    dispatch(setCurrentMatchups(winners.concat(winner)));
+                    dispatch(clearWinners());
+                    dispatch(setRound(round / 2));
+                    dispatch(setCurrentMatchIndex(0));
+                }, 0);
             }
         } else {
             dispatch(setCurrentMatchIndex(currentMatchIndex + 1));

@@ -1,13 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GameDTO } from "../../types";
-
-interface TournamentState {
-    round: number | null;
-    currentMatchups: GameDTO[];
-    winners: GameDTO[];
-    champion: GameDTO | null;
-    currentMatchIndex: number;
-}
+import { TournamentState, GameDTO } from "../types";
 
 const initialState: TournamentState = {
     round: null,
