@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { RootState } from "../../Redux/store";
 import { logout } from "../../Redux/slices/AuthSlice.tsx";
 import styles from "./Header.module.scss";
-import LoginModal from "../Auth/LoginModal.tsx";
 import logo from "./lower_half2.png"; // 로고 이미지 파일 경로
 
 interface HeaderProps {
@@ -55,7 +55,9 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, toggleAccountModal })
 
     return (
         <header className={styles.header}>
-            <img src={logo} alt="RamyunLab Logo" className={styles.logo} />
+            <Link to="/">
+                <img src={logo} alt="RamyunLab Logo" className={styles.logo} />
+            </Link>
             {isAuthenticated ? (
                 <div>
                     <button className={styles.menuIcon} onClick={toggleMenu}>
