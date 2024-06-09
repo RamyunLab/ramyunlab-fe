@@ -1,5 +1,5 @@
 .header {
-    background-color: #e74c3c;
+    background-color: #ffab21;
     padding: 0px;
     display: flex;
     justify-content: space-between;
@@ -11,15 +11,15 @@
 }
 
 .logo {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-left: 50px; // 제목을 살짝 오른쪽으로 이동
+    width: 100px; /* 원하는 로고 너비로 조절 */
+    height: auto; /* 높이는 자동 조절 */
+    margin-left: 80px;
 }
 
 .button {
     font-size: 1.5em;
     cursor: pointer;
-    background: none;
+    background: #ffab21;
     border: none;
     color: white;
     font-family: inherit;
@@ -38,10 +38,9 @@
 .menu {
     display: none;
     position: absolute;
-    top: 53px; // 드롭다운 메뉴의 위치 조정
+    top: 50px; // 드롭다운 메뉴의 위치 조정
     right: 50px; // 드롭다운 메뉴의 위치 조정
-    background-color: #e74c3c;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #ffab21;
 }
 
 .menu.show {
@@ -78,7 +77,7 @@
     }
 
     .menu {
-        top: 45px; // 드롭다운 메뉴 위치를 조금 조정
+        top: 70px; // 드롭다운 메뉴 위치를 조금 조정
         width: 100%; // 작은 화면에서 드롭다운 메뉴의 너비를 100%로 설정
         left: 0;
 
@@ -107,7 +106,7 @@
     }
 
     .menu {
-        top: 40px; // 드롭다운 메뉴 위치를 더 조정
+        margin-top: 25px; // 드롭다운 메뉴 위치를 더 조정
     }
 
     .menu li {

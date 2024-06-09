@@ -15,6 +15,8 @@ import {
     addSeenRamen,
 } from "../../Redux/slices/UpdownSlice.tsx";
 import ProgressBar from "../MBTI/ProgressBar.tsx";
+import Confetti from "react-confetti";
+import useWindowSize from "react-use/lib/useWindowSize";
 import styles from "./UpDownGame.module.scss";
 
 const fetchRamenData = async () => {
@@ -26,6 +28,7 @@ const UpDownGame: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const { width, height } = useWindowSize();
     const {
         currentRamen,
         nextRamen,
@@ -97,7 +100,7 @@ const UpDownGame: React.FC = () => {
                     dispatch(
                         setGameOver({
                             finalRamen: selectedRamen,
-                            message: "축하합니다! 최종 라면을 맞추셨습니다.",
+                            message: "축하합니다! 스코빌이 가장 높은 라면을 맞추셨습니다.",
                         })
                     );
                 } else {
@@ -109,6 +112,7 @@ const UpDownGame: React.FC = () => {
             }, 2000);
         } else {
             dispatch(setGameOver({ finalRamen: null, message: "게임 오버" }));
+            dispatch(setShowScoville(true)); // Show scoville score on game over
         }
     };
 
@@ -121,46 +125,35 @@ const UpDownGame: React.FC = () => {
         navigate("/");
     };
 
-    if (isGameOver) {
-        return (
-            <div className={styles.gameOver}>
-                <p>{message}</p>
-                {finalRamen && (
-                    <div className={styles.ramenContainer}>
-                        <div className={styles.ramen}>
-                            <img src={finalRamen.r_img} alt={finalRamen.r_name} />
-                            <p>{finalRamen.r_name}</p>
-                            <p>스코빌 지수: {finalRamen.r_scoville}</p>
-                        </div>
-                    </div>
-                )}
-                {!finalRamen && (
-                    <div className={styles.ramenContainer}>
-                        <div className={styles.ramen}>
-                            <img src={currentRamen.r_img} alt={currentRamen.r_name} />
-                            <p>{currentRamen.r_name}</p>
-                            <p>스코빌 지수: {currentRamen.r_scoville}</p>
-                        </div>
-                        <div className={styles.ramen}>
-                            <img src={nextRamen.r_img} alt={nextRamen.r_name} />
-                            <p>{nextRamen.r_name}</p>
-                            <p>스코빌 지수: {nextRamen.r_scoville}</p>
-                        </div>
-                    </div>
-                )}
-                <div className={styles.buttonContainer}>
-                    <button onClick={handleResetGame}>다시 하기</button>
-                    <button onClick={handleGoHome}>홈으로 가기</button>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className={styles.gameContainer}>
-            <h1 className={styles.title}>라면 업앤다운 게임</h1>
-            <ProgressBar currentStep={roundCount + 1} totalSteps={10} /> {/* ProgressBar 추가 */}
-            {currentRamen && nextRamen && (
+            {isGameOver && finalRamen && (
+                <>
+                    <Confetti width={width} height={height} />
+                </>
+            )}
+            <h1 className={styles.title}>라면 스코빌 업앤다운 게임</h1>
+            {!isGameOver && (
+                <ProgressBar currentStep={roundCount + 1} totalSteps={10} /> /* ProgressBar 추가 */
+            )}
+            {message && !isGameOver && <p>{message}</p>}
+            {isGameOver && finalRamen && <p>{message}</p>}
+            {isGameOver && !finalRamen && (
+                <div className={styles.gameResult}>
+                    <h1 className={styles.gameOverTitle}>
+                        <span>G</span>
+                        <span>a</span>
+                        <span>m</span>
+                        <span>e</span>
+                        <span>&nbsp;</span>
+                        <span>O</span>
+                        <span>v</span>
+                        <span>e</span>
+                        <span>r</span>
+                    </h1>
+                </div>
+            )}
+            {currentRamen && nextRamen && !isGameOver && (
                 <div className={styles.ramenContainer}>
                     <div className={styles.ramen} onClick={() => handleGuess(currentRamen)}>
                         <img src={currentRamen.r_img} alt={currentRamen.r_name} />
@@ -174,7 +167,35 @@ const UpDownGame: React.FC = () => {
                     </div>
                 </div>
             )}
-            {message && <p>{message}</p>}
+            {isGameOver && finalRamen && (
+                <div className={styles.ramenContainer}>
+                    <div className={styles.ramen}>
+                        <img src={finalRamen.r_img} alt={finalRamen.r_name} />
+                        <p>{finalRamen.r_name}</p>
+                        <p>스코빌 지수: {finalRamen.r_scoville}</p>
+                    </div>
+                </div>
+            )}
+            {isGameOver && !finalRamen && (
+                <div className={styles.ramenContainer}>
+                    <div className={styles.ramen}>
+                        <img src={currentRamen.r_img} alt={currentRamen.r_name} />
+                        <p>{currentRamen.r_name}</p>
+                        <p>스코빌 지수: {currentRamen.r_scoville}</p>
+                    </div>
+                    <div className={styles.ramen}>
+                        <img src={nextRamen.r_img} alt={nextRamen.r_name} />
+                        <p>{nextRamen.r_name}</p>
+                        <p>스코빌 지수: {nextRamen.r_scoville}</p>
+                    </div>
+                </div>
+            )}
+            {isGameOver && (
+                <div className={styles.buttonContainer}>
+                    <button onClick={handleResetGame}>다시 하기</button>
+                    <button onClick={handleGoHome}>홈으로 가기</button>
+                </div>
+            )}
         </div>
     );
 };
