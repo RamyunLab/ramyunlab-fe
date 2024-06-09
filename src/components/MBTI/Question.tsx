@@ -5,6 +5,7 @@ import { RootState } from "../../Redux/store";
 import styles from "./Question.module.scss";
 import ProgressBar from "./ProgressBar.tsx";
 import loadingImage from "./pono.webp";
+
 const questions = [
     {
         id: 1,
@@ -16,38 +17,6 @@ const questions = [
     },
     {
         id: 2,
-        text: "라면을 고를 때 어떤 것을 더 선호하나요?",
-        options: [
-            { text: "항상 먹던 제품을 고른다.", value: "S" },
-            { text: "신제품을 먹어본다.", value: "N" },
-        ],
-    },
-    {
-        id: 3,
-        text: "라면을 선택할 때 어떤 요소가 더 중요한가요?",
-        options: [
-            { text: "이름과 맛에 대한 설명", value: "T" },
-            { text: "라면의 디자인.", value: "F" },
-        ],
-    },
-    {
-        id: 4,
-        text: "라면을 언제 먹고 싶나요?",
-        options: [
-            { text: "미리 계획하고 먹는다.", value: "J" },
-            { text: "즉흥적으로 먹고 싶을 때 먹는다.", value: "P" },
-        ],
-    },
-    {
-        id: 5,
-        text: "라면의 국물 맛을 선택할 때, 어떤 것을 더 선호하나요?",
-        options: [
-            { text: "맑고 깔끔한 맛.", value: "S" },
-            { text: "진하고 강렬한 맛.", value: "N" },
-        ],
-    },
-    {
-        id: 6,
         text: "라면을 먹을 때 주로 어떤 환경을 더 조성하나요?",
         options: [
             { text: "라면에만 집중한다.", value: "E" },
@@ -55,19 +24,51 @@ const questions = [
         ],
     },
     {
-        id: 7,
-        text: "라면을 어떤 방식으로 끓이는 걸 선호하나요?",
+        id: 3,
+        text: "라면을 고를 때 어떤 것을 더 선호하나요?",
         options: [
-            { text: "정해진 레시피를 따른다.", value: "J" },
-            { text: "여러 재료를 추가한다.", value: "P" },
+            { text: "항상 먹던 제품을 고른다.", value: "S" },
+            { text: "신제품을 먹어본다.", value: "N" },
         ],
     },
     {
-        id: 8,
+        id: 4,
+        text: "라면의 국물 맛을 선택할 때, 어떤 것을 더 선호하나요?",
+        options: [
+            { text: "맑고 깔끔한 맛.", value: "S" },
+            { text: "진하고 강렬한 맛.", value: "N" },
+        ],
+    },
+    {
+        id: 5,
+        text: "라면을 선택할 때 어떤 요소가 더 중요한가요?",
+        options: [
+            { text: "이름과 맛에 대한 설명", value: "T" },
+            { text: "라면의 디자인.", value: "F" },
+        ],
+    },
+    {
+        id: 6,
         text: "라면을 먹은 후에 어떤 생각이 드나요?",
         options: [
             { text: "괜히 먹었다", value: "T" },
             { text: "맛있게 잘 먹었다.", value: "F" },
+        ],
+    },
+    {
+        id: 7,
+        text: "라면을 언제 먹고 싶나요?",
+        options: [
+            { text: "미리 계획하고 먹는다.", value: "J" },
+            { text: "즉흥적으로 먹고 싶을 때 먹는다.", value: "P" },
+        ],
+    },
+    {
+        id: 8,
+        text: "라면을 어떤 방식으로 끓이는 걸 선호하나요?",
+        options: [
+            { text: "정해진 레시피를 따른다.", value: "J" },
+            { text: "여러 재료를 추가한다.", value: "P" },
         ],
     },
 ];
@@ -82,6 +83,20 @@ const Question: React.FC = () => {
     };
 
     const currentQuestion = questions[answers.length];
+
+    const getFinalType = () => {
+        const typeCount = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+        answers.forEach((answer) => {
+            typeCount[answer]++;
+        });
+
+        return (
+            (typeCount.E >= typeCount.I ? "E" : "I") +
+            (typeCount.S >= typeCount.N ? "S" : "N") +
+            (typeCount.T >= typeCount.F ? "T" : "F") +
+            (typeCount.J >= typeCount.P ? "J" : "P")
+        );
+    };
 
     return (
         <>
@@ -110,6 +125,12 @@ const Question: React.FC = () => {
                             />
                         </>
                     )}
+                </div>
+            )}
+            {showResult && (
+                <div className={styles.resultContainer}>
+                    <h2>당신의 MBTI 라면 유형은...</h2>
+                    {/* <p>{getFinalType()}</p> */}
                 </div>
             )}
         </>
