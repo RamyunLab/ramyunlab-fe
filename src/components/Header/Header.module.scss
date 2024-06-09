@@ -1,5 +1,5 @@
 .header {
-    background-color: #e74c3c;
+    background-color: #ffab21;
     padding: 0px;
     display: flex;
     justify-content: space-between;
@@ -11,9 +11,9 @@
 }
 
 .logo {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-left: 50px; // 제목을 살짝 오른쪽으로 이동
+    width: 100px; /* 원하는 로고 너비로 조절 */
+    height: auto; /* 높이는 자동 조절 */
+    margin-left: 80px;
 }
 
 .button {
@@ -40,7 +40,7 @@
     position: absolute;
     top: 53px; // 드롭다운 메뉴의 위치 조정
     right: 50px; // 드롭다운 메뉴의 위치 조정
-    background-color: #e74c3c;
+    background-color: #ffab21;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
