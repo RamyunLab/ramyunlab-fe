@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { GameDTO } from "../../Redux/types";
+import { GameDTO } from "../../Redux/types.ts";
 import { resetTournament } from "../../Redux/slices/TournamentSlice.tsx";
 
 interface FinalScreenProps {
@@ -17,7 +17,7 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
     };
 
     const handleHome = () => {
-        dispatch(resetTournament());
+        dispatch(resetTournament()); // 상태 초기화
         navigate("/");
     };
 

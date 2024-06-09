@@ -4,6 +4,7 @@ import Matchup from "../components/Tournament/Matchup.tsx";
 import FinalScreen from "../components/Tournament/FinalScreen.tsx";
 import TournamentModal from "../components/Tournament/TournamentModal.tsx";
 import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import {
     setRound,
     setCurrentMatchups,
@@ -16,13 +17,19 @@ import {
 import { RootState } from "../Redux/store";
 import "./Tournament.scss";
 import "./TournamentModal.scss";
-import { GameDTO } from "../Redux/types";
+import { GameDTO } from "../Redux/types.ts";
 
 const Tournament: React.FC = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const { round, currentMatchups, winners, champion, currentMatchIndex } = useSelector(
         (state: RootState) => state.tournament
     );
+
+    useEffect(() => {
+        // 페이지가 로드될 때마다 토너먼트 상태를 초기화합니다.
+        dispatch(resetTournament());
+    }, [location, dispatch]);
 
     useEffect(() => {
         if (round !== null) {
