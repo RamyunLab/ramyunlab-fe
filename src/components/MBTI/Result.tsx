@@ -30,7 +30,9 @@ const Result: React.FC = () => {
     return (
         <div className={styles.resultPage}>
             <div className={styles.resultContainer}>
-                <h2 className={styles.resultText}>나의 라면 mbti는 {result.mbtiType}입니다</h2>
+                <h2 className={`${styles.resultText} ${styles[result.mbtiType]}`}>
+                    {result.mbtiType}
+                </h2>
                 <img
                     src={result.imageUrl}
                     alt={result.ramenRecommendation}
