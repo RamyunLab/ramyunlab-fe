@@ -69,7 +69,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
             );
             setIdValid(false);
         } else {
-            setIdError("사용 가능한 아이디입니다.");
+            setIdError("형식에 맞는 아이디입니다.");
             setIdValid(true);
         }
     };
@@ -84,7 +84,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
             );
             setNicknameValid(false);
         } else {
-            setNicknameError("사용 가능한 닉네임입니다.");
+            setNicknameError("형식에 맞는 닉네임입니다.");
             setNicknameValid(true);
         }
     };

@@ -4,11 +4,14 @@ import { RootState } from "../../Redux/store";
 import { logout } from "../../Redux/slices/AuthSlice.tsx";
 import styles from "./Header.module.scss";
 import LoginModal from "../Auth/LoginModal.tsx";
+
 interface HeaderProps {
     toggleLoginModal: () => void;
+    toggleAccountModal: () => void; // Add this line
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
+const Header: React.FC<HeaderProps> = ({ toggleLoginModal, toggleAccountModal }) => {
+    // Modify this line
     const [menuOpen, setMenuOpen] = useState(false);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
@@ -60,7 +63,8 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
                     </button>
                     <div className={`${styles.menu} ${menuOpen ? styles.show : ""}`}>
                         <ul>
-                            <li>회원 정보 수정</li>
+                            <li onClick={toggleAccountModal}>회원 정보 수정</li>{" "}
+                            {/* Add this line */}
                             <li onClick={handleLogout}>로그 아웃</li>
                             <li>찜 목록</li>
                             <li>내가 쓴 리뷰</li>
