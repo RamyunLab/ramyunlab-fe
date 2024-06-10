@@ -97,9 +97,11 @@ const ReviewForm: React.FC = () => {
                     <img src={photoPreview} alt="미리보기" />
                 </div>
             )}
-            <button onClick={handleSubmit} disabled={!isLoggedIn}>
-                등록
-            </button>
+            <div className="submit-button-container">
+                <button onClick={handleSubmit} disabled={!isLoggedIn}>
+                    등록
+                </button>
+            </div>
         </div>
     );
 };

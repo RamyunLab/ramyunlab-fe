@@ -23,12 +23,15 @@ const ReviewList: React.FC = () => {
     const [editMode, setEditMode] = useState<number | null>(null);
     const [editContent, setEditContent] = useState<string>("");
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
-        if (userInfo) {
+        const token = localStorage.getItem("token");
+        if (userInfo && token) {
             const parsedUserInfo = JSON.parse(userInfo);
             setCurrentUserId(parsedUserInfo.userId);
+            setIsLoggedIn(true);
         }
 
         const tempReviews: Review[] = [
@@ -73,27 +76,36 @@ const ReviewList: React.FC = () => {
             },
         ];
         setReviews(tempReviews);
-
-        // 실제 API 호출 (주석 처리)
-        /*
-        axios
-            .get(`${process.env.REACT_APP_API_SERVER}/api/reviews`)
-            .then((response) => {
-                setReviews(response.data);
-            })
-            .catch((error) => {
-                console.error("리뷰 목록을 불러오는데 실패했습니다:", error);
-            });
-        */
     }, []);
 
-    const bestReview =
-        reviews.length > 0
-            ? reviews.reduce(
-                  (prev, current) => (prev.rv_rate > current.rv_rate ? prev : current),
-                  reviews[0]
-              )
-            : null;
+    const handleLikeToggle = (rv_idx: number) => {
+        if (!isLoggedIn) {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }
+
+        const updatedReviews = reviews.map((review) =>
+            review.rv_idx === rv_idx ? { ...review, liked: !review.liked } : review
+        );
+        setReviews(updatedReviews);
+
+        const currentReview = reviews.find((review) => review.rv_idx === rv_idx);
+        if (currentReview) {
+            if (currentReview.liked) {
+                axios
+                    .delete(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
+                    .catch((error) => {
+                        console.error("좋아요 삭제 실패:", error);
+                    });
+            } else {
+                axios
+                    .post(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
+                    .catch((error) => {
+                        console.error("좋아요 추가 실패:", error);
+                    });
+            }
+        }
+    };
 
     const renderStars = (rating: number) => {
         const fullStars = Math.floor(rating);
@@ -161,65 +173,8 @@ const ReviewList: React.FC = () => {
             });
     };
 
-    const handleLikeToggle = (rv_idx: number) => {
-        const review = reviews.find((r) => r.rv_idx === rv_idx);
-        if (!review) return;
-
-        if (review.liked) {
-            axios
-                .delete(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        setReviews(
-                            reviews.map((r) => (r.rv_idx === rv_idx ? { ...r, liked: false } : r))
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error("공감 삭제 실패:", error);
-                });
-        } else {
-            axios
-                .post(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        setReviews(
-                            reviews.map((r) => (r.rv_idx === rv_idx ? { ...r, liked: true } : r))
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error("공감 추가 실패:", error);
-                });
-        }
-    };
-
     return (
         <div className="review-list">
-            {bestReview && (
-                <div className="best-review-container">
-                    <h2 className="best-review-title">Best Review</h2>
-                    <div className="best-review">
-                        <div className="nickname">{bestReview.nickname}</div>
-                        <div className="review-content">
-                            <div className="content">{bestReview.rv_content}</div>
-                            <div className="date">{bestReview.rv_created_at}</div>
-                        </div>
-                        <div className="likes-rating">
-                            <div className="rating">{renderStars(bestReview.rv_rate)}</div>
-                            <div className="likes">
-                                <FontAwesomeIcon
-                                    icon={bestReview.liked ? solidThumbsUp : regularThumbsUp}
-                                    onClick={() => handleLikeToggle(bestReview.rv_idx)}
-                                    className="thumbs-up-icon"
-                                />
-                                {bestReview.rv_rate}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="divider"></div>
-                </div>
-            )}
             {reviews.map((review, index) => (
                 <div className="review" key={index}>
                     <div className="nickname">{review.nickname}</div>
@@ -243,7 +198,7 @@ const ReviewList: React.FC = () => {
                             <FontAwesomeIcon
                                 icon={review.liked ? solidThumbsUp : regularThumbsUp}
                                 onClick={() => handleLikeToggle(review.rv_idx)}
-                                className="thumbs-up-icon"
+                                className={`thumbs-up-icon ${review.liked ? "solid" : "regular"}`}
                             />
                             {review.rv_rate}
                         </div>

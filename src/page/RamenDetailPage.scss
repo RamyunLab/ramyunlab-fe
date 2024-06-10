@@ -149,7 +149,6 @@
     width: 150px;
 }
 
-.likes,
 .rating {
     display: flex;
     align-items: center;
@@ -158,7 +157,18 @@
 }
 
 .likes {
-    color: red;
+    display: flex;
+    align-items: center;
+
+    .thumbs-up-icon {
+        cursor: pointer;
+        margin-right: 8px;
+        transition: color 0.3s;
+
+        &.solid {
+            color: red;
+        }
+    }
 }
 
 .star {
@@ -269,6 +279,12 @@
     max-width: 200px;
     max-height: 200px;
     border-radius: 4px;
+}
+
+.review-form .submit-button-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .review-form button {
