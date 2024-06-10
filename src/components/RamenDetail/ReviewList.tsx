@@ -15,7 +15,7 @@ interface Review {
     rv_updated_at: string | null;
     rv_deleted_at: string | null;
     nickname: string;
-    liked: boolean; // 추가: 좋아요 상태
+    liked: boolean;
 }
 
 const ReviewList: React.FC = () => {
@@ -78,32 +78,30 @@ const ReviewList: React.FC = () => {
         setReviews(tempReviews);
     }, []);
 
-    const handleLikeToggle = (rv_idx: number) => {
+    const handleLikeToggle = async (rvIdx: number) => {
         if (!isLoggedIn) {
             alert("로그인 후 이용해주세요.");
             return;
         }
 
-        const updatedReviews = reviews.map((review) =>
-            review.rv_idx === rv_idx ? { ...review, liked: !review.liked } : review
-        );
-        setReviews(updatedReviews);
+        const currentReview = reviews.find((review) => review.rv_idx === rvIdx);
+        if (!currentReview) return;
 
-        const currentReview = reviews.find((review) => review.rv_idx === rv_idx);
-        if (currentReview) {
-            if (currentReview.liked) {
-                axios
-                    .delete(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
-                    .catch((error) => {
-                        console.error("좋아요 삭제 실패:", error);
-                    });
+        const liked = currentReview.liked;
+
+        try {
+            if (liked) {
+                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`);
             } else {
-                axios
-                    .post(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
-                    .catch((error) => {
-                        console.error("좋아요 추가 실패:", error);
-                    });
+                await axios.post(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`);
             }
+
+            const updatedReviews = reviews.map((review) =>
+                review.rv_idx === rvIdx ? { ...review, liked: !liked } : review
+            );
+            setReviews(updatedReviews);
+        } catch (error) {
+            console.error(`좋아요 ${liked ? "삭제" : "추가"} 실패:`, error);
         }
     };
 
@@ -129,12 +127,12 @@ const ReviewList: React.FC = () => {
         );
     };
 
-    const handleDelete = (rv_idx: number) => {
+    const handleDelete = (rvIdx: number) => {
         axios
-            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rv_idx}`)
+            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`)
             .then((response) => {
                 if (response.data.success) {
-                    setReviews(reviews.filter((review) => review.rv_idx !== rv_idx));
+                    setReviews(reviews.filter((review) => review.rv_idx !== rvIdx));
                 }
             })
             .catch((error) => {
@@ -142,24 +140,24 @@ const ReviewList: React.FC = () => {
             });
     };
 
-    const handleEdit = (rv_idx: number) => {
-        setEditMode(rv_idx);
-        const review = reviews.find((review) => review.rv_idx === rv_idx);
+    const handleEdit = (rvIdx: number) => {
+        setEditMode(rvIdx);
+        const review = reviews.find((review) => review.rv_idx === rvIdx);
         if (review) {
             setEditContent(review.rv_content);
         }
     };
 
-    const handleSave = (rv_idx: number) => {
+    const handleSave = (rvIdx: number) => {
         axios
-            .patch(`${process.env.REACT_APP_API_SERVER}/api/review/${rv_idx}`, {
+            .patch(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`, {
                 rv_content: editContent,
             })
             .then((response) => {
                 if (response.data.success) {
                     setReviews(
                         reviews.map((review) =>
-                            review.rv_idx === rv_idx
+                            review.rv_idx === rvIdx
                                 ? { ...review, rv_content: editContent }
                                 : review
                         )
