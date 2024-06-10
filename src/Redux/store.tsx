@@ -4,11 +4,13 @@ import storage from "redux-persist/lib/storage";
 import mbtiReducer from "./slices/MbtiSlice.tsx";
 import authReducer from "./slices/AuthSlice.tsx";
 import updownReducer from "./slices/UpdownSlice.tsx";
+import tournamentReducer from "./slices/TournamentSlice.tsx";
 
 const rootReducer = combineReducers({
     mbti: mbtiReducer,
     auth: authReducer,
     updown: updownReducer,
+    tournament: tournamentReducer,
 });
 
 const persistConfig = {

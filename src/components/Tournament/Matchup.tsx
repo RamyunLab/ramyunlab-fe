@@ -1,5 +1,6 @@
 import React from "react";
-import { GameDTO } from "../../types";
+import { GameDTO } from "../../Redux/types";
+
 interface MatchupProps {
     round: number;
     matchNumber: number;

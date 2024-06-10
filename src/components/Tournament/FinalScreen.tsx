@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { GameDTO } from "../../types";
+import { useDispatch } from "react-redux";
+import { GameDTO } from "../../Redux/types.ts";
+import { resetTournament } from "../../Redux/slices/TournamentSlice.tsx";
 
 interface FinalScreenProps {
     champion: GameDTO;
@@ -8,12 +10,14 @@ interface FinalScreenProps {
 
 const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleDetailPage = () => {
         navigate(`/ramen/${champion.idx}`);
     };
 
     const handleHome = () => {
+        dispatch(resetTournament()); // 상태 초기화
         navigate("/");
     };
 
@@ -69,7 +73,6 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
                 <img src={champion.r_img} alt={champion.r_name} />
             </div>
             <button onClick={handleHome}>홈으로</button>
-
             <button onClick={handleDetailPage}>상세 페이지 이동</button>
             <button className="share-button" onClick={handleShare}>
                 결과 공유하기
