@@ -4,7 +4,7 @@ import { addAnswer, questionsCount } from "../../Redux/slices/MbtiSlice.tsx";
 import { RootState } from "../../Redux/store";
 import styles from "./Question.module.scss";
 import ProgressBar from "./ProgressBar.tsx";
-import loadingImage from "./pono.webp";
+import loadingImage from "../../assets/images/pono.webp";
 
 const questions = [
     {

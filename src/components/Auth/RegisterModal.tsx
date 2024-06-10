@@ -50,7 +50,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
 
     const isValidPassword = (password: string) => {
         const passwordPattern =
-            /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_=+\\|/.,<>?:;'\"{}[\]\\]).{8,}$/;
+            /^(?=.*[a-zA-Z가-힣])(?=.*[0-9])(?=.*[!@#$%^&*()\-_=+\\|/.,<>?:;'\"{}[\]\\]).{8,}$/;
         return passwordPattern.test(password);
     };
 

@@ -27,7 +27,7 @@ $font-family: "Nanum Gothic", sans-serif;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 500px;
+    max-width: 400px;
     position: relative;
     text-align: center;
     font-family: $font-family;
@@ -83,18 +83,63 @@ $font-family: "Nanum Gothic", sans-serif;
     align-items: center;
 }
 
-.inputField {
-    margin-bottom: 15px;
-    padding: 12px;
+.inputWithButton {
+    display: flex;
+    align-items: center;
     width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 15px;
+}
 
+.inputField {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background: #fff5e1; // Background color
+    max-width: 150px !important;
+    margin-left: 15px !important;
+    justify-content: center !important;
     &:focus {
         border-color: $input-focus-color;
         box-shadow: 0 0 5px $input-focus-shadow;
         outline: none;
+    }
+}
+
+.button {
+    padding: 12px;
+    background: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.3s;
+    margin-top: 0px;
+    margin-left: 5px;
+    &:hover {
+        background: $primary-hover-color;
+    }
+}
+
+.passwordInputContainer {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px; // Adjust margin to control spacing between inputs
+}
+
+.passwordToggleIcon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s;
+
+    &:hover {
+        color: #000;
     }
 }
 
@@ -112,4 +157,19 @@ $font-family: "Nanum Gothic", sans-serif;
     &:hover {
         background: $primary-hover-color;
     }
+}
+
+.error {
+    font-size: 12px;
+    color: red;
+    // margin-top: 5px; // Adjust margin to control spacing between input and error message
+    // margin-bottom: 10px;
+    text-align: left;
+    width: 100%; // Ensures the error message takes the full width
+}
+
+.message {
+    font-size: 14px;
+    color: red;
+    margin-bottom: 20px;
 }

@@ -170,13 +170,13 @@ const UpDownGame: React.FC = () => {
             {isGameOver && finalRamen && (
                 <div className={styles.ramenContainer}>
                     <div className={styles.ramen}>
-                        <img src={finalRamen.r_img} alt={finalRamen.r_name} />
-                        <p>{finalRamen.r_name}</p>
-                        <p>스코빌 지수: {finalRamen.r_scoville}</p>
+                        <img src={finalRamen?.r_img} alt={finalRamen?.r_name} />
+                        <p>{finalRamen?.r_name}</p>
+                        <p>스코빌 지수: {finalRamen?.r_scoville}</p>
                     </div>
                 </div>
             )}
-            {isGameOver && !finalRamen && (
+            {isGameOver && !finalRamen && currentRamen && nextRamen && (
                 <div className={styles.ramenContainer}>
                     <div className={styles.ramen}>
                         <img src={currentRamen.r_img} alt={currentRamen.r_name} />

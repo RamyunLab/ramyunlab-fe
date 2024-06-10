@@ -8,6 +8,7 @@
     position: relative;
     width: 100%;
     height: 50px;
+    z-index: 1000;
 }
 
 .logo {
@@ -19,7 +20,7 @@
 .button {
     font-size: 1.4em;
     cursor: pointer;
-    margin-top: 2px;
+    margin-top: 1px;
     background: #ffab21;
     border: none;
     color: white;
@@ -42,7 +43,7 @@
     display: none;
     position: absolute;
     top: 50px; // 드롭다운 메뉴의 위치 조정
-    right: 50px; // 드롭다운 메뉴의 위치 조정
+    right: 62px; // 드롭다운 메뉴의 위치 조정
     background-color: #ffab21;
 }
 
@@ -109,7 +110,7 @@
     }
 
     .menu {
-        margin-top: 25px; // 드롭다운 메뉴 위치를 더 조정
+        margin-top: 0px; // 드롭다운 메뉴 위치를 더 조정
     }
 
     .menu li {

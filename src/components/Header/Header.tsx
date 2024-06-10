@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { RootState } from "../../Redux/store";
 import { logout } from "../../Redux/slices/AuthSlice.tsx";
 import styles from "./Header.module.scss";
-import logo from "./lower_half2.png"; // 로고 이미지 파일 경로
+import logo from "../../assets/images/lower_half2.png"; // 로고 이미지 파일 경로
 
 interface HeaderProps {
     toggleLoginModal: () => void;
@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, toggleAccountModal })
                     </button>
                     <div className={`${styles.menu} ${menuOpen ? styles.show : ""}`}>
                         <ul>
-                            <li onClick={toggleAccountModal}>회원 정보 수정</li>
+                            <li onClick={toggleAccountModal}>마이페이지</li>
                             <li onClick={handleLogout}>로그 아웃</li>
                             <li>찜 목록</li>
                             <li>내가 쓴 리뷰</li>
