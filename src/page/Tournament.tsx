@@ -87,9 +87,15 @@ const Tournament: React.FC = () => {
 
     const currentMatchup = currentMatchups.slice(currentMatchIndex * 2, currentMatchIndex * 2 + 2);
 
+    const getRoundName = (round: number) => {
+        if (round === 4) return "준결승전";
+        if (round === 2) return "결승전";
+        return `${round}강`;
+    };
+
     return (
         <div className="tournament">
-            <h1>{round}강</h1>
+            <h1>{getRoundName(round)}</h1>
             {currentMatchup.length === 2 && (
                 <Matchup
                     round={round}
