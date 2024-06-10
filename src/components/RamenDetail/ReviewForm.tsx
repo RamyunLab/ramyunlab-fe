@@ -11,13 +11,12 @@ const ReviewForm: React.FC = () => {
     const [userIdx, setUserIdx] = useState<string | null>(null);
 
     useEffect(() => {
-        // 로컬 스토리지에서 토큰과 사용자 ID 확인
         const token = localStorage.getItem("token");
         const userInfo = localStorage.getItem("userInfo");
         if (token && userInfo) {
             const parsedUserInfo = JSON.parse(userInfo);
             setIsLoggedIn(true);
-            setUserIdx(parsedUserInfo.userId); // 'userId'를 'userIdx'로 사용
+            setUserIdx(parsedUserInfo.userId);
         }
     }, []);
 
@@ -25,7 +24,7 @@ const ReviewForm: React.FC = () => {
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
             setPhoto(file);
-            setPhotoPreview(URL.createObjectURL(file)); // 파일의 URL을 생성하여 미리보기로 설정
+            setPhotoPreview(URL.createObjectURL(file));
         }
     };
 
@@ -34,21 +33,20 @@ const ReviewForm: React.FC = () => {
             const token = localStorage.getItem("token");
             const currentDate = new Date().toISOString();
             const formData = new FormData();
-            formData.append("reviewContent", content);
-            formData.append("rate", rating.toString());
-            formData.append("rvCreatedAt", currentDate);
+
             if (photo) {
-                formData.append("reviewPhoto", photo);
+                formData.append("file", photo);
             }
 
-            // 콘솔에 전송 데이터 로그 출력
-            console.log("Authorization: Bearer " + token);
-            console.log("Review Data:", {
+            const body = JSON.stringify({
                 reviewContent: content,
                 rate: rating,
-                reviewPhoto: photo,
                 rvCreatedAt: currentDate,
             });
+            const blob = new Blob([body], {
+                type: "application/json",
+            });
+            formData.append("reviewDTO", blob);
 
             axios
                 .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, formData, {
@@ -57,12 +55,12 @@ const ReviewForm: React.FC = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 })
-                .then((response) => {
+                .then(() => {
                     alert("리뷰가 등록되었습니다.");
                     setContent("");
                     setRating(3);
                     setPhoto(null);
-                    setPhotoPreview(null); // 폼 초기화 시 미리보기 제거
+                    setPhotoPreview(null);
                 })
                 .catch((error) => {
                     console.error("리뷰 등록 실패:", error);
@@ -99,9 +97,11 @@ const ReviewForm: React.FC = () => {
                     <img src={photoPreview} alt="미리보기" />
                 </div>
             )}
-            <button onClick={handleSubmit} disabled={!isLoggedIn}>
-                등록
-            </button>
+            <div className="submit-button-container">
+                <button onClick={handleSubmit} disabled={!isLoggedIn}>
+                    등록
+                </button>
+            </div>
         </div>
     );
 };

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap");
+
 .ramen-detail-page {
     background-color: #f5f5f5;
     padding: 20px;
@@ -97,15 +99,18 @@
 
 .review-list {
     background-color: #fff;
-    padding: 10px;
+    padding: 20px;
     margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .best-review-container {
     background-color: #ffeb3b;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 20px;
+    border-radius: 10px;
     margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .best-review-title {
@@ -144,7 +149,6 @@
     width: 150px;
 }
 
-.likes,
 .rating {
     display: flex;
     align-items: center;
@@ -153,7 +157,18 @@
 }
 
 .likes {
-    color: red;
+    display: flex;
+    align-items: center;
+
+    .thumbs-up-icon {
+        cursor: pointer;
+        margin-right: 8px;
+        transition: color 0.3s;
+
+        &.solid {
+            color: red;
+        }
+    }
 }
 
 .star {
@@ -264,6 +279,12 @@
     max-width: 200px;
     max-height: 200px;
     border-radius: 4px;
+}
+
+.review-form .submit-button-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .review-form button {
