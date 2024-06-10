@@ -21,7 +21,8 @@ const Matchup: React.FC<MatchupProps> = ({
     return (
         <div className="matchup-container">
             <div className="matchup-header">
-                {round}강 {matchNumber}/{totalMatches}
+                {round > 4 ? `${round}강` : round === 4 ? "준결승전" : "결승전"} {matchNumber}/
+                {totalMatches}
             </div>
             <div className="matchup">
                 <div className="ramen-option" onClick={() => onWinnerSelect(ramen1)}>

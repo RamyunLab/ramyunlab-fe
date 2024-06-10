@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 
 interface Review {
     rv_idx: number;
@@ -12,6 +15,7 @@ interface Review {
     rv_updated_at: string | null;
     rv_deleted_at: string | null;
     nickname: string;
+    liked: boolean;
 }
 
 const ReviewList: React.FC = () => {
@@ -19,33 +23,87 @@ const ReviewList: React.FC = () => {
     const [editMode, setEditMode] = useState<number | null>(null);
     const [editContent, setEditContent] = useState<string>("");
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
     useEffect(() => {
-        // 로그인된 사용자의 ID를 로컬 스토리지에서 가져옴
         const userInfo = localStorage.getItem("userInfo");
-        if (userInfo) {
+        const token = localStorage.getItem("token");
+        if (userInfo && token) {
             const parsedUserInfo = JSON.parse(userInfo);
             setCurrentUserId(parsedUserInfo.userId);
+            setIsLoggedIn(true);
         }
 
-        // 리뷰 목록을 서버에서 가져옴
-        axios
-            .get(`${process.env.REACT_APP_API_SERVER}/api/reviews`)
-            .then((response) => {
-                setReviews(response.data);
-            })
-            .catch((error) => {
-                console.error("리뷰 목록을 불러오는데 실패했습니다:", error);
-            });
+        const tempReviews: Review[] = [
+            {
+                rv_idx: 1,
+                u_idx: 1,
+                r_idx: 1,
+                rv_content: "이 라면 정말 맛있어요!",
+                rv_rate: 5,
+                rv_created_at: "2023-06-01",
+                rv_photo: null,
+                rv_updated_at: null,
+                rv_deleted_at: null,
+                nickname: "사용자1",
+                liked: false,
+            },
+            {
+                rv_idx: 2,
+                u_idx: 2,
+                r_idx: 1,
+                rv_content: "매운 맛이 정말 좋아요!",
+                rv_rate: 4,
+                rv_created_at: "2023-06-02",
+                rv_photo: null,
+                rv_updated_at: null,
+                rv_deleted_at: null,
+                nickname: "사용자2",
+                liked: false,
+            },
+            {
+                rv_idx: 3,
+                u_idx: 1,
+                r_idx: 1,
+                rv_content: "가격 대비 괜찮아요.",
+                rv_rate: 3,
+                rv_created_at: "2023-06-03",
+                rv_photo: null,
+                rv_updated_at: null,
+                rv_deleted_at: null,
+                nickname: "사용자1",
+                liked: false,
+            },
+        ];
+        setReviews(tempReviews);
     }, []);
 
-    const bestReview =
-        reviews.length > 0
-            ? reviews.reduce(
-                  (prev, current) => (prev.rv_rate > current.rv_rate ? prev : current),
-                  reviews[0]
-              )
-            : null;
+    const handleLikeToggle = async (rvIdx: number) => {
+        if (!isLoggedIn) {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }
+
+        const currentReview = reviews.find((review) => review.rv_idx === rvIdx);
+        if (!currentReview) return;
+
+        const liked = currentReview.liked;
+
+        try {
+            if (liked) {
+                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`);
+            } else {
+                await axios.post(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`);
+            }
+
+            const updatedReviews = reviews.map((review) =>
+                review.rv_idx === rvIdx ? { ...review, liked: !liked } : review
+            );
+            setReviews(updatedReviews);
+        } catch (error) {
+            console.error(`좋아요 ${liked ? "삭제" : "추가"} 실패:`, error);
+        }
+    };
 
     const renderStars = (rating: number) => {
         const fullStars = Math.floor(rating);
@@ -69,12 +127,12 @@ const ReviewList: React.FC = () => {
         );
     };
 
-    const handleDelete = (rv_idx: number) => {
+    const handleDelete = (rvIdx: number) => {
         axios
-            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rv_idx}`)
+            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`)
             .then((response) => {
                 if (response.data.success) {
-                    setReviews(reviews.filter((review) => review.rv_idx !== rv_idx));
+                    setReviews(reviews.filter((review) => review.rv_idx !== rvIdx));
                 }
             })
             .catch((error) => {
@@ -82,24 +140,24 @@ const ReviewList: React.FC = () => {
             });
     };
 
-    const handleEdit = (rv_idx: number) => {
-        setEditMode(rv_idx);
-        const review = reviews.find((review) => review.rv_idx === rv_idx);
+    const handleEdit = (rvIdx: number) => {
+        setEditMode(rvIdx);
+        const review = reviews.find((review) => review.rv_idx === rvIdx);
         if (review) {
             setEditContent(review.rv_content);
         }
     };
 
-    const handleSave = (rv_idx: number) => {
+    const handleSave = (rvIdx: number) => {
         axios
-            .patch(`${process.env.REACT_APP_API_SERVER}/api/review/${rv_idx}`, {
+            .patch(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`, {
                 rv_content: editContent,
             })
             .then((response) => {
                 if (response.data.success) {
                     setReviews(
                         reviews.map((review) =>
-                            review.rv_idx === rv_idx
+                            review.rv_idx === rvIdx
                                 ? { ...review, rv_content: editContent }
                                 : review
                         )
@@ -115,23 +173,6 @@ const ReviewList: React.FC = () => {
 
     return (
         <div className="review-list">
-            {bestReview && (
-                <div className="best-review-container">
-                    <h2 className="best-review-title">Best Review</h2>
-                    <div className="best-review">
-                        <div className="nickname">{bestReview.nickname}</div>
-                        <div className="review-content">
-                            <div className="content">{bestReview.rv_content}</div>
-                            <div className="date">{bestReview.rv_created_at}</div>
-                        </div>
-                        <div className="likes-rating">
-                            <div className="rating">{renderStars(bestReview.rv_rate)}</div>
-                            <div className="likes">❤️ {bestReview.rv_rate}</div>
-                        </div>
-                    </div>
-                    <div className="divider"></div>
-                </div>
-            )}
             {reviews.map((review, index) => (
                 <div className="review" key={index}>
                     <div className="nickname">{review.nickname}</div>
@@ -151,7 +192,14 @@ const ReviewList: React.FC = () => {
                     </div>
                     <div className="likes-rating">
                         <div className="rating">{renderStars(review.rv_rate)}</div>
-                        <div className="likes">❤️ {review.rv_rate}</div>
+                        <div className="likes">
+                            <FontAwesomeIcon
+                                icon={review.liked ? solidThumbsUp : regularThumbsUp}
+                                onClick={() => handleLikeToggle(review.rv_idx)}
+                                className={`thumbs-up-icon ${review.liked ? "solid" : "regular"}`}
+                            />
+                            {review.rv_rate}
+                        </div>
                     </div>
                     {currentUserId === review.u_idx && (
                         <div className="actions">

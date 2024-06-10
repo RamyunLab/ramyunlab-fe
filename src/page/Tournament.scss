@@ -164,3 +164,91 @@ body {
         background-color: #fcc900;
     }
 }
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+    .ramen-option img {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 992px) {
+    .ramen-option img {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ramen-option img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .footer-container {
+        padding: 10px;
+    }
+
+    .stack-section {
+        font-size: 12px;
+        div:not(:last-child) {
+            margin-right: 10px;
+        }
+    }
+
+    .github-icon {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 576px) {
+    .matchup {
+        flex-direction: column;
+    }
+
+    .ramen-option {
+        margin: 20px 0;
+        z-index: 2;
+    }
+
+    .ramen-option img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .vs {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+        font-size: 24px;
+        z-index: 1;
+    }
+
+    .matchup:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        height: 2px;
+        width: 100%;
+        background-color: #e74c3c;
+        z-index: 0;
+    }
+
+    .footer-container {
+        padding: 5px;
+    }
+
+    .stack-section {
+        font-size: 10px;
+        div:not(:last-child) {
+            margin-right: 5px;
+        }
+    }
+
+    .github-icon {
+        font-size: 1.5em;
+    }
+}
