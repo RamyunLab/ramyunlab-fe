@@ -25,6 +25,11 @@ const Result: React.FC = () => {
         alert("결과를 공유합니다: " + JSON.stringify(result));
     };
 
+    const handleRetry = () => {
+        dispatch(resetResult());
+        // 여기서 다시하기 로직을 추가할 수 있습니다.
+    };
+
     if (!result) return <div></div>;
 
     return (
@@ -47,6 +52,9 @@ const Result: React.FC = () => {
                 </Link>
                 <button className={styles.button} onClick={handleShareResult}>
                     결과 공유하기
+                </button>
+                <button className={styles.button} onClick={handleRetry}>
+                    다시하기
                 </button>
             </div>
         </div>
