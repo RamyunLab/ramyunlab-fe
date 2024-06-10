@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 
 interface Review {
     rv_idx: number;
@@ -12,6 +15,7 @@ interface Review {
     rv_updated_at: string | null;
     rv_deleted_at: string | null;
     nickname: string;
+    liked: boolean; // 추가: 좋아요 상태
 }
 
 const ReviewList: React.FC = () => {
@@ -21,14 +25,57 @@ const ReviewList: React.FC = () => {
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
 
     useEffect(() => {
-        // 로그인된 사용자의 ID를 로컬 스토리지에서 가져옴
         const userInfo = localStorage.getItem("userInfo");
         if (userInfo) {
             const parsedUserInfo = JSON.parse(userInfo);
             setCurrentUserId(parsedUserInfo.userId);
         }
 
-        // 리뷰 목록을 서버에서 가져옴
+        const tempReviews: Review[] = [
+            {
+                rv_idx: 1,
+                u_idx: 1,
+                r_idx: 1,
+                rv_content: "이 라면 정말 맛있어요!",
+                rv_rate: 5,
+                rv_created_at: "2023-06-01",
+                rv_photo: null,
+                rv_updated_at: null,
+                rv_deleted_at: null,
+                nickname: "사용자1",
+                liked: false,
+            },
+            {
+                rv_idx: 2,
+                u_idx: 2,
+                r_idx: 1,
+                rv_content: "매운 맛이 정말 좋아요!",
+                rv_rate: 4,
+                rv_created_at: "2023-06-02",
+                rv_photo: null,
+                rv_updated_at: null,
+                rv_deleted_at: null,
+                nickname: "사용자2",
+                liked: false,
+            },
+            {
+                rv_idx: 3,
+                u_idx: 1,
+                r_idx: 1,
+                rv_content: "가격 대비 괜찮아요.",
+                rv_rate: 3,
+                rv_created_at: "2023-06-03",
+                rv_photo: null,
+                rv_updated_at: null,
+                rv_deleted_at: null,
+                nickname: "사용자1",
+                liked: false,
+            },
+        ];
+        setReviews(tempReviews);
+
+        // 실제 API 호출 (주석 처리)
+        /*
         axios
             .get(`${process.env.REACT_APP_API_SERVER}/api/reviews`)
             .then((response) => {
@@ -37,6 +84,7 @@ const ReviewList: React.FC = () => {
             .catch((error) => {
                 console.error("리뷰 목록을 불러오는데 실패했습니다:", error);
             });
+        */
     }, []);
 
     const bestReview =
@@ -113,6 +161,39 @@ const ReviewList: React.FC = () => {
             });
     };
 
+    const handleLikeToggle = (rv_idx: number) => {
+        const review = reviews.find((r) => r.rv_idx === rv_idx);
+        if (!review) return;
+
+        if (review.liked) {
+            axios
+                .delete(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
+                .then((response) => {
+                    if (response.data.success) {
+                        setReviews(
+                            reviews.map((r) => (r.rv_idx === rv_idx ? { ...r, liked: false } : r))
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("공감 삭제 실패:", error);
+                });
+        } else {
+            axios
+                .post(`${process.env.REACT_APP_API_SERVER}/api/recommend/${rv_idx}`)
+                .then((response) => {
+                    if (response.data.success) {
+                        setReviews(
+                            reviews.map((r) => (r.rv_idx === rv_idx ? { ...r, liked: true } : r))
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("공감 추가 실패:", error);
+                });
+        }
+    };
+
     return (
         <div className="review-list">
             {bestReview && (
@@ -126,7 +207,14 @@ const ReviewList: React.FC = () => {
                         </div>
                         <div className="likes-rating">
                             <div className="rating">{renderStars(bestReview.rv_rate)}</div>
-                            <div className="likes">❤️ {bestReview.rv_rate}</div>
+                            <div className="likes">
+                                <FontAwesomeIcon
+                                    icon={bestReview.liked ? solidThumbsUp : regularThumbsUp}
+                                    onClick={() => handleLikeToggle(bestReview.rv_idx)}
+                                    className="thumbs-up-icon"
+                                />
+                                {bestReview.rv_rate}
+                            </div>
                         </div>
                     </div>
                     <div className="divider"></div>
@@ -151,7 +239,14 @@ const ReviewList: React.FC = () => {
                     </div>
                     <div className="likes-rating">
                         <div className="rating">{renderStars(review.rv_rate)}</div>
-                        <div className="likes">❤️ {review.rv_rate}</div>
+                        <div className="likes">
+                            <FontAwesomeIcon
+                                icon={review.liked ? solidThumbsUp : regularThumbsUp}
+                                onClick={() => handleLikeToggle(review.rv_idx)}
+                                className="thumbs-up-icon"
+                            />
+                            {review.rv_rate}
+                        </div>
                     </div>
                     {currentUserId === review.u_idx && (
                         <div className="actions">
