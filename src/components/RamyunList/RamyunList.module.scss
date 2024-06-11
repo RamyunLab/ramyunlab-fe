@@ -10,7 +10,8 @@
 
 .filters {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
     margin-top: 10px;
     width: 100%;
     padding: 20px;
@@ -33,6 +34,9 @@
     position: relative;
     padding: 5px 10px;
     font-size: 14px;
+    &:hover {
+        background-color: #ffab21;
+    }
 
     &::before {
         content: "•";
@@ -68,7 +72,7 @@
 .ramyunList {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 15px;
     justify-content: center;
 }
 
@@ -78,13 +82,16 @@
     border-radius: 8px;
     padding: 20px;
     width: 200px;
-    height: 250px; // 높이를 조정하여 글자가 들어갈 공간 확보
+    height: 220px; // 높이를 조정하여 글자가 들어갈 공간 확보
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between; // 아이템들 사이에 공간을 고르게 배치
+    &:hover {
+        border-color: #ffab21; /* 테두리 색상 변경 */
+    }
 }
 
 .ramyunImg {
@@ -191,19 +198,19 @@ h3 {
     }
 
     h3 {
-        font-size: 12px;
+        font-size: 13px;
         height: 20px; // 텍스트 컨테이너의 고정 높이 설정
     }
 
     .filters {
         padding: 5px;
         margin-left: 7%;
-        max-width: 75%;
+        max-width: 80%;
     }
 
     .filterButton {
         padding: 5px 8px;
-        font-size: 12px;
+        font-size: 13px;
     }
 }
 
@@ -224,7 +231,7 @@ h3 {
     }
 
     h3 {
-        font-size: 12px;
+        font-size: 13px;
         height: 20px; // 텍스트 컨테이너의 고정 높이 설정
     }
 
@@ -236,7 +243,7 @@ h3 {
 
     .filterButton {
         padding: 3px 6px;
-        font-size: 10px;
+        font-size: 12px;
     }
 }
 
