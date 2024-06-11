@@ -65,6 +65,7 @@ const RamyunList: React.FC = () => {
     const handleSortChange = (newSort: string, newDirection: string = "desc") => {
         setSort(newSort);
         setDirection(newDirection);
+        setPage(1); // Reset to first page when sort changes
     };
 
     if (loading) {
@@ -94,7 +95,6 @@ const RamyunList: React.FC = () => {
                             className={styles.ramyunImg}
                         />
                         <h3>{ramyun.ramyunName}</h3>
-                        <p>{ramyun.brandName}</p>
                     </div>
                 ))}
             </div>

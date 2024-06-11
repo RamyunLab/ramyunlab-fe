@@ -3,6 +3,8 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px; /* Add space between banners */
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .banner {
@@ -15,6 +17,7 @@
     overflow: hidden; /* Hide overflow to ensure rounded corners */
     transition: transform 0.3s ease; /* Add transition for hover effects */
     cursor: pointer; /* Apply pointer cursor to banner */
+    margin-bottom: -15px;
 }
 
 .banner:hover {

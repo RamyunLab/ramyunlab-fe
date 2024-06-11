@@ -7,7 +7,6 @@
     padding: 20px;
     max-width: 700px;
     margin: 0 auto; // Center the container horizontally
-    min-height: 100vh; // Ensure it takes at least the full viewport height
 }
 
 .ramyunList {
@@ -78,5 +77,67 @@ h3 {
         display: flex;
         align-items: center;
         margin: 0 10px;
+    }
+}
+// @media (max-width: 1200px) {
+//     .ramyunItem {
+//         width: 150px; /* Adjust item size for smaller screens */
+//         height: 150px;
+//     }
+
+//     .ramyunImg {
+//         width: 100px; /* Adjust image size for smaller screens */
+//         height: 100px;
+//     }
+
+//     h3 {
+//         width: 100%; // Ensure the text takes the full width of the container
+//         height: 0.8em; // Set a fixed height for the text
+//         margin: 0; // Remove default margin
+//         display: flex;
+//         font-size: 13px;
+//         align-items: center;
+//         justify-content: center;
+//     }
+// }
+
+@media (max-width: 768px) {
+    .ramyunItem {
+        width: 100px; /* Further adjust item size for smaller screens */
+        height: 100px;
+    }
+
+    .ramyunImg {
+        width: 75px; /* Further adjust image size for smaller screens */
+        height: 75px;
+    }
+    h3 {
+        width: 100%; // Ensure the text takes the full width of the container
+        height: 0.8em; // Set a fixed height for the text
+        margin: 0; // Remove default margin
+        display: flex;
+        font-size: 12px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+@media (max-width: 480px) {
+    .ramyunItem {
+        width: 75%;
+        height: 75%;
+    }
+
+    .ramyunImg {
+        width: 75%; /* Further adjust image size for smaller screens */
+        height: 75%;
+    }
+    h3 {
+        width: 100%; // Ensure the text takes the full width of the container
+        height: 0.8em; // Set a fixed height for the text
+        margin: 0; // Remove default margin
+        display: flex;
+        font-size: 12px;
+        align-items: center;
+        justify-content: center;
     }
 }
