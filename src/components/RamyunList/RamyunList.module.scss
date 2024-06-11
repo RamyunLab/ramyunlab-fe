@@ -1,4 +1,60 @@
-// Ensure the container fills the available space and centers its content
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.filters {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    max-width: 700px;
+}
+
+.filterGroup {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.filterButton {
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    position: relative;
+    padding: 5px 10px;
+    font-size: 14px;
+
+    &::before {
+        content: "•";
+        margin-right: 5px;
+    }
+
+    &.active::before {
+        content: "✔";
+        color: #007bff;
+    }
+
+    @media (max-width: 768px) {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 3px 6px;
+        font-size: 10px;
+    }
+}
+
 .ramyunListContainer {
     display: flex;
     flex-direction: column;
@@ -6,14 +62,12 @@
     justify-content: center;
     padding: 20px;
     max-width: 700px;
-    margin: 0 auto; // Center the container horizontally
-    min-height: 100vh; // Ensure it takes at least the full viewport height
+    margin: 0 auto;
 }
 
 .ramyunList {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, auto);
     gap: 20px;
     justify-content: center;
 }
@@ -24,43 +78,46 @@
     border-radius: 8px;
     padding: 20px;
     width: 200px;
-    height: 200px; // Ensure all items have the same height
+    height: 250px; // 높이를 조정하여 글자가 들어갈 공간 확보
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between; // 아이템들 사이에 공간을 고르게 배치
 }
 
 .ramyunImg {
-    width: 150px; // Set a fixed width
-    height: 150px; // Set a fixed height
+    width: 150px;
+    height: 150px;
     border-radius: 4px;
     margin-bottom: 10px;
-    object-fit: cover; // Ensure the image covers the given width and height
+    object-fit: cover;
 }
 
 h3 {
-    width: 100%; // Ensure the text takes the full width of the container
-    height: 2em; // Set a fixed height for the text
-    margin: 0; // Remove default margin
+    width: 100%;
+    height: 40px; // 텍스트 컨테이너의 고정 높이 설정
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 18px; // 필요시 글자 크기 조정
+    text-align: center; // 텍스트 중앙 정렬
 }
 
 .pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    flex-wrap: wrap;
 
     button {
-        background: #007bff;
-        color: white;
+        color: #333;
         border: none;
+        background-color: #fff0d8;
         padding: 10px 20px;
-        margin: 0 5px;
+        margin: 5px;
         border-radius: 4px;
         cursor: pointer;
 
@@ -69,8 +126,18 @@ h3 {
             cursor: not-allowed;
         }
 
-        &:hover:not(:disabled) {
-            background: #0056b3;
+        &.activePage {
+            background-color: #ffab21;
+        }
+
+        @media (max-width: 768px) {
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            padding: 5px 10px;
+            font-size: 10px;
         }
     }
 
@@ -79,4 +146,115 @@ h3 {
         align-items: center;
         margin: 0 10px;
     }
+
+    .prevButton,
+    .nextButton {
+        background: hsl(211, 64%, 54%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            padding: 5px 10px;
+            font-size: 10px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .ramyunListContainer {
+        padding: 10px;
+        max-width: 90%;
+    }
+
+    .ramyunItem {
+        width: 100px;
+        height: 150px; // 높이를 조정하여 글자가 들어갈 공간 확보
+    }
+
+    .ramyunImg {
+        width: 75px;
+        height: 75px;
+    }
+
+    h3 {
+        font-size: 12px;
+        height: 20px; // 텍스트 컨테이너의 고정 높이 설정
+    }
+
+    .filters {
+        padding: 5px;
+        margin-left: 7%;
+        max-width: 75%;
+    }
+
+    .filterButton {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ramyunListContainer {
+        padding: 5px;
+        max-width: 100%;
+    }
+
+    .ramyunItem {
+        width: 75%;
+        height: auto;
+    }
+
+    .ramyunImg {
+        width: 75%;
+        height: auto;
+    }
+
+    h3 {
+        font-size: 12px;
+        height: 20px; // 텍스트 컨테이너의 고정 높이 설정
+    }
+
+    .filters {
+        margin-left: 10%;
+        padding: 5px;
+        max-width: 100%;
+    }
+
+    .filterButton {
+        padding: 3px 6px;
+        font-size: 10px;
+    }
+}
+
+.starRating {
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* Adjust the size as needed */
+    margin-bottom: 5px; /* Add some space between the star rating and other elements */
+}
+
+.starRating span {
+    margin-left: 5px; /* Add some space between the star and the rating text */
+    font-weight: bold; /* Make the rating text bold */
+}
+
+.reviewCount {
+    margin-top: 10px;
+    font-size: 15px; /* Adjust the size as needed */
+    color: #666; /* Adjust the color as needed */
+    margin-bottom: 10px; /* Add some space between the review count and the image */
 }
