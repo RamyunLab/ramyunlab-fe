@@ -37,8 +37,9 @@ const RamyunList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(0);
     const [sort, setSort] = useState<string>("name");
-    const [direction, setDirection] = useState<string>("desc");
+    const [direction, setDirection] = useState<string>("asc"); // 기본값을 오름차순으로 설정
 
     useEffect(() => {
         const fetchRamyunList = async () => {
@@ -49,6 +50,7 @@ const RamyunList: React.FC = () => {
                 );
                 if (response.data.statusCode === 200) {
                     setRamyunList(response.data.data.content);
+                    setTotalPages(response.data.data.totalPages);
                 } else {
                     setError("Failed to fetch data");
                 }
@@ -62,10 +64,59 @@ const RamyunList: React.FC = () => {
         fetchRamyunList();
     }, [page, sort, direction]);
 
-    const handleSortChange = (newSort: string, newDirection: string = "desc") => {
-        setSort(newSort);
-        setDirection(newDirection);
+    const toggleSortDirection = () => {
+        setDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
+    };
+
+    const handleSortChange = (newSort: string) => {
+        if (sort === newSort) {
+            toggleSortDirection();
+        } else {
+            setSort(newSort);
+            setDirection("asc"); // 새로운 정렬 기준으로 변경할 때 오름차순으로 설정
+        }
         setPage(1); // Reset to first page when sort changes
+    };
+
+    const renderPagination = () => {
+        const pages = [];
+        const totalBlocks = Math.ceil(totalPages / 5);
+        const currentBlock = Math.ceil(page / 5);
+
+        const startPage = (currentBlock - 1) * 5 + 1;
+        const endPage = Math.min(currentBlock * 5, totalPages);
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+                <button
+                    key={i}
+                    onClick={() => setPage(i)}
+                    className={`${styles.pageButton} ${i === page ? styles.activePage : ""}`}
+                >
+                    {i}
+                </button>
+            );
+        }
+
+        return (
+            <div className={styles.pagination}>
+                <button
+                    className={styles.prevButton}
+                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={page === 1}
+                >
+                    Previous
+                </button>
+                {pages}
+                <button
+                    className={styles.nextButton}
+                    onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={page === totalPages}
+                >
+                    Next
+                </button>
+            </div>
+        );
     };
 
     if (loading) {
@@ -77,36 +128,52 @@ const RamyunList: React.FC = () => {
     }
 
     return (
-        <div className={styles.ramyunListContainer}>
-            <h1>Ramyun List</h1>
+        <div className={styles.mainContainer}>
             <div className={styles.filters}>
-                <button onClick={() => handleSortChange("name", "asc")}>이름 (오름차순)</button>
-                <button onClick={() => handleSortChange("name", "desc")}>이름 (내림차순)</button>
-                <button onClick={() => handleSortChange("avgRate")}>평점(높은순)</button>
-                <button onClick={() => handleSortChange("reviewCount")}>리뷰 개수(높은순)</button>
+                <div className={styles.filterGroup}>
+                    <button
+                        className={`${styles.filterButton} ${sort === "name" ? styles.active : ""}`}
+                        onClick={() => handleSortChange("name")}
+                    >
+                        이름 ({direction === "asc" ? "오름차순" : "내림차순"})
+                    </button>
+                </div>
+                <div className={styles.filterGroup}>
+                    <button
+                        className={`${styles.filterButton} ${
+                            sort === "avgRate" ? styles.active : ""
+                        }`}
+                        onClick={() => handleSortChange("avgRate")}
+                    >
+                        평점(높은순)
+                    </button>
+                </div>
+                <div className={styles.filterGroup}>
+                    <button
+                        className={`${styles.filterButton} ${
+                            sort === "reviewCount" ? styles.active : ""
+                        }`}
+                        onClick={() => handleSortChange("reviewCount")}
+                    >
+                        리뷰 개수(높은순)
+                    </button>
+                </div>
             </div>
-            <div className={styles.ramyunList}>
-                {ramyunList.map((ramyun) => (
-                    <div key={ramyun.ramyunIdx} className={styles.ramyunItem}>
-                        <p>avgRate: {ramyun.avgRate}</p>
-                        <img
-                            src={ramyun.ramyunImg}
-                            alt={ramyun.ramyunName}
-                            className={styles.ramyunImg}
-                        />
-                        <h3>{ramyun.ramyunName}</h3>
-                    </div>
-                ))}
-            </div>
-            <div className={styles.pagination}>
-                <button
-                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                    disabled={page === 1}
-                >
-                    Previous
-                </button>
-                <span>Page {page}</span>
-                <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
+            <div className={styles.ramyunListContainer}>
+                <div className={styles.ramyunList}>
+                    {ramyunList.map((ramyun) => (
+                        <div key={ramyun.ramyunIdx} className={styles.ramyunItem}>
+                            <p>avgRate: {ramyun.avgRate}</p>
+                            <img
+                                src={ramyun.ramyunImg}
+                                alt={ramyun.ramyunName}
+                                className={styles.ramyunImg}
+                            />
+                            <h3>{ramyun.ramyunName}</h3>
+                        </div>
+                    ))}
+                </div>
+                {renderPagination()}
             </div>
         </div>
     );

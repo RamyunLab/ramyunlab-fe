@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center; /* Center the banners vertically */
     gap: 20px; /* Add space between banners */
     margin-top: 15px;
     margin-bottom: 15px;
@@ -11,13 +12,13 @@
     position: relative;
     width: calc(50% - 10px); /* Adjust width for two banners per row, accounting for gap */
     max-width: 250px;
-    margin: 20px 0; /* Center the banner horizontally */
+    height: 170px; /* Set a fixed height for all banners */
+    margin: 10px; /* Center the banner horizontally and reduce margin */
     border-radius: 10px; /* Create more rounded corners on the banner */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
     overflow: hidden; /* Hide overflow to ensure rounded corners */
     transition: transform 0.3s ease; /* Add transition for hover effects */
     cursor: pointer; /* Apply pointer cursor to banner */
-    margin-bottom: -15px;
 }
 
 .banner:hover {
@@ -50,4 +51,39 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
     text-align: center;
     pointer-events: none; /* Allow click to pass through text to the link */
+}
+
+@media (max-width: 768px) {
+    .banners-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center;
+        justify-content: center; /* Center the banners horizontally */
+    }
+
+    .banner {
+        width: 90%; /* Increase width for smaller screens */
+        max-width: none;
+        height: 140px; /* Ensure height remains consistent */
+        margin: 10px auto; /* Center each banner horizontally */
+    }
+}
+
+@media (max-width: 480px) {
+    .banners-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center;
+        justify-content: center; /* Center the banners horizontally */
+    }
+
+    .banner {
+        width: 90%; /* Increase width for smaller screens */
+        max-width: none;
+        height: 140px; /* Ensure height remains consistent */
+    }
+
+    .banner-text {
+        font-size: 18px;
+    }
 }
