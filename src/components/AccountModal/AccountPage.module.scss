@@ -1,0 +1,162 @@
+.accountPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabContainer {
+    display: flex;
+    margin-right: 250px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.tabButton {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &.active {
+        background-color: #0056b3;
+    }
+
+    &:hover:not(.active) {
+        background-color: #0069d9;
+    }
+}
+
+.tabContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tabPane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.inputContainer,
+.nicknameContainer,
+.passwordContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 300px;
+    position: relative;
+}
+
+.deleteAccountPassword,
+.changeNicknameInput,
+.currentPassword,
+.newPassword,
+.confirmNewPassword {
+    padding: 10px;
+    padding-right: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    border: black 1px solid;
+    width: 150px !important; /* 원하는 너비로 설정 */
+    &:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+}
+
+.passwordIcon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #007bff;
+}
+
+.checkPasswordBtn,
+.checkNicknameBtn {
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+    font-size: 13px;
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.errorMessage {
+    color: red;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.successMessage {
+    color: green;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.deleteAccountBtn,
+.changeNicknameBtn,
+.changePasswordBtn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+
+    &:hover {
+        background-color: #c82333;
+    }
+
+    &:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+}
+
+.inputContainer > input,
+.nicknameContainer > input,
+.passwordContainer > input {
+    flex-grow: 1;
+}
+
+.inputContainer,
+.nicknameContainer,
+.passwordContainer {
+    justify-content: center;
+}
+
+.checkPasswordBtn,
+.checkNicknameBtn {
+    margin-left: 10px;
+    margin-top: 0;
+    align-self: flex-start;
+}

@@ -12,14 +12,13 @@ import LoginModal from "./components/Auth/LoginModal.tsx";
 import RegisterModal from "./components/Auth/RegisterModal.tsx";
 import RamenDetailPage from "./page/RamenDetailPage.tsx";
 import UpDownGamePage from "./page/UpDownGamePage.tsx";
-import AccountModal from "./components/AccountModal/AccountModal.tsx"; // AccountModal 추가
 
+import AccountPage from "./components/AccountModal/AccountPage.tsx";
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
-    const [showAccountModal, setShowAccountModal] = useState(false);
 
     const toggleLoginModal = () => {
         setShowLoginModal((prev) => !prev);
@@ -35,25 +34,19 @@ const App: React.FC = () => {
         }
     };
 
-    const toggleAccountModal = () => {
-        setShowAccountModal((prev) => !prev);
-    };
-
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <Header
-                        toggleLoginModal={toggleLoginModal}
-                        toggleAccountModal={toggleAccountModal}
-                    />{" "}
-                    {/* Modify this line */}
+                    <Header toggleLoginModal={toggleLoginModal} /> {/* Modify this line */}
                     <Routes>
                         <Route path="/mbti" element={<MbtiPage />} />
                         <Route path="/" element={<MainPage />} />
                         <Route path="/tournament" element={<Tournament />} />
                         <Route path="/ramen/:idx" element={<RamenDetailPage />} />
                         <Route path="/UpDownGame" element={<UpDownGamePage />} />
+                        <Route path="/account" element={<AccountPage />} />{" "}
+                        {/* AccountPage 경로 추가 */}
                     </Routes>
                     <Footer />
                 </Router>
@@ -68,9 +61,6 @@ const App: React.FC = () => {
                         toggleRegisterModal={toggleRegisterModal}
                         toggleLoginModal={toggleLoginModal}
                     />
-                )}
-                {showAccountModal && (
-                    <AccountModal isOpen={showAccountModal} onClose={toggleAccountModal} />
                 )}
             </QueryClientProvider>
         </Provider>

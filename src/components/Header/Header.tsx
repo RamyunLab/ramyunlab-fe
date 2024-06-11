@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // useNavigate 추가
 import { RootState } from "../../Redux/store";
 import { logout } from "../../Redux/slices/AuthSlice.tsx";
 import styles from "./Header.module.scss";
@@ -8,13 +8,13 @@ import logo from "../../assets/images/lower_half2.png"; // 로고 이미지 파�
 
 interface HeaderProps {
     toggleLoginModal: () => void;
-    toggleAccountModal: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleLoginModal, toggleAccountModal }) => {
+const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // navigate 추가
 
     const toggleMenu = useCallback(
         (event: React.MouseEvent) => {
@@ -53,6 +53,11 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, toggleAccountModal })
         setMenuOpen(false);
     };
 
+    const handleAccountPage = () => {
+        setMenuOpen(false);
+        navigate("/account"); // 계정 페이지로 이동
+    };
+
     return (
         <header className={styles.header}>
             <Link to="/">
@@ -65,7 +70,8 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, toggleAccountModal })
                     </button>
                     <div className={`${styles.menu} ${menuOpen ? styles.show : ""}`}>
                         <ul>
-                            <li onClick={toggleAccountModal}>마이페이지</li>
+                            <li onClick={handleAccountPage}>마이페이지</li>{" "}
+                            {/* 페이지 이동으로 변경 */}
                             <li onClick={handleLogout}>로그 아웃</li>
                             <li>찜 목록</li>
                             <li>내가 쓴 리뷰</li>
