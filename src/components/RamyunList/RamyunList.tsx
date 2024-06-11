@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { FaStar } from "react-icons/fa";
 import styles from "./RamyunList.module.scss";
 
 interface Ramyun {
@@ -39,7 +40,7 @@ const RamyunList: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [sort, setSort] = useState<string>("name");
-    const [direction, setDirection] = useState<string>("asc"); // 기본값을 오름차순으로 설정
+    const [direction, setDirection] = useState<string>("asc");
 
     useEffect(() => {
         const fetchRamyunList = async () => {
@@ -73,9 +74,9 @@ const RamyunList: React.FC = () => {
             toggleSortDirection();
         } else {
             setSort(newSort);
-            setDirection("asc"); // 새로운 정렬 기준으로 변경할 때 오름차순으로 설정
+            setDirection("asc");
         }
-        setPage(1); // Reset to first page when sort changes
+        setPage(1);
     };
 
     const renderPagination = () => {
@@ -128,7 +129,8 @@ const RamyunList: React.FC = () => {
     }
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={styles.ramyunListContainer}>
+            <h1>Ramyun List</h1>
             <div className={styles.filters}>
                 <div className={styles.filterGroup}>
                     <button
@@ -159,22 +161,24 @@ const RamyunList: React.FC = () => {
                     </button>
                 </div>
             </div>
-            <div className={styles.ramyunListContainer}>
-                <div className={styles.ramyunList}>
-                    {ramyunList.map((ramyun) => (
-                        <div key={ramyun.ramyunIdx} className={styles.ramyunItem}>
-                            <p>avgRate: {ramyun.avgRate}</p>
-                            <img
-                                src={ramyun.ramyunImg}
-                                alt={ramyun.ramyunName}
-                                className={styles.ramyunImg}
-                            />
-                            <h3>{ramyun.ramyunName}</h3>
+            <div className={styles.ramyunList}>
+                {ramyunList.map((ramyun) => (
+                    <div key={ramyun.ramyunIdx} className={styles.ramyunItem}>
+                        <div className={styles.starRating}>
+                            <FaStar color="gold" />
+                            <span>{ramyun.avgRate.toFixed(1)}</span>
+                            <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
                         </div>
-                    ))}
-                </div>
-                {renderPagination()}
+                        <img
+                            src={ramyun.ramyunImg}
+                            alt={ramyun.ramyunName}
+                            className={styles.ramyunImg}
+                        />
+                        <h3>{ramyun.ramyunName}</h3>
+                    </div>
+                ))}
             </div>
+            {renderPagination()}
         </div>
     );
 };
