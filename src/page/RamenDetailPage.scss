@@ -44,17 +44,17 @@
 
 .favorite-icon {
     font-size: 48px;
-    color: #ccc;
     cursor: pointer;
     transition: color 0.3s;
+    color: #ccc;
 }
 
-.favorite-icon.favorite {
-    color: #f39c12;
+.favorite-icon.fa-solid {
+    color: red;
 }
 
-.favorite-icon:hover {
-    color: #e74c3c;
+.favorite-icon.fa-regular:hover {
+    color: #999;
 }
 
 .ramen-info-table {

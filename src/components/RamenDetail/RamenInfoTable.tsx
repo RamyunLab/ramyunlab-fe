@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 
 interface RamenInfo {
     r_idx: number;
@@ -48,12 +49,12 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
 
         if (isFavorite) {
             axios
-                .delete(`${process.env.REACT_APP_API_SERVER}/api/favorites/`, {
+                .delete(`${process.env.REACT_APP_API_SERVER}/api/favorites/${ramen.r_idx}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
-                .then((response) => {
+                .then(() => {
                     setIsFavorite(false);
                     alert("찜 해제되었습니다.");
                 })
@@ -74,7 +75,7 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
                         },
                     }
                 )
-                .then((response) => {
+                .then(() => {
                     setIsFavorite(true);
                     alert("찜 되었습니다.");
                 })
@@ -93,7 +94,7 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
             <div className="ramen-name-container">
                 <div className="ramen-name">{ramen.r_name}</div>
                 <FontAwesomeIcon
-                    icon={faBagShopping}
+                    icon={isFavorite ? solidHeart : regularHeart}
                     onClick={handleFavoriteToggle}
                     className={`favorite-icon ${isFavorite ? "favorite" : ""}`}
                 />
