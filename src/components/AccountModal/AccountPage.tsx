@@ -360,7 +360,11 @@ const AccountPage: React.FC = () => {
                         >
                             {passwordError}
                         </p>
-                        <button onClick={handleDeleteAccount} className={styles.deleteAccountBtn}>
+                        <button
+                            onClick={handleDeleteAccount}
+                            className={styles.deleteAccountBtn}
+                            disabled={!isPasswordChecked}
+                        >
                             {loading ? "계정 영구 삭제" : "계정 영구 삭제"}
                         </button>
                     </div>
