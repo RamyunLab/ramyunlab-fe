@@ -10,14 +10,17 @@
 
 .filters {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    // justify-content: center;
+    // align-items: center;
     margin-top: 10px;
     width: 100%;
+    left: 100px;
     padding: 20px;
     border-radius: 8px;
     flex-wrap: wrap;
     max-width: 700px;
+    margin-bottom: -20px;
+    margin-left: -10%;
 }
 
 .filterGroup {
@@ -184,7 +187,8 @@ h3 {
 @media (max-width: 768px) {
     .ramyunListContainer {
         padding: 10px;
-        max-width: 90%;
+        // max-width: 90%;
+        width: 360px;
     }
 
     .ramyunItem {
@@ -203,9 +207,10 @@ h3 {
     }
 
     .filters {
-        padding: 5px;
-        margin-left: 7%;
-        max-width: 80%;
+        // padding: 5px;
+        margin-left: -30%;
+        // max-width: 80%;
+        left: 100px;
     }
 
     .filterButton {
@@ -236,11 +241,11 @@ h3 {
     }
 
     .filters {
-        margin-left: 10%;
-        padding: 5px;
-        max-width: 100%;
+        // padding: 5px;
+        margin-left: -7%;
+        // max-width: 80%;
+        margin-bottom: -30px;
     }
-
     .filterButton {
         padding: 3px 6px;
         font-size: 12px;
