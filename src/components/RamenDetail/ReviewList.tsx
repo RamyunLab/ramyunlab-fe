@@ -30,7 +30,7 @@ const ReviewList: React.FC = () => {
         const token = localStorage.getItem("token");
         if (userInfo && token) {
             const parsedUserInfo = JSON.parse(userInfo);
-            setCurrentUserId(parsedUserInfo.userId);
+            setCurrentUserId(parsedUserInfo.userIdx);
             setIsLoggedIn(true);
         }
 
@@ -42,10 +42,10 @@ const ReviewList: React.FC = () => {
                 rv_content: "이 라면 정말 맛있어요!",
                 rv_rate: 5,
                 rv_created_at: "2023-06-01",
-                rv_photo: null,
+                rv_photo: "https://via.placeholder.com/150",
                 rv_updated_at: null,
                 rv_deleted_at: null,
-                nickname: "사용자1",
+                nickname: "test123",
                 liked: false,
             },
             {
@@ -55,7 +55,7 @@ const ReviewList: React.FC = () => {
                 rv_content: "매운 맛이 정말 좋아요!",
                 rv_rate: 4,
                 rv_created_at: "2023-06-02",
-                rv_photo: null,
+                rv_photo: "https://via.placeholder.com/150",
                 rv_updated_at: null,
                 rv_deleted_at: null,
                 nickname: "사용자2",
@@ -63,7 +63,7 @@ const ReviewList: React.FC = () => {
             },
             {
                 rv_idx: 3,
-                u_idx: 1,
+                u_idx: 3,
                 r_idx: 1,
                 rv_content: "가격 대비 괜찮아요.",
                 rv_rate: 3,
@@ -71,7 +71,7 @@ const ReviewList: React.FC = () => {
                 rv_photo: null,
                 rv_updated_at: null,
                 rv_deleted_at: null,
-                nickname: "사용자1",
+                nickname: "사용자3",
                 liked: false,
             },
         ];
@@ -177,6 +177,11 @@ const ReviewList: React.FC = () => {
                 <div className="review" key={index}>
                     <div className="nickname">{review.nickname}</div>
                     <div className="review-content">
+                        {review.rv_photo && (
+                            <div className="review-image">
+                                <img src={review.rv_photo} alt="Review" />
+                            </div>
+                        )}
                         <div className="content">
                             {editMode === review.rv_idx ? (
                                 <input

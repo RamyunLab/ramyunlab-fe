@@ -136,11 +136,25 @@
     margin-bottom: 5px;
 }
 
+.review-image {
+    margin-top: 10px;
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
 .review-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
+}
+
+.date {
+    color: #888;
 }
 
 .likes-rating {
