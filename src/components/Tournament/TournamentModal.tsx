@@ -29,9 +29,9 @@ const TournamentModal: React.FC<TournamentModalProps> = ({ onSelect, onClose }) 
         <div className="modal">
             <div className="modal-content" ref={modalRef}>
                 <h2>토너먼트 시작</h2>
-                <button onClick={() => handleSelect(64)}>64강</button>
                 <button onClick={() => handleSelect(32)}>32강</button>
                 <button onClick={() => handleSelect(16)}>16강</button>
+                <button onClick={() => handleSelect(8)}>8강</button>
             </div>
         </div>
     );
