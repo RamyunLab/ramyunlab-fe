@@ -16,6 +16,7 @@ interface Review {
     rv_deleted_at: string | null;
     nickname: string;
     liked: boolean;
+    recommendIdx: number | null;
 }
 
 const ReviewList: React.FC = () => {
@@ -24,6 +25,7 @@ const ReviewList: React.FC = () => {
     const [editContent, setEditContent] = useState<string>("");
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [bestReviews, setBestReviews] = useState<Review[]>([]);
     const ramyunIdx = 1; // 라면 인덱스를 상수로 설정
 
     useEffect(() => {
@@ -48,6 +50,7 @@ const ReviewList: React.FC = () => {
                 rv_deleted_at: null,
                 nickname: "test123",
                 liked: false,
+                recommendIdx: 5,
             },
             {
                 rv_idx: 2,
@@ -61,6 +64,7 @@ const ReviewList: React.FC = () => {
                 rv_deleted_at: null,
                 nickname: "사용자2",
                 liked: false,
+                recommendIdx: 3,
             },
             {
                 rv_idx: 3,
@@ -74,10 +78,23 @@ const ReviewList: React.FC = () => {
                 rv_deleted_at: null,
                 nickname: "사용자3",
                 liked: false,
+                recommendIdx: 5,
             },
         ];
         setReviews(tempReviews);
     }, []);
+
+    useEffect(() => {
+        if (reviews.length > 0) {
+            const sortedReviews = [...reviews].sort((a, b) => {
+                if ((b.recommendIdx !== null ? 1 : 0) - (a.recommendIdx !== null ? 1 : 0) !== 0) {
+                    return (b.recommendIdx !== null ? 1 : 0) - (a.recommendIdx !== null ? 1 : 0);
+                }
+                return new Date(a.rv_created_at).getTime() - new Date(b.rv_created_at).getTime();
+            });
+            setBestReviews(sortedReviews.slice(0, 3));
+        }
+    }, [reviews]);
 
     const handleLikeToggle = async (rvIdx: number) => {
         if (!isLoggedIn) {
@@ -94,14 +111,18 @@ const ReviewList: React.FC = () => {
         try {
             if (liked) {
                 console.log("토큰 확인", token);
-                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                await axios.delete(
+                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${currentReview.recommendIdx}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                currentReview.recommendIdx = null;
             } else {
                 console.log("토큰 확인", token);
-                await axios.post(
+                const response = await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
                     {},
                     {
@@ -110,6 +131,7 @@ const ReviewList: React.FC = () => {
                         },
                     }
                 );
+                currentReview.recommendIdx = response.data.data.recommendIdx;
             }
 
             const updatedReviews = reviews.map((review) =>
@@ -201,6 +223,39 @@ const ReviewList: React.FC = () => {
 
     return (
         <div className="review-list">
+            {bestReviews.length > 0 && (
+                <div className="best-review-container">
+                    <div className="best-review-title">베스트 리뷰</div>
+                    {bestReviews.map((bestReview, index) => (
+                        <div key={index} className="best-review">
+                            <div className="nickname">{bestReview.nickname}</div>
+                            <div className="review-content">
+                                {bestReview.rv_photo && (
+                                    <div className="review-image">
+                                        <img src={bestReview.rv_photo} alt="Review" />
+                                    </div>
+                                )}
+                                <div className="content">{bestReview.rv_content}</div>
+                                <div className="date">{bestReview.rv_created_at}</div>
+                            </div>
+                            <div className="likes-rating">
+                                <div className="rating">{renderStars(bestReview.rv_rate)}</div>
+                                <div className="likes">
+                                    <FontAwesomeIcon
+                                        icon={bestReview.liked ? solidThumbsUp : regularThumbsUp}
+                                        onClick={() => handleLikeToggle(bestReview.rv_idx)}
+                                        className={`thumbs-up-icon ${
+                                            bestReview.liked ? "solid" : "regular"
+                                        }`}
+                                    />
+                                    {bestReview.rv_rate}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+            <div className="divider"></div>
             {reviews.map((review, index) => (
                 <div className="review" key={index}>
                     <div className="nickname">{review.nickname}</div>
@@ -210,7 +265,6 @@ const ReviewList: React.FC = () => {
                                 <img src={review.rv_photo} alt="Review" />
                             </div>
                         )}
-
                         <div className="content">
                             {editMode === review.rv_idx ? (
                                 <input
