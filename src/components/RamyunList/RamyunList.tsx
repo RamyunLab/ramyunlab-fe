@@ -42,6 +42,19 @@ const RamyunList: React.FC = () => {
     const [sort, setSort] = useState<string>("name");
     const [direction, setDirection] = useState<string>("asc");
 
+    const [filters, setFilters] = useState<any>({
+        name: "",
+        brand: [],
+        noodle: [],
+        isCup: [],
+        cooking: [],
+        kcal: [],
+        gram: [],
+        na: [],
+    });
+
+    const [searchText, setSearchText] = useState<string>("");
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -61,13 +74,30 @@ const RamyunList: React.FC = () => {
         return searchParams.get("direction") || "asc";
     };
 
+    const getFiltersFromQuery = () => {
+        const searchParams = new URLSearchParams(location.search);
+        const filterKeys = ["name", "brand", "noodle", "isCup", "cooking", "kcal", "gram", "na"];
+        const newFilters: any = {};
+        filterKeys.forEach((key) => {
+            newFilters[key] = searchParams.getAll(key);
+        });
+        return newFilters;
+    };
+
     const [page, setPage] = useState<number>(getPageFromQuery());
 
-    const fetchRamyunList = async (page: number, sort: string, direction: string) => {
+    const fetchRamyunList = async (page: number, sort: string, direction: string, filters: any) => {
         setLoading(true);
         try {
+            const params = new URLSearchParams();
+            params.append("page", page.toString());
+            params.append("sort", sort);
+            params.append("direction", direction);
+            Object.keys(filters).forEach((key) => {
+                filters[key].forEach((value: any) => params.append(key, value));
+            });
             const response = await axios.get<RamyunResponse>(
-                `${process.env.REACT_APP_API_SERVER}/main?page=${page}&sort=${sort}&direction=${direction}`
+                `${process.env.REACT_APP_API_SERVER}/main/search?${params.toString()}`
             );
             if (response.data.statusCode === 200) {
                 setRamyunList(response.data.data.content);
@@ -87,31 +117,41 @@ const RamyunList: React.FC = () => {
         const currentPage = getPageFromQuery();
         const currentSort = getSortFromQuery();
         const currentDirection = getDirectionFromQuery();
+        const currentFilters = getFiltersFromQuery();
 
         setPage(currentPage);
         setSort(currentSort);
         setDirection(currentDirection);
+        setFilters(currentFilters);
 
-        fetchRamyunList(currentPage, currentSort, currentDirection);
+        fetchRamyunList(currentPage, currentSort, currentDirection, currentFilters);
     }, [location.search]);
 
-    const updateUrlParams = (newPage: number, newSort: string, newDirection: string) => {
+    const updateUrlParams = (
+        newPage: number,
+        newSort: string,
+        newDirection: string,
+        newFilters: any
+    ) => {
         const params = new URLSearchParams();
         params.set("page", newPage.toString());
         params.set("sort", newSort);
         params.set("direction", newDirection);
-        navigate(`?${params.toString()}`, { replace: false }); // Using push instead of replace
+        Object.keys(newFilters).forEach((key) => {
+            newFilters[key].forEach((value: any) => params.append(key, value));
+        });
+        navigate(`?${params.toString()}`, { replace: false });
     };
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
-        updateUrlParams(newPage, sort, direction);
+        updateUrlParams(newPage, sort, direction, filters);
     };
 
     const toggleSortDirection = () => {
         const newDirection = direction === "asc" ? "desc" : "asc";
         setDirection(newDirection);
-        updateUrlParams(page, sort, newDirection);
+        updateUrlParams(page, sort, newDirection, filters);
     };
 
     const handleSortChange = (newSort: string) => {
@@ -120,9 +160,32 @@ const RamyunList: React.FC = () => {
         } else {
             setSort(newSort);
             setDirection("asc");
-            updateUrlParams(1, newSort, "asc");
+            updateUrlParams(1, newSort, "asc", filters);
             setPage(1);
         }
+    };
+
+    const handleFilterChange = (key: string, value: string, checked: boolean) => {
+        const newFilters = { ...filters };
+        if (checked) {
+            newFilters[key] = [...newFilters[key], value];
+        } else {
+            newFilters[key] = newFilters[key].filter((v: string) => v !== value);
+        }
+        setFilters(newFilters);
+        updateUrlParams(1, sort, direction, newFilters);
+        setPage(1);
+    };
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchText(e.target.value);
+    };
+
+    const handleSearchButtonClick = () => {
+        const newFilters = { ...filters, name: [searchText] };
+        setFilters(newFilters);
+        updateUrlParams(1, sort, direction, newFilters);
+        setPage(1);
     };
 
     const renderPagination = () => {
@@ -166,10 +229,6 @@ const RamyunList: React.FC = () => {
         );
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
     if (error) {
         return <div>{error}</div>;
     }
@@ -177,6 +236,148 @@ const RamyunList: React.FC = () => {
     return (
         <div className={styles.ramyunListContainer}>
             <h1>Ramyun List</h1>
+            <input
+                type="text"
+                placeholder="Search by name"
+                value={searchText}
+                onChange={handleSearchChange}
+                className={styles.searchInput}
+            />
+            <button onClick={handleSearchButtonClick} className={styles.searchButton}>
+                Search
+            </button>
+            <div className={styles.filterContainer}>
+                <div className={styles.filterGroup}>
+                    <p>브랜드</p>
+                    {["농심", "삼양", "오뚜기", "팔도"].map((brand) => (
+                        <label
+                            key={brand}
+                            className={filters.brand.includes(brand) ? styles.active : ""}
+                        >
+                            <input
+                                type="checkbox"
+                                value={brand}
+                                checked={filters.brand.includes(brand)}
+                                onChange={(e) =>
+                                    handleFilterChange("brand", brand, e.target.checked)
+                                }
+                            />
+                            {brand}
+                        </label>
+                    ))}
+                </div>
+
+                <div className={styles.filterGroup}>
+                    <p>면 유형</p>
+                    {[true, false].map((noodle) => (
+                        <label
+                            key={String(noodle)}
+                            className={filters.noodle.includes(String(noodle)) ? styles.active : ""}
+                        >
+                            <input
+                                type="checkbox"
+                                value={String(noodle)}
+                                checked={filters.noodle.includes(String(noodle))}
+                                onChange={(e) =>
+                                    handleFilterChange("noodle", String(noodle), e.target.checked)
+                                }
+                            />
+                            {noodle ? "건면" : "유탕면"}
+                        </label>
+                    ))}
+                </div>
+                <div className={styles.filterGroup}>
+                    <p>용기 기준</p>
+                    {[true, false].map((isCup) => (
+                        <label
+                            key={String(isCup)}
+                            className={filters.isCup.includes(String(isCup)) ? styles.active : ""}
+                        >
+                            <input
+                                type="checkbox"
+                                value={String(isCup)}
+                                checked={filters.isCup.includes(String(isCup))}
+                                onChange={(e) =>
+                                    handleFilterChange("isCup", String(isCup), e.target.checked)
+                                }
+                            />
+                            {isCup ? "컵라면" : "봉지라면"}
+                        </label>
+                    ))}
+                </div>
+                <div className={styles.filterGroup}>
+                    <p>조리 유형</p>
+                    {[true, false].map((cooking) => (
+                        <label
+                            key={String(cooking)}
+                            className={
+                                filters.cooking.includes(String(cooking)) ? styles.active : ""
+                            }
+                        >
+                            <input
+                                type="checkbox"
+                                value={String(cooking)}
+                                checked={filters.cooking.includes(String(cooking))}
+                                onChange={(e) =>
+                                    handleFilterChange("cooking", String(cooking), e.target.checked)
+                                }
+                            />
+                            {cooking ? "국물" : "볶음/비빔"}
+                        </label>
+                    ))}
+                </div>
+                <div className={styles.filterGroup}>
+                    <p>칼로리</p>
+                    {["~300", "300~500", "500~"].map((kcal) => (
+                        <label
+                            key={kcal}
+                            className={filters.kcal.includes(kcal) ? styles.active : ""}
+                        >
+                            <input
+                                type="checkbox"
+                                value={kcal}
+                                checked={filters.kcal.includes(kcal)}
+                                onChange={(e) => handleFilterChange("kcal", kcal, e.target.checked)}
+                            />
+                            {kcal}
+                        </label>
+                    ))}
+                </div>
+
+                <div className={styles.filterGroup}>
+                    <p>그램</p>
+                    {["0-100", "100~"].map((gram) => (
+                        <label
+                            key={gram}
+                            className={filters.gram.includes(gram) ? styles.active : ""}
+                        >
+                            <input
+                                type="checkbox"
+                                value={gram}
+                                checked={filters.gram.includes(gram)}
+                                onChange={(e) => handleFilterChange("gram", gram, e.target.checked)}
+                            />
+                            {gram}
+                        </label>
+                    ))}
+                </div>
+
+                <div className={styles.filterGroup}>
+                    <p>나트륨</p>
+                    {["~1000", "1000~1400", "1400~1700", "1700~"].map((na) => (
+                        <label key={na} className={filters.na.includes(na) ? styles.active : ""}>
+                            <input
+                                type="checkbox"
+                                value={na}
+                                checked={filters.na.includes(na)}
+                                onChange={(e) => handleFilterChange("na", na, e.target.checked)}
+                            />
+                            {na}mg
+                        </label>
+                    ))}
+                </div>
+            </div>
+
             <div className={styles.filters}>
                 <div className={styles.filterGroup}>
                     <button
