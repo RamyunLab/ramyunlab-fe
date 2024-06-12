@@ -44,11 +44,21 @@ const RamyunList: React.FC = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
 
     const getPageFromQuery = () => {
+        const searchParams = new URLSearchParams(location.search);
         const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
         return isNaN(pageFromQuery) || pageFromQuery < 1 ? 1 : pageFromQuery;
+    };
+
+    const getSortFromQuery = () => {
+        const searchParams = new URLSearchParams(location.search);
+        return searchParams.get("sort") || "name";
+    };
+
+    const getDirectionFromQuery = () => {
+        const searchParams = new URLSearchParams(location.search);
+        return searchParams.get("direction") || "asc";
     };
 
     const [page, setPage] = useState<number>(getPageFromQuery());
@@ -62,6 +72,7 @@ const RamyunList: React.FC = () => {
             if (response.data.statusCode === 200) {
                 setRamyunList(response.data.data.content);
                 setTotalPages(response.data.data.totalPages);
+                setError(null);
             } else {
                 setError("Failed to fetch data");
             }
@@ -73,18 +84,19 @@ const RamyunList: React.FC = () => {
     };
 
     useEffect(() => {
-        fetchRamyunList(page, sort, direction);
-    }, [page, sort, direction]);
-
-    useEffect(() => {
         const currentPage = getPageFromQuery();
-        if (currentPage !== page) {
-            setPage(currentPage);
-        }
+        const currentSort = getSortFromQuery();
+        const currentDirection = getDirectionFromQuery();
+
+        setPage(currentPage);
+        setSort(currentSort);
+        setDirection(currentDirection);
+
+        fetchRamyunList(currentPage, currentSort, currentDirection);
     }, [location.search]);
 
     const updateUrlParams = (newPage: number, newSort: string, newDirection: string) => {
-        const params = new URLSearchParams(location.search);
+        const params = new URLSearchParams();
         params.set("page", newPage.toString());
         params.set("sort", newSort);
         params.set("direction", newDirection);
@@ -108,9 +120,9 @@ const RamyunList: React.FC = () => {
         } else {
             setSort(newSort);
             setDirection("asc");
-            updateUrlParams(page, newSort, "asc");
+            updateUrlParams(1, newSort, "asc");
+            setPage(1);
         }
-        setPage(1);
     };
 
     const renderPagination = () => {
