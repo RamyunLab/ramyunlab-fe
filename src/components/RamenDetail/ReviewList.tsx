@@ -16,6 +16,7 @@ interface Review {
     rv_deleted_at: string | null;
     nickname: string;
     liked: boolean;
+    recommendIdx: number | null; // 추가: 좋아요 ID
 }
 
 const ReviewList: React.FC = () => {
@@ -48,6 +49,7 @@ const ReviewList: React.FC = () => {
                 rv_deleted_at: null,
                 nickname: "test123",
                 liked: false,
+                recommendIdx: null, // 임시로 null 설정
             },
             {
                 rv_idx: 2,
@@ -61,6 +63,7 @@ const ReviewList: React.FC = () => {
                 rv_deleted_at: null,
                 nickname: "사용자2",
                 liked: false,
+                recommendIdx: null, // 임시로 null 설정
             },
             {
                 rv_idx: 3,
@@ -74,6 +77,7 @@ const ReviewList: React.FC = () => {
                 rv_deleted_at: null,
                 nickname: "사용자3",
                 liked: false,
+                recommendIdx: null, // 임시로 null 설정
             },
         ];
         setReviews(tempReviews);
@@ -94,14 +98,17 @@ const ReviewList: React.FC = () => {
         try {
             if (liked) {
                 console.log("토큰 확인", token);
-                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                await axios.delete(
+                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${currentReview.recommendIdx}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
             } else {
                 console.log("토큰 확인", token);
-                await axios.post(
+                const response = await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
                     {},
                     {
@@ -110,6 +117,7 @@ const ReviewList: React.FC = () => {
                         },
                     }
                 );
+                currentReview.recommendIdx = response.data.data.recommendIdx; // recommendIdx를 응답에서 설정
             }
 
             const updatedReviews = reviews.map((review) =>
