@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./RamyunList.module.scss";
 
 interface Ramyun {
@@ -37,36 +38,68 @@ const RamyunList: React.FC = () => {
     const [ramyunList, setRamyunList] = useState<Ramyun[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [sort, setSort] = useState<string>("name");
     const [direction, setDirection] = useState<string>("asc");
 
-    useEffect(() => {
-        const fetchRamyunList = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get<RamyunResponse>(
-                    `${process.env.REACT_APP_API_SERVER}/main?page=${page}&sort=${sort}&direction=${direction}`
-                );
-                if (response.data.statusCode === 200) {
-                    setRamyunList(response.data.data.content);
-                    setTotalPages(response.data.data.totalPages);
-                } else {
-                    setError("Failed to fetch data");
-                }
-            } catch (error) {
-                setError("Error occurred while fetching data");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
 
-        fetchRamyunList();
+    const getPageFromQuery = () => {
+        const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
+        return isNaN(pageFromQuery) || pageFromQuery < 1 ? 1 : pageFromQuery;
+    };
+
+    const [page, setPage] = useState<number>(getPageFromQuery());
+
+    const fetchRamyunList = async (page: number, sort: string, direction: string) => {
+        setLoading(true);
+        try {
+            const response = await axios.get<RamyunResponse>(
+                `${process.env.REACT_APP_API_SERVER}/main?page=${page}&sort=${sort}&direction=${direction}`
+            );
+            if (response.data.statusCode === 200) {
+                setRamyunList(response.data.data.content);
+                setTotalPages(response.data.data.totalPages);
+            } else {
+                setError("Failed to fetch data");
+            }
+        } catch (error) {
+            setError("Error occurred while fetching data");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchRamyunList(page, sort, direction);
     }, [page, sort, direction]);
 
+    useEffect(() => {
+        const currentPage = getPageFromQuery();
+        if (currentPage !== page) {
+            setPage(currentPage);
+        }
+    }, [location.search]);
+
+    const updateUrlParams = (newPage: number, newSort: string, newDirection: string) => {
+        const params = new URLSearchParams(location.search);
+        params.set("page", newPage.toString());
+        params.set("sort", newSort);
+        params.set("direction", newDirection);
+        navigate(`?${params.toString()}`, { replace: false }); // Using push instead of replace
+    };
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+        updateUrlParams(newPage, sort, direction);
+    };
+
     const toggleSortDirection = () => {
-        setDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
+        const newDirection = direction === "asc" ? "desc" : "asc";
+        setDirection(newDirection);
+        updateUrlParams(page, sort, newDirection);
     };
 
     const handleSortChange = (newSort: string) => {
@@ -75,6 +108,7 @@ const RamyunList: React.FC = () => {
         } else {
             setSort(newSort);
             setDirection("asc");
+            updateUrlParams(page, newSort, "asc");
         }
         setPage(1);
     };
@@ -91,7 +125,7 @@ const RamyunList: React.FC = () => {
             pages.push(
                 <button
                     key={i}
-                    onClick={() => setPage(i)}
+                    onClick={() => handlePageChange(i)}
                     className={`${styles.pageButton} ${i === page ? styles.activePage : ""}`}
                 >
                     {i}
@@ -103,7 +137,7 @@ const RamyunList: React.FC = () => {
             <div className={styles.pagination}>
                 <button
                     className={styles.prevButton}
-                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                    onClick={() => handlePageChange(Math.max(page - 1, 1))}
                     disabled={page === 1}
                 >
                     Previous
@@ -111,7 +145,7 @@ const RamyunList: React.FC = () => {
                 {pages}
                 <button
                     className={styles.nextButton}
-                    onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                    onClick={() => handlePageChange(Math.min(page + 1, totalPages))}
                     disabled={page === totalPages}
                 >
                     Next
