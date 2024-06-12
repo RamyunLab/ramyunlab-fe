@@ -39,6 +39,7 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
     };
 
     const handleKakaoShare = () => {
+        const detailPageUrl = `http://43.203.209.183`;
         if (window.Kakao) {
             window.Kakao.Link.sendDefault({
                 objectType: "feed",
@@ -47,16 +48,16 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ champion }) => {
                     description: `토너먼트에서 우승한 라면은 ${champion.r_name}입니다!`,
                     imageUrl: champion.r_img,
                     link: {
-                        mobileWebUrl: window.location.href,
-                        webUrl: window.location.href,
+                        mobileWebUrl: detailPageUrl,
+                        webUrl: detailPageUrl,
                     },
                 },
                 buttons: [
                     {
                         title: "웹으로 보기",
                         link: {
-                            mobileWebUrl: window.location.href,
-                            webUrl: window.location.href,
+                            mobileWebUrl: detailPageUrl,
+                            webUrl: detailPageUrl,
                         },
                     },
                 ],
