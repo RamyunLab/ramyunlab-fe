@@ -29,60 +29,60 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        axios
-            .get(`${process.env.REACT_APP_API_SERVER}/api/favorites/`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((response) => {
-                setIsFavorite(response.data.isFavorite);
-            })
-            .catch((error) => {
-                console.error("찜 상태 확인 실패:", error);
-            });
+        // axios
+        //     .get(`${process.env.REACT_APP_API_SERVER}/api/favorites/`, {
+        //         headers: {
+        //             Authorization: `Bearer ${token}`,
+        //         },
+        //     })
+        //     .then((response) => {
+        //         setIsFavorite(response.data.isFavorite);
+        //     })
+        //     .catch((error) => {
+        //         console.error("찜 상태 확인 실패:", error);
+        //     });
     }, [ramen.r_idx]);
 
     const handleFavoriteToggle = () => {
         const token = localStorage.getItem("token");
         const currentDate = new Date().toISOString();
 
-        if (isFavorite) {
-            axios
-                .delete(`${process.env.REACT_APP_API_SERVER}/api/favorites/${ramen.r_idx}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                .then(() => {
-                    setIsFavorite(false);
-                    alert("찜 해제되었습니다.");
-                })
-                .catch((error) => {
-                    console.error("찜 해제 실패:", error);
-                });
-        } else {
-            axios
-                .post(
-                    `${process.env.REACT_APP_API_SERVER}/api/favorites`,
-                    {
-                        r_idx: ramen.r_idx,
-                        fav_created_at: currentDate,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                )
-                .then(() => {
-                    setIsFavorite(true);
-                    alert("찜 되었습니다.");
-                })
-                .catch((error) => {
-                    console.error("찜 추가 실패:", error);
-                });
-        }
+        // if (isFavorite) {
+        //     axios
+        //         .delete(`${process.env.REACT_APP_API_SERVER}/api/favorites/`, {
+        //             headers: {
+        //                 Authorization: `Bearer ${token}`,
+        //             },
+        //         })
+        //         .then(() => {
+        //             setIsFavorite(false);
+        //             alert("찜 해제되었습니다.");
+        //         })
+        //         .catch((error) => {
+        //             console.error("찜 해제 실패:", error);
+        //         });
+        // } else {
+        //     axios
+        //         .post(
+        //             `${process.env.REACT_APP_API_SERVER}/api/favorites`,
+        //             {
+        //                 r_idx: ramen.r_idx,
+        //                 fav_created_at: currentDate,
+        //             },
+        //             {
+        //                 headers: {
+        //                     Authorization: `Bearer ${token}`,
+        //                 },
+        //             }
+        //         )
+        //         .then(() => {
+        //             setIsFavorite(true);
+        //             alert("찜 되었습니다.");
+        //         })
+        //         .catch((error) => {
+        //             console.error("찜 추가 실패:", error);
+        //         });
+        // }
     };
 
     if (!ramen) {

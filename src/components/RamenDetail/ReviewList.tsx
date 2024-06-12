@@ -89,12 +89,27 @@ const ReviewList: React.FC = () => {
         if (!currentReview) return;
 
         const liked = currentReview.liked;
+        const token = localStorage.getItem("token");
 
         try {
             if (liked) {
-                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`);
+                console.log("토큰 확인", token);
+                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
             } else {
-                await axios.post(`${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`);
+                console.log("토큰 확인", token);
+                await axios.post(
+                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
             }
 
             const updatedReviews = reviews.map((review) =>
@@ -129,8 +144,13 @@ const ReviewList: React.FC = () => {
     };
 
     const handleDelete = (rvIdx: number) => {
+        const token = localStorage.getItem("token");
         axios
-            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`)
+            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((response) => {
                 if (response.data.success) {
                     setReviews(reviews.filter((review) => review.rv_idx !== rvIdx));
@@ -150,10 +170,17 @@ const ReviewList: React.FC = () => {
     };
 
     const handleSave = (rvIdx: number) => {
+        const token = localStorage.getItem("token");
         axios
-            .patch(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}/${rvIdx}`, {
-                rv_content: editContent,
-            })
+            .patch(
+                `${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}/${rvIdx}`,
+                { rv_content: editContent },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             .then((response) => {
                 if (response.data.success) {
                     setReviews(
