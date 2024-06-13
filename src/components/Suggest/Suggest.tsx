@@ -10,6 +10,7 @@ interface ModalProps {
 const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [userEmail, setUserEmail] = useState("");
     const [message, setMessage] = useState("");
+    const [title, setTitle] = useState(""); // 제목 상태 추가
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [userId, setUserId] = useState("");
 
@@ -41,6 +42,7 @@ const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/mail`, {
                 userEmail,
+                title, // 제목 추가
                 message,
             });
 
@@ -78,6 +80,15 @@ const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         {!isValidEmail && (
                             <p className={styles.errorText}>유효한 이메일을 입력해주세요.</p>
                         )}
+                    </div>
+                    <div>
+                        <label>제목</label>
+                        <input
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className={styles.titleInput}
+                        />
                     </div>
                     <div>
                         <label>내용</label>
