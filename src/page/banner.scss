@@ -44,6 +44,14 @@
     cursor: pointer; /* Apply pointer cursor to banner link */
 }
 
+@media (max-width: 1054px) {
+    .banner {
+        width: 100%; /* Increase width for smaller screens */
+        max-width: 700px;
+        height: 180px; /* Ensure height remains consistent */
+        margin: 5px auto; /* Reduce margin */
+    }
+}
 @media (max-width: 768px) {
     .banners-container {
         display: grid;
