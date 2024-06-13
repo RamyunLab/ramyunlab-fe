@@ -1,0 +1,138 @@
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    position: relative;
+    border: 2px solid #ffab21;
+    @media (max-width: 480px) {
+        width: 70%; /* Adjust width for small screens */
+        padding: 15px;
+    }
+}
+
+.modalContent h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+
+    @media (max-width: 480px) {
+        font-size: 20px; /* Adjust font size for small screens */
+    }
+}
+
+.modalContent div {
+    margin-bottom: 15px;
+
+    @media (max-width: 480px) {
+        margin-bottom: 10px;
+    }
+}
+
+.modalContent label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+
+    @media (max-width: 480px) {
+        font-size: 14px; /* Adjust font size for small screens */
+    }
+}
+
+.modalContent input[type="text"],
+.modalContent input[type="email"] {
+    width: 150px; /* Adjusted width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    // background: #fff5e1;
+    @media (max-width: 480px) {
+        width: 40%; /* Full width for small screens */
+        font-size: 12px; /* Adjust font size for small screens */
+    }
+}
+
+.modalContent textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+
+    @media (max-width: 480px) {
+        width: 90%; /* Full width for small screens */
+        height: 150px; /* Adjust height for small screens */
+        font-size: 12px; /* Adjust font size for small screens */
+    }
+}
+
+.modalContent input[type="email"].invalid {
+    border-color: red;
+}
+
+.modalContent .errorText {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+
+    @media (max-width: 480px) {
+        font-size: 10px; /* Adjust font size for small screens */
+    }
+}
+
+.modalContent .buttonGroup {
+    display: flex;
+    justify-content: flex-end;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.modalContent .buttonGroup button {
+    margin-top: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+
+    @media (max-width: 480px) {
+        font-size: 12px; /* Adjust font size for small screens */
+        margin-left: 0;
+        margin-bottom: 10px; /* Add margin at bottom for spacing */
+    }
+}
+
+.modalContent .buttonGroup button:hover {
+    background-color: #0056b3;
+}
