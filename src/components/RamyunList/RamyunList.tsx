@@ -228,6 +228,11 @@ const RamyunList: React.FC = () => {
         updateUrlParams(1, sort, direction, newFilters);
         setPage(1);
     };
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            handleSearchButtonClick();
+        }
+    };
 
     const renderPagination = () => {
         const pages = [];
@@ -253,16 +258,16 @@ const RamyunList: React.FC = () => {
             <div className={styles.pagination}>
                 <button
                     className={styles.prevButton}
-                    onClick={() => handlePageChange(Math.max((currentBlock - 1) * 5, 1))}
-                    disabled={currentBlock === 1}
+                    onClick={() => handlePageChange(Math.max(startPage - 5, 1))}
+                    disabled={startPage === 1}
                 >
                     Previous
                 </button>
                 {pages}
                 <button
                     className={styles.nextButton}
-                    onClick={() => handlePageChange(Math.min(currentBlock * 5 + 1, totalPages))}
-                    disabled={currentBlock === totalBlocks}
+                    onClick={() => handlePageChange(Math.min(startPage + 5, totalPages))}
+                    disabled={endPage === totalPages}
                 >
                     Next
                 </button>
@@ -282,6 +287,7 @@ const RamyunList: React.FC = () => {
                     placeholder="라면을 검색해주세요!"
                     value={searchText}
                     onChange={handleSearchChange}
+                    onKeyPress={handleKeyPress}
                     className={styles.searchInput}
                 />
                 <button onClick={handleSearchButtonClick} className={styles.searchButton}>

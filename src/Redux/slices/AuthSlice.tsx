@@ -24,6 +24,8 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             localStorage.removeItem("token");
             localStorage.removeItem("userInfo");
+            // 로그아웃 후 메인 페이지로 리디렉션
+            window.location.href = "/main";
         },
     },
 });
