@@ -4,6 +4,47 @@ import { FaStar } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./RamyunList.module.scss";
 
+// 필터 매핑 객체 추가
+const brandMapping = {
+    "1": "농심",
+    "2": "삼양",
+    "3": "오뚜기",
+    "4": "팔도",
+};
+
+const noodleMapping = {
+    "1": true,
+    "0": false,
+};
+
+const isCupMapping = {
+    "1": true,
+    "0": false,
+};
+
+const cookingMapping = {
+    "1": true,
+    "0": false,
+};
+
+const kcalMapping = {
+    "1": "~300",
+    "2": "300~500",
+    "3": "500~",
+};
+
+const gramMapping = {
+    "1": "0-100",
+    "2": "100~",
+};
+
+const naMapping = {
+    "1": "~1000",
+    "2": "1000~1400",
+    "3": "1400~1700",
+    "4": "1700~",
+};
+
 interface Ramyun {
     ramyunIdx: number;
     ramyunName: string;
@@ -151,7 +192,7 @@ const RamyunList: React.FC = () => {
     const toggleSortDirection = () => {
         const newDirection = direction === "asc" ? "desc" : "asc";
         setDirection(newDirection);
-        updateUrlParams(page, sort, newDirection, filters);
+        updateUrlParams(1, sort, newDirection, filters);
     };
 
     const handleSortChange = (newSort: string) => {
@@ -193,8 +234,8 @@ const RamyunList: React.FC = () => {
         const totalBlocks = Math.ceil(totalPages / 5);
         const currentBlock = Math.ceil(page / 5);
 
-        const startPage = (currentBlock - 1) * 5 + 1;
-        const endPage = Math.min(currentBlock * 5, totalPages);
+        const startPage = Math.max(1, (currentBlock - 1) * 5 + 1);
+        const endPage = Math.min(startPage + 4, totalPages); // Ensure we don't go beyond total pages
 
         for (let i = startPage; i <= endPage; i++) {
             pages.push(
@@ -212,16 +253,16 @@ const RamyunList: React.FC = () => {
             <div className={styles.pagination}>
                 <button
                     className={styles.prevButton}
-                    onClick={() => handlePageChange(Math.max(page - 1, 1))}
-                    disabled={page === 1}
+                    onClick={() => handlePageChange(Math.max((currentBlock - 1) * 5, 1))}
+                    disabled={currentBlock === 1}
                 >
                     Previous
                 </button>
                 {pages}
                 <button
                     className={styles.nextButton}
-                    onClick={() => handlePageChange(Math.min(page + 1, totalPages))}
-                    disabled={page === totalPages}
+                    onClick={() => handlePageChange(Math.min(currentBlock * 5 + 1, totalPages))}
+                    disabled={currentBlock === totalBlocks}
                 >
                     Next
                 </button>
@@ -235,146 +276,192 @@ const RamyunList: React.FC = () => {
 
     return (
         <div className={styles.ramyunListContainer}>
-            <h1>Ramyun List</h1>
-            <input
-                type="text"
-                placeholder="Search by name"
-                value={searchText}
-                onChange={handleSearchChange}
-                className={styles.searchInput}
-            />
-            <button onClick={handleSearchButtonClick} className={styles.searchButton}>
-                Search
-            </button>
+            <div className={styles.searchContainer}>
+                <input
+                    type="text"
+                    placeholder="라면을 검색해주세요!"
+                    value={searchText}
+                    onChange={handleSearchChange}
+                    className={styles.searchInput}
+                />
+                <button onClick={handleSearchButtonClick} className={styles.searchButton}>
+                    Search
+                </button>
+            </div>
+
             <div className={styles.filterContainer}>
-                <div className={styles.filterGroup}>
-                    <p>브랜드</p>
-                    {["농심", "삼양", "오뚜기", "팔도"].map((brand) => (
-                        <label
-                            key={brand}
-                            className={filters.brand.includes(brand) ? styles.active : ""}
-                        >
-                            <input
-                                type="checkbox"
-                                value={brand}
-                                checked={filters.brand.includes(brand)}
-                                onChange={(e) =>
-                                    handleFilterChange("brand", brand, e.target.checked)
-                                }
-                            />
-                            {brand}
-                        </label>
-                    ))}
-                </div>
+                <div className={styles.filterRow}>
+                    <div className={styles.filterTitles}>
+                        <p>브랜드</p>
+                        <p>면 유형</p>
+                        <p>용기 기준</p>
+                        <p>조리 유형</p>
+                        <p>칼로리</p>
+                        <p>그램</p>
+                        <p>나트륨(mg)</p>
+                    </div>
+                    <div className={styles.filterGroups}>
+                        <div className={styles.filterGroupContainer}>
+                            <div className={styles.filterGroup}>
+                                {Object.keys(brandMapping).map((key) => (
+                                    <label
+                                        key={key}
+                                        className={`${
+                                            filters.brand.includes(key) ? styles.active : ""
+                                        } ${styles.label}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={key}
+                                            checked={filters.brand.includes(key)}
+                                            onChange={(e) =>
+                                                handleFilterChange("brand", key, e.target.checked)
+                                            }
+                                        />
+                                        {brandMapping[key]}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
 
-                <div className={styles.filterGroup}>
-                    <p>면 유형</p>
-                    {[true, false].map((noodle) => (
-                        <label
-                            key={String(noodle)}
-                            className={filters.noodle.includes(String(noodle)) ? styles.active : ""}
-                        >
-                            <input
-                                type="checkbox"
-                                value={String(noodle)}
-                                checked={filters.noodle.includes(String(noodle))}
-                                onChange={(e) =>
-                                    handleFilterChange("noodle", String(noodle), e.target.checked)
-                                }
-                            />
-                            {noodle ? "건면" : "유탕면"}
-                        </label>
-                    ))}
-                </div>
-                <div className={styles.filterGroup}>
-                    <p>용기 기준</p>
-                    {[true, false].map((isCup) => (
-                        <label
-                            key={String(isCup)}
-                            className={filters.isCup.includes(String(isCup)) ? styles.active : ""}
-                        >
-                            <input
-                                type="checkbox"
-                                value={String(isCup)}
-                                checked={filters.isCup.includes(String(isCup))}
-                                onChange={(e) =>
-                                    handleFilterChange("isCup", String(isCup), e.target.checked)
-                                }
-                            />
-                            {isCup ? "컵라면" : "봉지라면"}
-                        </label>
-                    ))}
-                </div>
-                <div className={styles.filterGroup}>
-                    <p>조리 유형</p>
-                    {[true, false].map((cooking) => (
-                        <label
-                            key={String(cooking)}
-                            className={
-                                filters.cooking.includes(String(cooking)) ? styles.active : ""
-                            }
-                        >
-                            <input
-                                type="checkbox"
-                                value={String(cooking)}
-                                checked={filters.cooking.includes(String(cooking))}
-                                onChange={(e) =>
-                                    handleFilterChange("cooking", String(cooking), e.target.checked)
-                                }
-                            />
-                            {cooking ? "국물" : "볶음/비빔"}
-                        </label>
-                    ))}
-                </div>
-                <div className={styles.filterGroup}>
-                    <p>칼로리</p>
-                    {["~300", "300~500", "500~"].map((kcal) => (
-                        <label
-                            key={kcal}
-                            className={filters.kcal.includes(kcal) ? styles.active : ""}
-                        >
-                            <input
-                                type="checkbox"
-                                value={kcal}
-                                checked={filters.kcal.includes(kcal)}
-                                onChange={(e) => handleFilterChange("kcal", kcal, e.target.checked)}
-                            />
-                            {kcal}
-                        </label>
-                    ))}
-                </div>
+                        <div className={styles.filterGroupContainer}>
+                            <div className={styles.filterGroup}>
+                                {Object.keys(noodleMapping).map((key) => (
+                                    <label
+                                        key={key}
+                                        className={`${
+                                            filters.noodle.includes(key) ? styles.active : ""
+                                        } ${styles.label}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={key}
+                                            checked={filters.noodle.includes(key)}
+                                            onChange={(e) =>
+                                                handleFilterChange("noodle", key, e.target.checked)
+                                            }
+                                        />
+                                        {noodleMapping[key] ? "건면" : "유탕면"}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
 
-                <div className={styles.filterGroup}>
-                    <p>그램</p>
-                    {["0-100", "100~"].map((gram) => (
-                        <label
-                            key={gram}
-                            className={filters.gram.includes(gram) ? styles.active : ""}
-                        >
-                            <input
-                                type="checkbox"
-                                value={gram}
-                                checked={filters.gram.includes(gram)}
-                                onChange={(e) => handleFilterChange("gram", gram, e.target.checked)}
-                            />
-                            {gram}
-                        </label>
-                    ))}
-                </div>
+                        <div className={styles.filterGroupContainer}>
+                            <div className={styles.filterGroup}>
+                                {Object.keys(isCupMapping).map((key) => (
+                                    <label
+                                        key={key}
+                                        className={`${
+                                            filters.isCup.includes(key) ? styles.active : ""
+                                        } ${styles.label}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={key}
+                                            checked={filters.isCup.includes(key)}
+                                            onChange={(e) =>
+                                                handleFilterChange("isCup", key, e.target.checked)
+                                            }
+                                        />
+                                        {isCupMapping[key] ? "컵라면" : "봉지라면"}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
 
-                <div className={styles.filterGroup}>
-                    <p>나트륨</p>
-                    {["~1000", "1000~1400", "1400~1700", "1700~"].map((na) => (
-                        <label key={na} className={filters.na.includes(na) ? styles.active : ""}>
-                            <input
-                                type="checkbox"
-                                value={na}
-                                checked={filters.na.includes(na)}
-                                onChange={(e) => handleFilterChange("na", na, e.target.checked)}
-                            />
-                            {na}mg
-                        </label>
-                    ))}
+                        <div className={styles.filterGroupContainer}>
+                            <div className={styles.filterGroup}>
+                                {Object.keys(cookingMapping).map((key) => (
+                                    <label
+                                        key={key}
+                                        className={`${
+                                            filters.cooking.includes(key) ? styles.active : ""
+                                        } ${styles.label}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={key}
+                                            checked={filters.cooking.includes(key)}
+                                            onChange={(e) =>
+                                                handleFilterChange("cooking", key, e.target.checked)
+                                            }
+                                        />
+                                        {cookingMapping[key] ? "국물" : "볶음/비빔"}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className={styles.filterGroupContainer}>
+                            <div className={styles.filterGroup}>
+                                {Object.keys(kcalMapping).map((key) => (
+                                    <label
+                                        key={key}
+                                        className={`${
+                                            filters.kcal.includes(key) ? styles.active : ""
+                                        } ${styles.label}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={key}
+                                            checked={filters.kcal.includes(key)}
+                                            onChange={(e) =>
+                                                handleFilterChange("kcal", key, e.target.checked)
+                                            }
+                                        />
+                                        {kcalMapping[key]}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className={styles.filterGroupContainer}>
+                            <div className={styles.filterGroup}>
+                                {Object.keys(gramMapping).map((key) => (
+                                    <label
+                                        key={key}
+                                        className={`${
+                                            filters.gram.includes(key) ? styles.active : ""
+                                        } ${styles.label}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={key}
+                                            checked={filters.gram.includes(key)}
+                                            onChange={(e) =>
+                                                handleFilterChange("gram", key, e.target.checked)
+                                            }
+                                        />
+                                        {gramMapping[key]}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className={styles.filterGroupContainer}>
+                            <div className={styles.filterGroup}>
+                                {Object.keys(naMapping).map((key) => (
+                                    <label
+                                        key={key}
+                                        className={`${
+                                            filters.na.includes(key) ? styles.active : ""
+                                        } ${styles.label}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={key}
+                                            checked={filters.na.includes(key)}
+                                            onChange={(e) =>
+                                                handleFilterChange("na", key, e.target.checked)
+                                            }
+                                        />
+                                        {naMapping[key]}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
