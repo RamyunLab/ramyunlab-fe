@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // useNavigate를 사용합니다.
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { logout } from "../../Redux/slices/AuthSlice.tsx"; // 로그아웃 액션 임포트
@@ -8,6 +9,7 @@ import styles from "./AccountPage.module.scss"; // styles 파일 이름 변경
 
 const AccountPage: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // useNavigate 훅을 사용합니다.
     const [activeTab, setActiveTab] = useState("deleteAccount");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
@@ -108,6 +110,20 @@ const AccountPage: React.FC = () => {
             return;
         }
 
+        const userConfirmed = window.confirm("정말로 계정을 삭제하시겠습니까? ");
+
+        if (!userConfirmed) {
+            return;
+        }
+
+        const userResponse = window.prompt(
+            "계속 진행하려면 '예'를 입력하고, 취소하려면 '아니오'를 입력하세요."
+        );
+
+        if (userResponse !== "예") {
+            return;
+        }
+
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
@@ -123,6 +139,7 @@ const AccountPage: React.FC = () => {
                 alert("계정이 삭제되었습니다.");
                 dispatch(logout());
                 localStorage.removeItem("token");
+                navigate("/"); // 메인 페이지로 이동합니다.
             } else {
                 alert("계정 삭제에 실패했습니다.");
             }
@@ -155,7 +172,8 @@ const AccountPage: React.FC = () => {
             );
 
             if (response.data.statusCode === 200) {
-                alert("닉네임이 변경되었습니다.");
+                alert(`${nickname}으로 변경되었습니다.`);
+                navigate("/"); // 메인 페이지로 이동합니다.
             } else {
                 alert("닉네임 변경에 실패했습니다.");
             }
@@ -198,6 +216,9 @@ const AccountPage: React.FC = () => {
 
             if (response.data.statusCode === 200) {
                 alert("비밀번호가 변경되었습니다.");
+                dispatch(logout());
+                localStorage.removeItem("token");
+                navigate("/"); // 로그아웃 후 메인 페이지로 이동합니다.
             } else {
                 alert("비밀번호 변경에 실패했습니다.");
             }

@@ -228,6 +228,11 @@ const RamyunList: React.FC = () => {
         updateUrlParams(1, sort, direction, newFilters);
         setPage(1);
     };
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            handleSearchButtonClick();
+        }
+    };
 
     const renderPagination = () => {
         const pages = [];
@@ -282,6 +287,7 @@ const RamyunList: React.FC = () => {
                     placeholder="라면을 검색해주세요!"
                     value={searchText}
                     onChange={handleSearchChange}
+                    onKeyPress={handleKeyPress}
                     className={styles.searchInput}
                 />
                 <button onClick={handleSearchButtonClick} className={styles.searchButton}>
