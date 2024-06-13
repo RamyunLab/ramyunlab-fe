@@ -5,9 +5,14 @@
     justify-content: center;
     background-color: #f5f5f5;
     width: 100%;
-    margin-bottom: 0px;
+
     height: auto;
     padding: 0px; /* 추가: 패딩을 추가하여 내부 여백 확보 */
+}
+
+.footer-container.closed > .stack-section > div:nth-child(3),
+.footer-container.closed > .stack-section > div:nth-child(4) {
+    display: none;
 }
 
 .stack-section {
@@ -20,6 +25,7 @@
     div:not(:last-child) {
         margin-right: 40px; /* 오른쪽 마진을 40px로 설정하여 간격을 넓힘 */
     }
+    margin-bottom: 15px;
 }
 
 .logo-section img {

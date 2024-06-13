@@ -6,12 +6,30 @@ const Footer = () => {
     const [isFrontOpen, setFrontOpen] = useState(false);
     const [isBackOpen, setBackOpen] = useState(false);
 
-    const toggleContributor = () => setContributorOpen(!isContributorOpen);
+    const toggleContributor = () => {
+        const nextState = !isContributorOpen;
+        setContributorOpen(nextState);
+        setFrontOpen(nextState);
+        setBackOpen(nextState);
+    };
+
     const toggleFront = () => setFrontOpen(!isFrontOpen);
     const toggleBack = () => setBackOpen(!isBackOpen);
 
+    const toggleAll = () => {
+        const nextState = !(isContributorOpen && isFrontOpen && isBackOpen);
+        setContributorOpen(nextState);
+        setFrontOpen(nextState);
+        setBackOpen(nextState);
+    };
+
     return (
-        <footer className="footer-container">
+        <footer
+            className={`footer-container ${
+                isContributorOpen || isFrontOpen || isBackOpen ? "open" : "closed"
+            }`}
+            onClick={toggleAll}
+        >
             <div className="stack-section">
                 <div className="logo-section">
                     {/* <img src="/images/tetrist_bc.gif" alt="Tetrist Logo" /> */}

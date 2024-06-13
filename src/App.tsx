@@ -13,7 +13,7 @@ import RegisterModal from "./components/Auth/RegisterModal.tsx";
 import RamenDetailPage from "./page/RamenDetailPage.tsx";
 import UpDownGamePage from "./page/UpDownGamePage.tsx";
 import AccountPage from "./components/AccountModal/AccountPage.tsx";
-
+import FavoriteListPage from "./page/FavoriteListPage.tsx";
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
@@ -55,6 +55,7 @@ const App: React.FC = () => {
                         <Route path="/ramen/:idx" element={<RamenDetailPage />} />
                         <Route path="/UpDownGame" element={<UpDownGamePage />} />
                         <Route path="/account" element={<AccountPage />} />
+                        <Route path="/FavoriteListPage" element={<FavoriteListPage />} />
                     </Routes>
                     <Footer />
                 </Router>
