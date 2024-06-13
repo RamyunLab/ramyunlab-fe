@@ -253,16 +253,16 @@ const RamyunList: React.FC = () => {
             <div className={styles.pagination}>
                 <button
                     className={styles.prevButton}
-                    onClick={() => handlePageChange(Math.max((currentBlock - 1) * 5, 1))}
-                    disabled={currentBlock === 1}
+                    onClick={() => handlePageChange(Math.max(startPage - 5, 1))}
+                    disabled={startPage === 1}
                 >
                     Previous
                 </button>
                 {pages}
                 <button
                     className={styles.nextButton}
-                    onClick={() => handlePageChange(Math.min(currentBlock * 5 + 1, totalPages))}
-                    disabled={currentBlock === totalBlocks}
+                    onClick={() => handlePageChange(Math.min(startPage + 5, totalPages))}
+                    disabled={endPage === totalPages}
                 >
                     Next
                 </button>

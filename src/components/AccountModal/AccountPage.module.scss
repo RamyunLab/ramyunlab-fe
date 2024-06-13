@@ -7,21 +7,42 @@
     max-width: 700px;
     margin: 0 auto;
     width: 100%;
+    height: 700px;
     background-color: #f5f5f5;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 768px) {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
 }
 
 .tabContainer {
     display: flex;
     margin-right: 250px;
     justify-content: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 100px;
+    margin-top: -200px;
+    @media (max-width: 768px) {
+        justify-content: center;
+        margin-right: 0;
+    }
+
+    @media (max-width: 480px) {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 .tabButton {
     padding: 10px 20px;
     margin: 0 5px;
+
     border: none;
     background-color: #007bff;
     color: white;
@@ -35,6 +56,14 @@
 
     &:hover:not(.active) {
         background-color: #0069d9;
+    }
+    @media (max-width: 480px) {
+        flex: 1 1 auto; /* Flex grow and shrink to fill available space */
+        text-align: center;
+
+        margin: 5px 2px; /* Adjust margin for better spacing */
+        max-width: 150px; /* Optional: Limit the maximum width */
+        white-space: nowrap; /* Prevent text from wrapping to the next line */
     }
 }
 
@@ -86,12 +115,13 @@
 }
 
 .passwordIcon {
-    position: absolute;
-    right: 10px;
+    position: relative;
+    right: 25px;
     top: 50%;
+    margin-top: -23px;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #007bff;
+    // color: #007bff;
 }
 
 .checkPasswordBtn,
@@ -101,9 +131,13 @@
     background-color: #007bff;
     color: white;
     cursor: pointer;
+    margin-top: -2px;
+    position: relative;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    width: 70px;
     margin-left: 10px;
+    margin-right: 20px !important;
     font-size: 13px;
     &:hover {
         background-color: #0056b3;
@@ -150,15 +184,14 @@
     flex-grow: 1;
 }
 
-.inputContainer,
-.nicknameContainer,
-.passwordContainer {
-    justify-content: center;
-}
+// .inputContainer,
+// .nicknameContainer,
+// .passwordContainer {
+//     justify-content: center;
+// }
 
-.checkPasswordBtn,
-.checkNicknameBtn {
-    margin-left: 10px;
+.checkPasswordBtn {
+    margin-left: -10px;
     margin-top: 0;
     align-self: flex-start;
 }
