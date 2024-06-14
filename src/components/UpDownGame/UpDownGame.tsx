@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
@@ -40,22 +40,27 @@ const UpDownGame: React.FC = () => {
         seenRamen,
     } = useSelector((state: RootState) => state.updown);
 
+    const [isClickable, setIsClickable] = useState(true);
+
+    useEffect(() => {
+        if (!currentRamen && !nextRamen) {
+            refetch();
+        }
+    }, [currentRamen, nextRamen]);
+
     const { data, isError, refetch } = useQuery("ramenData", fetchRamenData, {
         onSuccess: (data) => {
             if (data.statusCode === 200) {
-                if (!currentRamen && !nextRamen) {
-                    const newRamen = data.data.filter(
-                        (ramen) =>
-                            seenRamen && !seenRamen.some((seen) => seen.r_idx === ramen.r_idx)
-                    );
-                    if (newRamen.length < 2) {
-                        dispatch(setMessage("더 이상 새로운 라면이 없습니다."));
-                        dispatch(setGameOver({ finalRamen: currentRamen, message: "게임 종료" }));
-                    } else {
-                        dispatch(setRamen({ current: newRamen[0], next: newRamen[1] }));
-                        dispatch(addSeenRamen(newRamen[0]));
-                        dispatch(addSeenRamen(newRamen[1]));
-                    }
+                const newRamen = data.data.filter(
+                    (ramen) => !seenRamen.some((seen) => seen.r_idx === ramen.r_idx)
+                );
+                if (newRamen.length < 2) {
+                    dispatch(setMessage("더 이상 새로운 라면이 없습니다."));
+                    dispatch(setGameOver({ finalRamen: currentRamen, message: "게임 종료" }));
+                } else {
+                    dispatch(setRamen({ current: newRamen[0], next: newRamen[1] }));
+                    dispatch(addSeenRamen(newRamen[0]));
+                    dispatch(addSeenRamen(newRamen[1]));
                 }
             }
         },
@@ -65,6 +70,7 @@ const UpDownGame: React.FC = () => {
     });
 
     const fetchNextRamen = async () => {
+        setIsClickable(false); // 클릭 비활성화
         const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/game/updown`);
         const { statusCode, data } = response.data;
         if (statusCode === 200 && Array.isArray(data)) {
@@ -86,10 +92,12 @@ const UpDownGame: React.FC = () => {
                 })
             );
         }
+        setIsClickable(true); // 클릭 활성화
     };
 
     const handleGuess = (selectedRamen) => {
-        if (!currentRamen || !nextRamen) return;
+        if (!isClickable || !currentRamen || !nextRamen) return; // 클릭 비활성화 시 클릭 방지
+        setIsClickable(false); // 클릭 비활성화
         const otherRamen = currentRamen === selectedRamen ? nextRamen : currentRamen;
         if (selectedRamen.r_scoville > otherRamen.r_scoville) {
             dispatch(setMessage("맞췄습니다! 스코빌 지수를 확인하세요."));
@@ -103,16 +111,19 @@ const UpDownGame: React.FC = () => {
                             message: "축하합니다! 스코빌이 가장 높은 라면을 맞추셨습니다.",
                         })
                     );
+                    navigate("/UpDownGame/result", { state: { finalRamen: selectedRamen } });
                 } else {
                     dispatch(setRamen({ current: selectedRamen, next: null }));
                     fetchNextRamen(); // 새로운 라면 데이터를 가져와서 nextRamen으로 설정
                     dispatch(incrementRound());
                     dispatch(setMessage("")); // 메시지를 빈 문자열로 설정하여 메시지가 보이지 않도록 함
                 }
+                setIsClickable(true); // 클릭 활성화
             }, 2000);
         } else {
             dispatch(setGameOver({ finalRamen: null, message: "게임 오버" }));
             dispatch(setShowScoville(true)); // Show scoville score on game over
+            setIsClickable(true); // 클릭 활성화
         }
     };
 

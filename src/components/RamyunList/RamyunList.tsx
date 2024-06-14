@@ -3,6 +3,9 @@ import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import styles from "./RamyunList.module.scss";
 
 const brandMapping = {
@@ -79,6 +82,7 @@ interface RamyunResponse {
 const RamyunList: React.FC = () => {
     const [sort, setSort] = useState<string>("name");
     const [direction, setDirection] = useState<string>("asc");
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     const [filters, setFilters] = useState<any>({
         name: "",
@@ -139,7 +143,7 @@ const RamyunList: React.FC = () => {
         return response.data;
     };
 
-    const { data, error, isLoading } = useQuery(
+    const { data, error, isLoading, refetch } = useQuery(
         ["ramyunList", page, sort, direction, filters],
         () => fetchRamyunList(page, sort, direction, filters),
         { keepPreviousData: true }
@@ -259,6 +263,12 @@ const RamyunList: React.FC = () => {
         } catch (error) {
             alert("찜 작업 실패");
         }
+    };
+
+    const handleFavoriteToggle = async (ramyunIdx: number, isFavorite: boolean) => {
+        await handleFavoriteAction(ramyunIdx, isFavorite);
+        // Refresh data after favorite action
+        refetch();
     };
 
     const handleRamyunClick = (ramyunIdx: number) => {
@@ -545,31 +555,44 @@ const RamyunList: React.FC = () => {
                 </div>
             </div>
             <div className={styles.ramyunList}>
-                {ramyunList.map((ramyun) => (
+                {ramyunList.map((ramyun, index) => (
                     <div
                         key={ramyun.ramyunIdx}
-                        className={styles.ramyunItem}
+                        className={`${styles.ramyunItem} ${
+                            ramyun.isFavorite ? styles.favorite : ""
+                        }`}
                         onClick={() => handleRamyunClick(ramyun.ramyunIdx)}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
                     >
-                        <div className={styles.starRating}>
-                            <FaStar color="gold" />
-                            <span>{ramyun.avgRate.toFixed(1)}</span>
-                            <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
+                        <div className={styles.topContainer}>
+                            <FontAwesomeIcon
+                                icon={
+                                    ramyun.isFavorite || hoveredIndex === index
+                                        ? solidHeart
+                                        : regularHeart
+                                }
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevents the item click handler
+                                    handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isFavorite);
+                                }}
+                                className={`${styles.favoriteIcon} ${
+                                    ramyun.isFavorite ? styles.favorite : ""
+                                }`}
+                            />
                         </div>
+
                         <img
                             src={ramyun.ramyunImg}
                             alt={ramyun.ramyunName}
                             className={styles.ramyunImg}
                         />
                         <h3>{ramyun.ramyunName}</h3>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation(); // Prevents the item click handler
-                                handleFavoriteAction(ramyun.ramyunIdx, ramyun.isFavorite);
-                            }}
-                        >
-                            {ramyun.isFavorite ? "찜 삭제" : "찜 추가"}
-                        </button>
+                        <div className={styles.starRating}>
+                            <FaStar color="gold" />
+                            <span>{ramyun.avgRate.toFixed(1)}</span>
+                            <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
+                        </div>
                     </div>
                 ))}
             </div>

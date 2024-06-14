@@ -15,6 +15,8 @@ import UpDownGamePage from "./page/UpDownGamePage.tsx";
 import AccountPage from "./components/AccountModal/AccountPage.tsx";
 import FinalScreen from "./page/FinalScreen.tsx";
 import FavoriteListPage from "./page/FavoriteListPage.tsx";
+import ResultPage from "./page/UpDownGameResultPage.tsx"; // 추가된 ResultPage
+
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
@@ -55,7 +57,9 @@ const App: React.FC = () => {
                         <Route path="/tournament" element={<Tournament />} />
                         <Route path="/ramen/:idx" element={<RamenDetailPage />} />
                         <Route path="/UpDownGame" element={<UpDownGamePage />} />
-                        <Route path="/account" element={<AccountPage />} />{" "}
+                        <Route path="/UpDownGame/result" element={<ResultPage />} />{" "}
+                        {/* 추가된 경로 */}
+                        <Route path="/account" element={<AccountPage />} />
                         <Route path="/tournament/result/:ramenId" element={<FinalScreen />} />
                         <Route path="/FavoriteListPage" element={<FavoriteListPage />} />
                     </Routes>
