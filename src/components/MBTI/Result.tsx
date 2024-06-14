@@ -50,9 +50,9 @@ const Result: React.FC = () => {
                 <Link to="/" onClick={() => dispatch(resetResult())} className={styles.homeLink}>
                     홈으로
                 </Link>
-                <button className={styles.button} onClick={handleShareResult}>
+                {/* <button className={styles.button} onClick={handleShareResult}>
                     결과 공유하기
-                </button>
+                </button> */}
                 <button className={styles.button} onClick={handleRetry}>
                     다시하기
                 </button>
