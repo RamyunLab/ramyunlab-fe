@@ -59,7 +59,7 @@ interface Ramyun {
     scoville: number | null;
     avgRate: number;
     reviewCount: number;
-    isFavorite: boolean; // Ensure this property is included
+    isFavorite: boolean;
 }
 
 interface RamyunResponse {
@@ -259,6 +259,10 @@ const RamyunList: React.FC = () => {
         } catch (error) {
             alert("찜 작업 실패");
         }
+    };
+
+    const handleRamyunClick = (ramyunIdx: number) => {
+        navigate(`/main/ramyun/${ramyunIdx}`);
     };
 
     const renderPagination = () => {
@@ -542,7 +546,11 @@ const RamyunList: React.FC = () => {
             </div>
             <div className={styles.ramyunList}>
                 {ramyunList.map((ramyun) => (
-                    <div key={ramyun.ramyunIdx} className={styles.ramyunItem}>
+                    <div
+                        key={ramyun.ramyunIdx}
+                        className={styles.ramyunItem}
+                        onClick={() => handleRamyunClick(ramyun.ramyunIdx)}
+                    >
                         <div className={styles.starRating}>
                             <FaStar color="gold" />
                             <span>{ramyun.avgRate.toFixed(1)}</span>
@@ -555,9 +563,10 @@ const RamyunList: React.FC = () => {
                         />
                         <h3>{ramyun.ramyunName}</h3>
                         <button
-                            onClick={() =>
-                                handleFavoriteAction(ramyun.ramyunIdx, ramyun.isFavorite)
-                            }
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevents the item click handler
+                                handleFavoriteAction(ramyun.ramyunIdx, ramyun.isFavorite);
+                            }}
                         >
                             {ramyun.isFavorite ? "찜 삭제" : "찜 추가"}
                         </button>
