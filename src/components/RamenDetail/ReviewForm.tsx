@@ -1,44 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-
-interface Review {
-    rvIdx: number;
-    uIdx: number;
-    rIdx: number;
-    rvContent: string;
-    rvRate: number;
-    rvCreatedAt: string;
-    rvPhoto: string | null;
-    rvUpdatedAt: string | null;
-    rvDeletedAt: string | null;
-    nickname: string;
-    liked: boolean;
-    recommendIdx: number | null;
-}
 
 interface ReviewFormProps {
-    onReviewSubmit: (newReview: Review) => void;
+    initialContent: string;
+    initialRating: number;
+    initialPhoto: string | null;
+    onSubmit: (newContent: string, newRating: number, newPhoto: File | null) => void;
+    onCancel: () => void;
+    isEditMode: boolean;
+    rvIdx?: number;
+    ramyunIdx?: string;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ onReviewSubmit }) => {
-    const { ramyunIdx } = useParams<{ ramyunIdx: string }>();
-    const [rating, setRating] = useState(3);
-    const [content, setContent] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+const ReviewForm: React.FC<ReviewFormProps> = ({
+    initialContent,
+    initialRating,
+    initialPhoto,
+    onSubmit,
+    onCancel,
+    isEditMode,
+    rvIdx,
+    ramyunIdx,
+}) => {
+    const [content, setContent] = useState(initialContent);
+    const [rating, setRating] = useState(initialRating);
     const [photo, setPhoto] = useState<File | null>(null);
-    const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-    const [userIdx, setUserIdx] = useState<string | null>(null);
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        const userInfo = localStorage.getItem("userInfo");
-        if (token && userInfo) {
-            const parsedUserInfo = JSON.parse(userInfo);
-            setIsLoggedIn(true);
-            setUserIdx(parsedUserInfo.userId);
-        }
-    }, []);
+    const [photoPreview, setPhotoPreview] = useState<string | null>(initialPhoto);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -49,47 +36,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onReviewSubmit }) => {
     };
 
     const handleSubmit = () => {
-        if (isLoggedIn && userIdx) {
-            const token = localStorage.getItem("token");
-            const currentDate = new Date().toISOString();
-            const formData = new FormData();
-
-            if (photo) {
-                formData.append("file", photo);
-            }
-
-            const body = JSON.stringify({
-                reviewContent: content,
-                rate: rating,
-                rvCreatedAt: currentDate,
-            });
-            const blob = new Blob([body], {
-                type: "application/json",
-            });
-            formData.append("reviewDTO", blob);
-
-            axios
-                .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, formData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((response) => {
-                    const newReview: Review = response.data.data;
-                    onReviewSubmit(newReview);
-                    alert("리뷰가 등록되었습니다.");
-                    setContent("");
-                    setRating(3);
-                    setPhoto(null);
-                    setPhotoPreview(null);
-                })
-                .catch((error) => {
-                    console.error("리뷰 등록 실패:", error);
-                });
-        } else {
-            alert("로그인 상태를 확인할 수 없습니다.");
-        }
+        console.log("Submit clicked");
+        console.log("Content:", content);
+        console.log("Rating:", rating);
+        console.log("Photo:", photo);
+        onSubmit(content, rating, photo);
     };
 
     return (
@@ -120,9 +71,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onReviewSubmit }) => {
                 </div>
             )}
             <div className="submit-button-container">
-                <button onClick={handleSubmit} disabled={!isLoggedIn}>
-                    등록
-                </button>
+                <button onClick={handleSubmit}>{isEditMode ? "수정" : "등록"}</button>
+                {isEditMode && <button onClick={onCancel}>취소</button>}
             </div>
         </div>
     );

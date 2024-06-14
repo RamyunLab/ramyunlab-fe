@@ -29,7 +29,7 @@ interface Review {
     rvContent: string;
     rvRate: number;
     rvCreatedAt: string;
-    rvPhoto: string | null;
+    reviewPhotoUrl: string | null;
     rvUpdatedAt: string | null;
     rvDeletedAt: string | null;
     nickname: string;
@@ -43,34 +43,66 @@ const RamenDetailPage: React.FC = () => {
     const [reviews, setReviews] = useState<Review[]>([]);
 
     useEffect(() => {
-        axios
-            .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}`)
-            .then((response) => {
-                const data = response.data.data.ramyun;
-                const mappedRamen: RamenInfo = {
-                    r_idx: data.ramyunIdx,
-                    r_name: data.ramyunName,
-                    r_img: data.ramyunImg,
-                    b_name: data.brandName,
-                    r_kcal: data.ramyunKcal,
-                    r_noodle: data.noodle,
-                    r_is_cup: data.isCup,
-                    r_cooking: data.cooking,
-                    r_gram: data.gram,
-                    r_na: data.ramyunNa,
-                    r_scoville: data.scoville || undefined,
-                    isLiked: response.data.data.isLiked,
-                };
-                setRamen(mappedRamen);
-                setReviews(response.data.data.review.content);
-            })
-            .catch((error) => {
-                console.error("라면 정보를 불러오는데 실패했습니다:", error);
-            });
+        if (ramyunIdx) {
+            axios
+                .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}`)
+                .then((response) => {
+                    const data = response.data.data.ramyun;
+                    const mappedRamen: RamenInfo = {
+                        r_idx: data.ramyunIdx,
+                        r_name: data.ramyunName,
+                        r_img: data.ramyunImg,
+                        b_name: data.brandName,
+                        r_kcal: data.ramyunKcal,
+                        r_noodle: data.noodle,
+                        r_is_cup: data.isCup,
+                        r_cooking: data.cooking,
+                        r_gram: data.gram,
+                        r_na: data.ramyunNa,
+                        r_scoville: data.scoville || undefined,
+                        isLiked: response.data.data.isLiked,
+                    };
+                    setRamen(mappedRamen);
+                    setReviews(response.data.data.review.content);
+                })
+                .catch((error) => {
+                    console.error("라면 정보를 불러오는데 실패했습니다:", error);
+                });
+        }
     }, [ramyunIdx]);
 
-    const handleReviewSubmit = (newReview: Review) => {
-        setReviews((prevReviews) => [newReview, ...prevReviews]);
+    const handleReviewSubmit = (newContent: string, newRating: number, newPhoto: File | null) => {
+        // 새로운 리뷰를 등록하는 로직 추가
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+
+        if (newPhoto) {
+            formData.append("file", newPhoto);
+        }
+
+        const body = JSON.stringify({
+            reviewContent: newContent,
+            rate: newRating,
+        });
+        const blob = new Blob([body], {
+            type: "application/json",
+        });
+        formData.append("reviewDTO", blob);
+
+        axios
+            .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((response) => {
+                const newReview: Review = response.data.data;
+                setReviews((prevReviews) => [newReview, ...prevReviews]);
+            })
+            .catch((error) => {
+                console.error("리뷰 등록 실패:", error);
+            });
     };
 
     if (!ramen) {
@@ -86,8 +118,17 @@ const RamenDetailPage: React.FC = () => {
             <div className="average-rating">
                 <span>★ ★ ★ ★ ★</span>
             </div>
-            <ReviewList reviews={reviews} setReviews={setReviews} />
-            <ReviewForm onReviewSubmit={handleReviewSubmit} />
+            {ramyunIdx && (
+                <ReviewList reviews={reviews} setReviews={setReviews} ramyunIdx={ramyunIdx} />
+            )}
+            <ReviewForm
+                initialContent=""
+                initialRating={3}
+                initialPhoto={null}
+                onSubmit={handleReviewSubmit}
+                onCancel={() => {}}
+                isEditMode={false}
+            />
         </div>
     );
 };
