@@ -15,7 +15,7 @@ interface RamenInfo {
     r_cooking: boolean;
     r_gram: number;
     r_na: number;
-    r_scoville: number | null;
+    r_scoville?: number;
     isLiked: boolean;
 }
 
@@ -24,15 +24,14 @@ interface RamenInfoTableProps {
 }
 
 const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
-    const [isFavorite, setIsFavorite] = useState(ramen.isLiked);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
-
         // 찜 상태 확인 로직 (임시로 찜 상태를 false로 설정)
         // 실제 구현 시에는 서버에서 찜 상태를 확인하여 설정해야 함
-        // setIsFavorite(true);
+        setIsFavorite(ramen.isLiked);
 
         // 찜 상태 확인 로직
         // axios
@@ -96,6 +95,10 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
         }
     };
 
+    if (!ramen) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="ramen-info-table-container">
             <div className="ramen-name-container">
@@ -144,7 +147,7 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
                     </tr>
                     <tr>
                         <td>스코빌 지수</td>
-                        <td>{ramen.r_scoville !== null ? ramen.r_scoville : "정보 없음"}</td>
+                        <td>{ramen?.r_scoville ?? "정보 없음"}</td>
                     </tr>
                 </tbody>
             </table>

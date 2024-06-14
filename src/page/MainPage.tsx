@@ -44,12 +44,6 @@ const MainPage: React.FC = () => {
                         <div className="banner-text"></div>
                     </Link>
                 </div>
-                <div className="banner">
-                    <img src="/path/to/your/ramen-detail-image.jpg" alt="Ramen Detail Banner" />
-                    <Link to="/ramen/:idx" className="banner-link">
-                        <div className="banner-text">라면 상세페이지</div>
-                    </Link>
-                </div>
                 {showModal && (
                     <TournamentModal onSelect={handleSelectRounds} onClose={handleModalClose} />
                 )}

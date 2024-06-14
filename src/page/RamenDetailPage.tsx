@@ -18,7 +18,7 @@ interface RamenInfo {
     r_cooking: boolean;
     r_gram: number;
     r_na: number;
-    r_scoville: number | null;
+    r_scoville?: number;
     isLiked: boolean;
 }
 
