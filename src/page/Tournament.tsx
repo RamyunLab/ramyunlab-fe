@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Matchup from "../components/Tournament/Matchup.tsx";
-import FinalScreen from "../components/Tournament/FinalScreen.tsx";
-import { GameDTO } from "../Redux/types";
+import { GameDTO } from "../Redux/types.ts";
 import "./Tournament.scss";
 
 const Tournament: React.FC = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const initialRound = location.state?.rounds || 16;
     const [round, setRound] = useState<number>(initialRound);
     const [currentMatchups, setCurrentMatchups] = useState<GameDTO[]>([]);
     const [winners, setWinners] = useState<GameDTO[]>([]);
-    const [champion, setChampion] = useState<GameDTO | null>(null);
     const [currentMatchIndex, setCurrentMatchIndex] = useState<number>(0);
 
     useEffect(() => {
@@ -40,7 +39,10 @@ const Tournament: React.FC = () => {
 
         if (newWinners.length === currentMatchups.length / 2) {
             if (round === 2) {
-                setChampion(newWinners[0]);
+                console.log("우승 라면:", newWinners[0]); // 디버깅용 로그
+                navigate(`/tournament/result/${newWinners[0].r_idx}`, {
+                    state: { champion: newWinners[0] },
+                });
             } else {
                 setTimeout(() => {
                     setCurrentMatchups(newWinners);
@@ -57,12 +59,7 @@ const Tournament: React.FC = () => {
     const handleTournamentStart = (rounds: number) => {
         setRound(rounds);
         setWinners([]);
-        setChampion(null);
     };
-
-    if (champion) {
-        return <FinalScreen champion={champion} />;
-    }
 
     const currentMatchup = currentMatchups.slice(currentMatchIndex * 2, currentMatchIndex * 2 + 2);
 

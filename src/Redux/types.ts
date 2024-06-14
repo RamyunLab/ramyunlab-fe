@@ -1,7 +1,7 @@
 export interface GameDTO {
     r_name: string;
     r_img: string;
-    idx: number;
+    r_idx: number;
 }
 export interface TournamentState {
     round: number | null;
