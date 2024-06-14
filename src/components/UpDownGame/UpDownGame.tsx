@@ -133,6 +133,7 @@ const UpDownGame: React.FC = () => {
     };
 
     const handleGoHome = () => {
+        dispatch(resetGame()); // 게임 상태 초기화
         navigate("/");
     };
 
