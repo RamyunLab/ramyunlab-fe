@@ -104,7 +104,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
 
                 const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
                 if (userInfo.userId === "admin123") {
-                    window.location.href = "http://localhost:8080";
+                    window.location.href = `${process.env.REACT_APP_API_SERVER}`;
                 }
             } else {
                 alert(
