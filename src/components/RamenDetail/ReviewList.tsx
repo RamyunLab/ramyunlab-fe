@@ -230,7 +230,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                     </div>
                                 )}
                                 <div className="content">{review.rvContent}</div>
-                                <div className="date">{review.rvCreatedAt}</div>
+                                <div className="date">
+                                    {new Date(review.rvCreatedAt).toLocaleDateString()}
+                                </div>
                             </div>
                             <div className="likes-rating">
                                 <div className="rating">{renderStars(review.rvRate)}</div>
