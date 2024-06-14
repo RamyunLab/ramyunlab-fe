@@ -1,8 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const ReviewForm: React.FC = () => {
-    const ramyunIdx = "1"; // 임시 값 설정
+interface Review {
+    rvIdx: number;
+    uIdx: number;
+    rIdx: number;
+    rvContent: string;
+    rvRate: number;
+    rvCreatedAt: string;
+    rvPhoto: string | null;
+    rvUpdatedAt: string | null;
+    rvDeletedAt: string | null;
+    nickname: string;
+    liked: boolean;
+    recommendIdx: number | null;
+}
+
+interface ReviewFormProps {
+    onReviewSubmit: (newReview: Review) => void;
+}
+
+const ReviewForm: React.FC<ReviewFormProps> = ({ onReviewSubmit }) => {
+    const { ramyunIdx } = useParams<{ ramyunIdx: string }>();
     const [rating, setRating] = useState(3);
     const [content, setContent] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,7 +75,9 @@ const ReviewForm: React.FC = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 })
-                .then(() => {
+                .then((response) => {
+                    const newReview: Review = response.data.data;
+                    onReviewSubmit(newReview);
                     alert("리뷰가 등록되었습니다.");
                     setContent("");
                     setRating(3);

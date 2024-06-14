@@ -18,42 +18,60 @@ interface RamenInfo {
     r_cooking: boolean;
     r_gram: number;
     r_na: number;
-    r_scoville: number | null;
+    r_scoville?: number;
+    isLiked: boolean;
+}
+
+interface Review {
+    rvIdx: number;
+    uIdx: number;
+    rIdx: number;
+    rvContent: string;
+    rvRate: number;
+    rvCreatedAt: string;
+    rvPhoto: string | null;
+    rvUpdatedAt: string | null;
+    rvDeletedAt: string | null;
+    nickname: string;
+    liked: boolean;
+    recommendIdx: number | null;
 }
 
 const RamenDetailPage: React.FC = () => {
-    const { idx } = useParams<{ idx: string }>();
-
+    const { ramyunIdx } = useParams<{ ramyunIdx: string }>();
     const [ramen, setRamen] = useState<RamenInfo | null>(null);
+    const [reviews, setReviews] = useState<Review[]>([]);
 
     useEffect(() => {
-        // 임시 데이터 설정
-        const tempRamen: RamenInfo = {
-            r_idx: 1,
-            r_name: "감자면",
-            r_img: "https://dc7ne3bdq944q.cloudfront.net/img/ramyun/농심_감자면.jpg",
-            b_name: "농심",
-            r_kcal: 525,
-            r_noodle: true,
-            r_is_cup: false,
-            r_cooking: true,
-            r_gram: 117,
-            r_na: 1750,
-            r_scoville: null,
-        };
-        setRamen(tempRamen);
-
-        // 실제 API 호출 부분 (주석 처리)
-        /*
-        axios.get(`/api/ramyun/${idx}`)
-            .then(response => {
-                setRamen(response.data);
+        axios
+            .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}`)
+            .then((response) => {
+                const data = response.data.data.ramyun;
+                const mappedRamen: RamenInfo = {
+                    r_idx: data.ramyunIdx,
+                    r_name: data.ramyunName,
+                    r_img: data.ramyunImg,
+                    b_name: data.brandName,
+                    r_kcal: data.ramyunKcal,
+                    r_noodle: data.noodle,
+                    r_is_cup: data.isCup,
+                    r_cooking: data.cooking,
+                    r_gram: data.gram,
+                    r_na: data.ramyunNa,
+                    r_scoville: data.scoville || undefined,
+                    isLiked: response.data.data.isLiked,
+                };
+                setRamen(mappedRamen);
+                setReviews(response.data.data.review.content);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("라면 정보를 불러오는데 실패했습니다:", error);
             });
-        */
-    }, [idx]);
+    }, [ramyunIdx]);
+
+    const handleReviewSubmit = (newReview: Review) => {
+        setReviews((prevReviews) => [newReview, ...prevReviews]);
+    };
 
     if (!ramen) {
         return <div>Loading...</div>;
@@ -68,8 +86,8 @@ const RamenDetailPage: React.FC = () => {
             <div className="average-rating">
                 <span>★ ★ ★ ★ ★</span>
             </div>
-            <ReviewList />
-            <ReviewForm />
+            <ReviewList reviews={reviews} setReviews={setReviews} />
+            <ReviewForm onReviewSubmit={handleReviewSubmit} />
         </div>
     );
 };
