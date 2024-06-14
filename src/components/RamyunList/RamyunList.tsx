@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
 import styles from "./RamyunList.module.scss";
 
-// 필터 매핑 객체 추가
 const brandMapping = {
     "1": "농심",
     "2": "삼양",
@@ -76,10 +76,6 @@ interface RamyunResponse {
 }
 
 const RamyunList: React.FC = () => {
-    const [ramyunList, setRamyunList] = useState<Ramyun[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [totalPages, setTotalPages] = useState<number>(0);
     const [sort, setSort] = useState<string>("name");
     const [direction, setDirection] = useState<string>("asc");
 
@@ -98,6 +94,7 @@ const RamyunList: React.FC = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const avgRateButtonRef = useRef<HTMLButtonElement>(null);
 
     const getPageFromQuery = () => {
         const searchParams = new URLSearchParams(location.search);
@@ -128,31 +125,24 @@ const RamyunList: React.FC = () => {
     const [page, setPage] = useState<number>(getPageFromQuery());
 
     const fetchRamyunList = async (page: number, sort: string, direction: string, filters: any) => {
-        setLoading(true);
-        try {
-            const params = new URLSearchParams();
-            params.append("page", page.toString());
-            params.append("sort", sort);
-            params.append("direction", direction);
-            Object.keys(filters).forEach((key) => {
-                filters[key].forEach((value: any) => params.append(key, value));
-            });
-            const response = await axios.get<RamyunResponse>(
-                `${process.env.REACT_APP_API_SERVER}/main/search?${params.toString()}`
-            );
-            if (response.data.statusCode === 200) {
-                setRamyunList(response.data.data.content);
-                setTotalPages(response.data.data.totalPages);
-                setError(null);
-            } else {
-                setError("Failed to fetch data");
-            }
-        } catch (error) {
-            setError("Error occurred while fetching data");
-        } finally {
-            setLoading(false);
-        }
+        const params = new URLSearchParams();
+        params.append("page", page.toString());
+        params.append("sort", sort);
+        params.append("direction", direction);
+        Object.keys(filters).forEach((key) => {
+            filters[key].forEach((value: any) => params.append(key, value));
+        });
+        const response = await axios.get<RamyunResponse>(
+            `${process.env.REACT_APP_API_SERVER}/main/search?${params.toString()}`
+        );
+        return response.data;
     };
+
+    const { data, error, isLoading } = useQuery(
+        ["ramyunList", page, sort, direction, filters],
+        () => fetchRamyunList(page, sort, direction, filters),
+        { keepPreviousData: true }
+    );
 
     useEffect(() => {
         const currentPage = getPageFromQuery();
@@ -164,15 +154,14 @@ const RamyunList: React.FC = () => {
         setSort(currentSort);
         setDirection(currentDirection);
         setFilters(currentFilters);
-
-        fetchRamyunList(currentPage, currentSort, currentDirection, currentFilters);
     }, [location.search]);
 
     const updateUrlParams = (
         newPage: number,
         newSort: string,
         newDirection: string,
-        newFilters: any
+        newFilters: any,
+        shouldScroll: boolean
     ) => {
         const params = new URLSearchParams();
         params.set("page", newPage.toString());
@@ -182,17 +171,20 @@ const RamyunList: React.FC = () => {
             newFilters[key].forEach((value: any) => params.append(key, value));
         });
         navigate(`?${params.toString()}`, { replace: false });
+        if (shouldScroll && avgRateButtonRef.current) {
+            avgRateButtonRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
     };
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
-        updateUrlParams(newPage, sort, direction, filters);
+        updateUrlParams(newPage, sort, direction, filters, true);
     };
 
     const toggleSortDirection = () => {
         const newDirection = direction === "asc" ? "desc" : "asc";
         setDirection(newDirection);
-        updateUrlParams(1, sort, newDirection, filters);
+        updateUrlParams(1, sort, newDirection, filters, false);
     };
 
     const handleSortChange = (newSort: string) => {
@@ -201,7 +193,7 @@ const RamyunList: React.FC = () => {
         } else {
             setSort(newSort);
             setDirection("asc");
-            updateUrlParams(1, newSort, "asc", filters);
+            updateUrlParams(1, newSort, "asc", filters, false);
             setPage(1);
         }
     };
@@ -214,7 +206,7 @@ const RamyunList: React.FC = () => {
             newFilters[key] = newFilters[key].filter((v: string) => v !== value);
         }
         setFilters(newFilters);
-        updateUrlParams(1, sort, direction, newFilters);
+        updateUrlParams(1, sort, direction, newFilters, false);
         setPage(1);
     };
 
@@ -225,9 +217,10 @@ const RamyunList: React.FC = () => {
     const handleSearchButtonClick = () => {
         const newFilters = { ...filters, name: [searchText] };
         setFilters(newFilters);
-        updateUrlParams(1, sort, direction, newFilters);
+        updateUrlParams(1, sort, direction, newFilters, false);
         setPage(1);
     };
+
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             handleSearchButtonClick();
@@ -235,6 +228,7 @@ const RamyunList: React.FC = () => {
     };
 
     const renderPagination = () => {
+        const totalPages = data?.data?.totalPages || 0;
         const pages = [];
         const totalBlocks = Math.ceil(totalPages / 5);
         const currentBlock = Math.ceil(page / 5);
@@ -275,9 +269,19 @@ const RamyunList: React.FC = () => {
         );
     };
 
-    if (error) {
-        return <div>{error}</div>;
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
+
+    if (error) {
+        return (
+            <div>
+                {error instanceof Error ? error.message : "Error occurred while fetching data"}
+            </div>
+        );
+    }
+
+    const ramyunList = data?.data?.content || [];
 
     return (
         <div className={styles.ramyunListContainer}>
@@ -482,6 +486,7 @@ const RamyunList: React.FC = () => {
                 </div>
                 <div className={styles.filterGroup}>
                     <button
+                        ref={avgRateButtonRef}
                         className={`${styles.filterButton} ${
                             sort === "avgRate" ? styles.active : ""
                         }`}
