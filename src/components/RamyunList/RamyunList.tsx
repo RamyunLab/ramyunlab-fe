@@ -82,6 +82,7 @@ interface RamyunResponse {
 const RamyunList: React.FC = () => {
     const [sort, setSort] = useState<string>("name");
     const [direction, setDirection] = useState<string>("asc");
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     const [filters, setFilters] = useState<any>({
         name: "",
@@ -554,15 +555,23 @@ const RamyunList: React.FC = () => {
                 </div>
             </div>
             <div className={styles.ramyunList}>
-                {ramyunList.map((ramyun) => (
+                {ramyunList.map((ramyun, index) => (
                     <div
                         key={ramyun.ramyunIdx}
-                        className={styles.ramyunItem}
+                        className={`${styles.ramyunItem} ${
+                            ramyun.isFavorite ? styles.favorite : ""
+                        }`}
                         onClick={() => handleRamyunClick(ramyun.ramyunIdx)}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
                     >
                         <div className={styles.topContainer}>
                             <FontAwesomeIcon
-                                icon={ramyun.isFavorite ? solidHeart : regularHeart}
+                                icon={
+                                    ramyun.isFavorite || hoveredIndex === index
+                                        ? solidHeart
+                                        : regularHeart
+                                }
                                 onClick={(e) => {
                                     e.stopPropagation(); // Prevents the item click handler
                                     handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isFavorite);
@@ -572,17 +581,18 @@ const RamyunList: React.FC = () => {
                                 }`}
                             />
                         </div>
-                        <div className={styles.starRating}>
-                            <FaStar color="gold" />
-                            <span>{ramyun.avgRate.toFixed(1)}</span>
-                            <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
-                        </div>
+
                         <img
                             src={ramyun.ramyunImg}
                             alt={ramyun.ramyunName}
                             className={styles.ramyunImg}
                         />
                         <h3>{ramyun.ramyunName}</h3>
+                        <div className={styles.starRating}>
+                            <FaStar color="gold" />
+                            <span>{ramyun.avgRate.toFixed(1)}</span>
+                            <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
+                        </div>
                     </div>
                 ))}
             </div>

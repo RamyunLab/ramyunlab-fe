@@ -10,13 +10,15 @@
 
 .filters {
     display: flex;
+    // justify-content: center;
+    // align-items: center;
     margin-top: 10px;
     width: 100%;
     left: 100px;
     padding: 20px;
     border-radius: 8px;
     flex-wrap: wrap;
-    max-width: 700px !important;
+    max-width: 700px !important ;
     margin-bottom: -20px;
     margin-left: -10%;
 }
@@ -83,15 +85,13 @@
     border-radius: 8px;
     padding: 20px;
     width: 200px;
-    height: 245px; // 높이를 조정하여 글자가 들어갈 공간 확보
+    height: 280px; // 높이를 조정하여 글자가 들어갈 공간 확보
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between; // 아이템들 사이에 공간을 고르게 배치
-    position: relative; // Add this line for absolute positioning of favorite icon
-
     &:hover {
         border-color: #ffab21; /* 테두리 색상 변경 */
     }
@@ -108,27 +108,13 @@
 h3 {
     width: 100%;
     height: 40px; // 텍스트 컨테이너의 고정 높이 설정
-    margin: 0;
+    margin-top: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px; // 필요시 글자 크기 조정
+    font-size: 19px; // 필요시 글자 크기 조정
     text-align: center; // 텍스트 중앙 정렬
-}
-.favoriteIcon {
-    cursor: pointer;
-    font-size: 27px; // Adjust size to match star rating size
-    color: #888;
-    margin-right: 170px; // Add space between the heart icon and the star rating
-    transition: color 0.2s;
-
-    &.favorite {
-        color: red;
-    }
-
-    &:hover {
-        color: red;
-    }
+    margin-bottom: -12px;
 }
 
 .pagination {
@@ -198,6 +184,19 @@ h3 {
         }
     }
 }
+.favoriteIcon {
+    margin-left: -170px;
+    font-size: 31px;
+    margin-top: -20px !important;
+    transition: color 0.2s;
+    &.favorite {
+        color: red;
+    }
+
+    &:hover {
+        color: red;
+    }
+}
 
 @media (max-width: 768px) {
     .ramyunListContainer {
@@ -208,7 +207,7 @@ h3 {
 
     .ramyunItem {
         width: 100px;
-        height: 150px; // 높이를 조정하여 글자가 들어갈 공간 확보
+        height: 160px; // 높이를 조정하여 글자가 들어갈 공간 확보
     }
 
     .ramyunImg {
@@ -241,7 +240,7 @@ h3 {
     }
 
     .ramyunItem {
-        width: 75%;
+        width: 70%;
         height: auto;
     }
 
@@ -268,10 +267,12 @@ h3 {
 }
 
 .starRating {
-    font-size: 20px; /* Adjust the size as needed */
-    margin-bottom: 5px; /* Add some space between the star rating and other elements */
-    margin-left: -30px;
-    margin-top: -32px;
+    // display: flex;
+    // align-items: center;
+
+    font-size: 16px; /* Adjust the size as needed */
+    margin-bottom: 5px !important;
+    margin-top: 17px; /* Add some space between the star rating and other elements */
 }
 
 .starRating span {
@@ -285,7 +286,6 @@ h3 {
     color: #666; /* Adjust the color as needed */
     margin-bottom: 10px; /* Add some space between the review count and the image */
 }
-
 .filterContainer {
     display: flex;
     flex-direction: column;
@@ -347,6 +347,13 @@ h3 {
     padding: 10px 0;
 }
 
+// .filterGroup p {
+//     font-size: 16px;
+//     color: #333;
+//     margin-right: 10px; /* 제목과 체크박스 간 간격 추가 */
+//     min-width: 80px;
+// }
+
 .filterGroup label {
     display: flex;
     margin-left: 10px;
@@ -370,12 +377,15 @@ h3 {
 .filterGroup input {
     display: none; /* 기본 체크박스 숨기기 */
 }
-
 @media (max-width: 768px) {
     .filterRow {
         flex-direction: row;
     }
-
+    .favoriteIcon {
+        margin-left: -75px;
+        font-size: 25px;
+        margin-top: -10px !important;
+    }
     .filterGroups {
         gap: 0px;
     }
@@ -395,6 +405,33 @@ h3 {
         padding: 3px 5px;
         font-size: 12px;
     }
+    .starRating {
+        // display: flex;
+        // align-items: center;
+
+        font-size: 13px; /* Adjust the size as needed */
+        margin-bottom: 7px !important;
+        margin-top: 10px; /* Add some space between the star rating and other elements */
+    }
+
+    .starRating span {
+        margin-left: 5px; /* Add some space between the star and the rating text */
+        font-weight: bold; /* Make the rating text bold */
+    }
+
+    .reviewCount {
+        margin-top: 10px;
+        font-size: 9px; /* Adjust the size as needed */
+        color: #666; /* Adjust the color as needed */
+    }
+    h3 {
+        font-size: 13px;
+
+        margin-bottom: 1px;
+    }
+    // h3 {
+    //     margin-bottom: 2px;
+    // }
 }
 
 @media (max-width: 480px) {
@@ -440,8 +477,26 @@ h3 {
         margin-top: -3px !important;
         margin-bottom: -3px !important;
     }
-}
+    .starRating {
+        // display: flex;
+        // align-items: center;
 
+        font-size: 12px; /* Adjust the size as needed */
+        margin-bottom: 7px !important;
+        margin-top: 10px; /* Add some space between the star rating and other elements */
+    }
+
+    .starRating span {
+        margin-left: 5px; /* Add some space between the star and the rating text */
+        font-weight: bold; /* Make the rating text bold */
+    }
+
+    .reviewCount {
+        margin-top: 10px;
+        font-size: 9px; /* Adjust the size as needed */
+        color: #666; /* Adjust the color as needed */
+    }
+}
 .searchContainer {
     display: flex;
     align-items: center;
