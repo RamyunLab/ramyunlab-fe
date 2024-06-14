@@ -41,22 +41,26 @@ const UpDownGame: React.FC = () => {
     } = useSelector((state: RootState) => state.updown);
 
     const [isClickable, setIsClickable] = useState(true);
+
+    useEffect(() => {
+        if (!currentRamen && !nextRamen) {
+            refetch();
+        }
+    }, [currentRamen, nextRamen]);
+
     const { data, isError, refetch } = useQuery("ramenData", fetchRamenData, {
         onSuccess: (data) => {
             if (data.statusCode === 200) {
-                if (!currentRamen && !nextRamen) {
-                    const newRamen = data.data.filter(
-                        (ramen) =>
-                            seenRamen && !seenRamen.some((seen) => seen.r_idx === ramen.r_idx)
-                    );
-                    if (newRamen.length < 2) {
-                        dispatch(setMessage("더 이상 새로운 라면이 없습니다."));
-                        dispatch(setGameOver({ finalRamen: currentRamen, message: "게임 종료" }));
-                    } else {
-                        dispatch(setRamen({ current: newRamen[0], next: newRamen[1] }));
-                        dispatch(addSeenRamen(newRamen[0]));
-                        dispatch(addSeenRamen(newRamen[1]));
-                    }
+                const newRamen = data.data.filter(
+                    (ramen) => !seenRamen.some((seen) => seen.r_idx === ramen.r_idx)
+                );
+                if (newRamen.length < 2) {
+                    dispatch(setMessage("더 이상 새로운 라면이 없습니다."));
+                    dispatch(setGameOver({ finalRamen: currentRamen, message: "게임 종료" }));
+                } else {
+                    dispatch(setRamen({ current: newRamen[0], next: newRamen[1] }));
+                    dispatch(addSeenRamen(newRamen[0]));
+                    dispatch(addSeenRamen(newRamen[1]));
                 }
             }
         },
@@ -107,6 +111,7 @@ const UpDownGame: React.FC = () => {
                             message: "축하합니다! 스코빌이 가장 높은 라면을 맞추셨습니다.",
                         })
                     );
+                    navigate("/UpDownGame/result", { state: { finalRamen: selectedRamen } });
                 } else {
                     dispatch(setRamen({ current: selectedRamen, next: null }));
                     fetchNextRamen(); // 새로운 라면 데이터를 가져와서 nextRamen으로 설정
