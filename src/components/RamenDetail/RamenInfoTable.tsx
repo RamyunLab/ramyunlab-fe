@@ -16,6 +16,7 @@ interface RamenInfo {
     r_gram: number;
     r_na: number;
     r_scoville: number | null;
+    isLiked: boolean;
 }
 
 interface RamenInfoTableProps {
@@ -23,21 +24,27 @@ interface RamenInfoTableProps {
 }
 
 const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(ramen.isLiked);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
 
+        // 찜 상태 확인 로직 (임시로 찜 상태를 false로 설정)
+        // 실제 구현 시에는 서버에서 찜 상태를 확인하여 설정해야 함
+        // setIsFavorite(true);
+
         // 찜 상태 확인 로직
         // axios
-        //     .get(`${process.env.REACT_APP_API_SERVER}/api/favorites/${ramen.r_idx}`, {
+        //     .get(`${process.env.REACT_APP_API_SERVER}/api/user/favorite`, {
         //         headers: {
         //             Authorization: `Bearer ${token}`,
         //         },
         //     })
         //     .then((response) => {
-        //         setIsFavorite(response.data.isFavorite);
+        //         const favorites = response.data.data.content;
+        //         const isFav = favorites.some((fav: any) => fav.r_idx === ramen.r_idx);
+        //         setIsFavorite(isFav);
         //     })
         //     .catch((error) => {
         //         console.error("찜 상태 확인 실패:", error);
@@ -89,10 +96,6 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
         }
     };
 
-    if (!ramen) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <div className="ramen-info-table-container">
             <div className="ramen-name-container">
@@ -100,7 +103,7 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
                 <FontAwesomeIcon
                     icon={isFavorite ? solidHeart : regularHeart}
                     onClick={handleFavoriteToggle}
-                    className={`favorite-icon ${isFavorite ? "favorite" : ""}`}
+                    className={`favorite-icon ${isFavorite ? "fa-solid" : "fa-regular"}`}
                 />
             </div>
             <table className="ramen-info-table">

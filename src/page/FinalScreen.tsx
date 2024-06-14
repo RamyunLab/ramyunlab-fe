@@ -18,9 +18,9 @@ const FinalScreen: React.FC = () => {
             setChampion(championFromState);
         } else if (ramenId) {
             axios
-                .get(`${process.env.REACT_APP_API_SERVER}/game/ramen/${ramenId}`)
+                .get(`/main/ramyun/${ramenId}`)
                 .then((response) => {
-                    setChampion(response.data.data);
+                    setChampion(response.data.data.ramyun);
                 })
                 .catch((error) => {
                     console.error("우승 라면 정보 조회 실패:", error);
@@ -30,7 +30,7 @@ const FinalScreen: React.FC = () => {
 
     const handleDetailPage = () => {
         if (champion) {
-            navigate(`/ramen/${champion.r_idx}`);
+            navigate(`/main/ramyun/${champion.r_idx}`);
         }
     };
 
@@ -58,7 +58,7 @@ const FinalScreen: React.FC = () => {
 
     const handleKakaoShare = () => {
         if (champion) {
-            const detailPageUrl = `http://43.203.209.183/tournament/result/${champion.r_idx}`;
+            const detailPageUrl = `http://43.203.209.183/main/ramyun/${champion.r_idx}`;
             if (window.Kakao) {
                 window.Kakao.Link.sendDefault({
                     objectType: "feed",
