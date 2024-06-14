@@ -3,6 +3,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import ReviewForm from "./ReviewForm.tsx";
 
 interface Review {
     rvIdx: number;
@@ -11,7 +12,7 @@ interface Review {
     rvContent: string;
     rvRate: number;
     rvCreatedAt: string;
-    rvPhoto: string | null;
+    reviewPhotoUrl: string | null;
     rvUpdatedAt: string | null;
     rvDeletedAt: string | null;
     nickname: string;
@@ -22,11 +23,14 @@ interface Review {
 interface ReviewListProps {
     reviews: Review[];
     setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
+    ramyunIdx: string;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews }) => {
+const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx }) => {
     const [editMode, setEditMode] = useState<number | null>(null);
     const [editContent, setEditContent] = useState<string>("");
+    const [editRating, setEditRating] = useState<number>(0);
+    const [editPhoto, setEditPhoto] = useState<string | null>(null);
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -108,103 +112,159 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews }) => {
     };
 
     const handleDelete = (rvIdx: number) => {
-        const token = localStorage.getItem("token");
-        axios
-            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((response) => {
-                if (response.data.success) {
-                    setReviews(reviews.filter((review) => review.rvIdx !== rvIdx));
-                }
-            })
-            .catch((error) => {
-                console.error("리뷰 삭제 실패:", error);
-            });
-    };
-
-    const handleEdit = (rvIdx: number) => {
-        setEditMode(rvIdx);
-        const review = reviews.find((review) => review.rvIdx === rvIdx);
-        if (review) {
-            setEditContent(review.rvContent);
-        }
-    };
-
-    const handleSave = (rvIdx: number) => {
-        const token = localStorage.getItem("token");
-        axios
-            .patch(
-                `${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`,
-                { reviewContent: editContent },
-                {
+        const confirmed = window.confirm("정말로 이 리뷰를 삭제하시겠습니까?");
+        if (confirmed) {
+            const token = localStorage.getItem("token");
+            axios
+                .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                }
-            )
-            .then((response) => {
-                if (response.data.success) {
-                    setReviews(
-                        reviews.map((review) =>
-                            review.rvIdx === rvIdx ? { ...review, rvContent: editContent } : review
-                        )
-                    );
-                    setEditMode(null);
-                    setEditContent("");
-                }
-            })
-            .catch((error) => {
-                console.error("리뷰 수정 실패:", error);
-            });
+                })
+                .then((response) => {
+                    if (response.data.statusCode === 200) {
+                        setReviews((prevReviews) =>
+                            prevReviews.filter((review) => review.rvIdx !== rvIdx)
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("리뷰 삭제 실패:", error);
+                });
+        }
+    };
+
+    const handleEdit = (
+        rvIdx: number,
+        content: string,
+        rating: number,
+        photoUrl: string | null
+    ) => {
+        setEditMode(rvIdx);
+        setEditContent(content);
+        setEditRating(rating);
+        setEditPhoto(photoUrl);
+    };
+
+    const handleCancelEdit = () => {
+        setEditMode(null);
+    };
+
+    const handleSaveEdit = (newContent: string, newRating: number, newPhoto: File | null) => {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+
+        if (newPhoto) {
+            formData.append("file", newPhoto);
+        }
+
+        const body = JSON.stringify({
+            reviewContent: newContent,
+            rate: newRating,
+        });
+        const blob = new Blob([body], {
+            type: "application/json",
+        });
+        formData.append("reviewDTO", blob);
+
+        if (editMode && ramyunIdx) {
+            axios
+                .patch(
+                    `${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}/${editMode}`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                )
+                .then((response) => {
+                    if (response.data.statusCode === 200) {
+                        console.log("Response from server:", response.data);
+                        setReviews((prevReviews) =>
+                            prevReviews.map((review) =>
+                                review.rvIdx === editMode
+                                    ? {
+                                          ...review,
+                                          rvContent: newContent,
+                                          rvRate: newRating,
+                                          reviewPhotoUrl:
+                                              response.data.data.reviewPhotoUrl ||
+                                              review.reviewPhotoUrl,
+                                      }
+                                    : review
+                            )
+                        );
+                        setEditMode(null);
+                    }
+                })
+                .catch((error) => {
+                    console.error("리뷰 수정 실패:", error);
+                });
+        }
     };
 
     return (
         <div className="review-list">
             {reviews.map((review, index) => (
                 <div className="review" key={index}>
-                    <div className="nickname">{review.nickname}</div>
-                    <div className="review-content">
-                        {review.rvPhoto && (
-                            <div className="review-image">
-                                <img src={review.rvPhoto} alt="Review" />
+                    {editMode === review.rvIdx ? (
+                        <ReviewForm
+                            initialContent={editContent}
+                            initialRating={editRating}
+                            initialPhoto={editPhoto}
+                            onSubmit={handleSaveEdit}
+                            onCancel={handleCancelEdit}
+                            isEditMode={true}
+                            rvIdx={review.rvIdx}
+                            ramyunIdx={ramyunIdx}
+                        />
+                    ) : (
+                        <>
+                            <div className="nickname">{review.nickname}</div>
+                            <div className="review-content">
+                                {review.reviewPhotoUrl && (
+                                    <div className="review-image">
+                                        <img src={review.reviewPhotoUrl} alt="Review" />
+                                    </div>
+                                )}
+                                <div className="content">{review.rvContent}</div>
+                                <div className="date">
+                                    {new Date(review.rvCreatedAt).toLocaleDateString()}
+                                </div>
                             </div>
-                        )}
-                        <div className="content">
-                            {editMode === review.rvIdx ? (
-                                <input
-                                    type="text"
-                                    value={editContent}
-                                    onChange={(e) => setEditContent(e.target.value)}
-                                />
-                            ) : (
-                                review.rvContent
+                            <div className="likes-rating">
+                                <div className="rating">{renderStars(review.rvRate)}</div>
+                                <div className="likes">
+                                    <FontAwesomeIcon
+                                        icon={review.liked ? solidThumbsUp : regularThumbsUp}
+                                        onClick={() => handleLikeToggle(review.rvIdx)}
+                                        className={`thumbs-up-icon ${
+                                            review.liked ? "solid" : "regular"
+                                        }`}
+                                    />
+                                    {review.rvRate}
+                                </div>
+                            </div>
+                            {currentUserId === review.uIdx && (
+                                <div className="actions">
+                                    <button
+                                        onClick={() =>
+                                            handleEdit(
+                                                review.rvIdx,
+                                                review.rvContent,
+                                                review.rvRate,
+                                                review.reviewPhotoUrl
+                                            )
+                                        }
+                                    >
+                                        수정
+                                    </button>
+                                    <button onClick={() => handleDelete(review.rvIdx)}>삭제</button>
+                                </div>
                             )}
-                        </div>
-                        <div className="date">{review.rvCreatedAt}</div>
-                    </div>
-                    <div className="likes-rating">
-                        <div className="rating">{renderStars(review.rvRate)}</div>
-                        <div className="likes">
-                            <FontAwesomeIcon
-                                icon={review.liked ? solidThumbsUp : regularThumbsUp}
-                                onClick={() => handleLikeToggle(review.rvIdx)}
-                                className={`thumbs-up-icon ${review.liked ? "solid" : "regular"}`}
-                            />
-                            {review.rvRate}
-                        </div>
-                    </div>
-                    {currentUserId === review.uIdx && (
-                        <div className="actions">
-                            {editMode === review.rvIdx ? (
-                                <button onClick={() => handleSave(review.rvIdx)}>저장</button>
-                            ) : (
-                                <button onClick={() => handleEdit(review.rvIdx)}>수정</button>
-                            )}
-                            <button onClick={() => handleDelete(review.rvIdx)}>삭제</button>
-                        </div>
+                        </>
                     )}
                 </div>
             ))}
