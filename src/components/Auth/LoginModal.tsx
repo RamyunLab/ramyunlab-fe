@@ -101,6 +101,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                 // 리덕스 상태 업데이트
                 dispatch(login(token));
                 toggleLoginModal();
+
+                const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+                if (userInfo.userId === "admin123") {
+                    window.location.href = "http://localhost:8080";
+                }
             } else {
                 alert(
                     response.data.message ||
