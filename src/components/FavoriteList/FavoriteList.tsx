@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
+import { useNavigate } from "react-router-dom";
 import styles from "./FavoriteList.module.scss";
 
 interface FavoriteItem {
@@ -36,6 +37,7 @@ const FavoriteList: React.FC = () => {
     const [totalPages, setTotalPages] = useState<number>(0);
 
     const token = useSelector((state: RootState) => state.auth.token);
+    const navigate = useNavigate();
 
     const fetchFavoriteList = async (page: number) => {
         setLoading(true);
@@ -70,6 +72,11 @@ const FavoriteList: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const handleItemClick = (ramyunIdx: number) => {
+        navigate(`/main/ramyun/${ramyunIdx}`);
     };
 
     const renderPagination = () => {
@@ -101,7 +108,12 @@ const FavoriteList: React.FC = () => {
             ) : (
                 <div className={styles.favoriteList}>
                     {favoriteList.map((item) => (
-                        <div key={item.ramyunIdx} className={styles.favoriteItem}>
+                        <div
+                            key={item.ramyunIdx}
+                            className={styles.favoriteItem}
+                            onClick={() => handleItemClick(item.ramyunIdx)}
+                            style={{ cursor: "pointer" }}
+                        >
                             <img
                                 src={item.ramyunImg}
                                 alt={item.ramyunName}
@@ -109,10 +121,10 @@ const FavoriteList: React.FC = () => {
                             />
                             <h3>{item.ramyunName}</h3>
                             <p>{item.brandName}</p>
-                            <div className={styles.rating}>
-                                <span>평점: {item.avgRate.toFixed(1)}</span>
+                            {/* <div className={styles.rating}>
+                                <span>평점: {item.avgRate ? item.avgRate.toFixed(1) : "N/A"}</span>
                                 <span>리뷰 수: {item.reviewCount}</span>
-                            </div>
+                            </div> */}
                         </div>
                     ))}
                 </div>

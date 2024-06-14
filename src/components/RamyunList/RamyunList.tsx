@@ -137,8 +137,14 @@ const RamyunList: React.FC = () => {
         Object.keys(filters).forEach((key) => {
             filters[key].forEach((value: any) => params.append(key, value));
         });
+        const token = localStorage.getItem("token");
         const response = await axios.get<RamyunResponse>(
-            `${process.env.REACT_APP_API_SERVER}/main/search?${params.toString()}`
+            `${process.env.REACT_APP_API_SERVER}/main/search?${params.toString()}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
         );
         return response.data;
     };
