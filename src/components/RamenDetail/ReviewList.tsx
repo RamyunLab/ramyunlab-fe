@@ -112,21 +112,26 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     };
 
     const handleDelete = (rvIdx: number) => {
-        const token = localStorage.getItem("token");
-        axios
-            .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((response) => {
-                if (response.data.success) {
-                    setReviews(reviews.filter((review) => review.rvIdx !== rvIdx));
-                }
-            })
-            .catch((error) => {
-                console.error("리뷰 삭제 실패:", error);
-            });
+        const confirmed = window.confirm("정말로 이 리뷰를 삭제하시겠습니까?");
+        if (confirmed) {
+            const token = localStorage.getItem("token");
+            axios
+                .delete(`${process.env.REACT_APP_API_SERVER}/api/review/${rvIdx}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((response) => {
+                    if (response.data.statusCode === 200) {
+                        setReviews((prevReviews) =>
+                            prevReviews.filter((review) => review.rvIdx !== rvIdx)
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("리뷰 삭제 실패:", error);
+                });
+        }
     };
 
     const handleEdit = (
@@ -176,6 +181,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 )
                 .then((response) => {
                     if (response.data.statusCode === 200) {
+                        console.log("Response from server:", response.data);
                         setReviews((prevReviews) =>
                             prevReviews.map((review) =>
                                 review.rvIdx === editMode
