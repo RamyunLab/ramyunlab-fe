@@ -157,7 +157,7 @@ const RamyunList: React.FC = () => {
 
         setPage(currentPage);
         setSort(currentSort);
-        setDirection(currentDirection);
+        if (sort === "name") setDirection(currentDirection);
         setFilters(currentFilters);
     }, [location.search]);
 
@@ -193,11 +193,11 @@ const RamyunList: React.FC = () => {
     };
 
     const handleSortChange = (newSort: string) => {
-        if (sort === newSort) {
+        if (newSort === "name" && sort === newSort) {
             toggleSortDirection();
         } else {
             setSort(newSort);
-            setDirection("asc");
+            // setDirection("asc");
             updateUrlParams(1, newSort, "asc", filters, false);
             setPage(1);
         }
