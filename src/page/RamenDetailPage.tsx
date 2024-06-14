@@ -22,15 +22,30 @@ interface RamenInfo {
     isLiked: boolean;
 }
 
+interface Review {
+    rvIdx: number;
+    uIdx: number;
+    rIdx: number;
+    rvContent: string;
+    rvRate: number;
+    rvCreatedAt: string;
+    rvPhoto: string | null;
+    rvUpdatedAt: string | null;
+    rvDeletedAt: string | null;
+    nickname: string;
+    liked: boolean;
+    recommendIdx: number | null;
+}
+
 const RamenDetailPage: React.FC = () => {
     const { ramyunIdx } = useParams<{ ramyunIdx: string }>();
     const [ramen, setRamen] = useState<RamenInfo | null>(null);
+    const [reviews, setReviews] = useState<Review[]>([]);
 
     useEffect(() => {
         axios
             .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}`)
             .then((response) => {
-                console.log("Response data:", response.data);
                 const data = response.data.data.ramyun;
                 const mappedRamen: RamenInfo = {
                     r_idx: data.ramyunIdx,
@@ -43,15 +58,20 @@ const RamenDetailPage: React.FC = () => {
                     r_cooking: data.cooking,
                     r_gram: data.gram,
                     r_na: data.ramyunNa,
-                    r_scoville: data.scoville,
+                    r_scoville: data.scoville || undefined,
                     isLiked: response.data.data.isLiked,
                 };
                 setRamen(mappedRamen);
+                setReviews(response.data.data.review.content);
             })
             .catch((error) => {
                 console.error("라면 정보를 불러오는데 실패했습니다:", error);
             });
     }, [ramyunIdx]);
+
+    const handleReviewSubmit = (newReview: Review) => {
+        setReviews((prevReviews) => [newReview, ...prevReviews]);
+    };
 
     if (!ramen) {
         return <div>Loading...</div>;
@@ -66,8 +86,8 @@ const RamenDetailPage: React.FC = () => {
             <div className="average-rating">
                 <span>★ ★ ★ ★ ★</span>
             </div>
-            <ReviewList />
-            <ReviewForm />
+            <ReviewList reviews={reviews} setReviews={setReviews} />
+            <ReviewForm onReviewSubmit={handleReviewSubmit} />
         </div>
     );
 };
