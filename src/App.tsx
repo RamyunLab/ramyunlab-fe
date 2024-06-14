@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./components/Header/Header.tsx";
 import MainPage from "./page/MainPage.tsx";
 import MbtiPage from "./page/MbtiPage.tsx";
@@ -12,9 +12,9 @@ import LoginModal from "./components/Auth/LoginModal.tsx";
 import RegisterModal from "./components/Auth/RegisterModal.tsx";
 import RamenDetailPage from "./page/RamenDetailPage.tsx";
 import UpDownGamePage from "./page/UpDownGamePage.tsx";
-
 import AccountPage from "./components/AccountModal/AccountPage.tsx";
 import FinalScreen from "./page/FinalScreen.tsx";
+import FavoriteListPage from "./page/FavoriteListPage.tsx";
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
@@ -35,19 +35,29 @@ const App: React.FC = () => {
         }
     };
 
+    const RedirectToMain = () => {
+        const navigate = useNavigate();
+        useEffect(() => {
+            navigate("/main");
+        }, [navigate]);
+        return null;
+    };
+
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <Header toggleLoginModal={toggleLoginModal} /> {/* Modify this line */}
+                    <Header toggleLoginModal={toggleLoginModal} />
                     <Routes>
+                        <Route path="/" element={<RedirectToMain />} />
+                        <Route path="/main" element={<MainPage />} />
                         <Route path="/mbti" element={<MbtiPage />} />
-                        <Route path="/" element={<MainPage />} />
                         <Route path="/tournament" element={<Tournament />} />
                         <Route path="/ramen/:idx" element={<RamenDetailPage />} />
                         <Route path="/UpDownGame" element={<UpDownGamePage />} />
                         <Route path="/account" element={<AccountPage />} />{" "}
                         <Route path="/tournament/result/:ramenId" element={<FinalScreen />} />
+                        <Route path="/FavoriteListPage" element={<FavoriteListPage />} />
                     </Routes>
                     <Footer />
                 </Router>

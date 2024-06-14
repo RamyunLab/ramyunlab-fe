@@ -18,7 +18,7 @@
     padding: 20px;
     border-radius: 8px;
     flex-wrap: wrap;
-    max-width: 700px;
+    max-width: 700px !important ;
     margin-bottom: -20px;
     margin-left: -10%;
 }
@@ -68,7 +68,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    max-width: 700px;
+    width: 700px;
     margin: 0 auto;
 }
 
@@ -85,7 +85,7 @@
     border-radius: 8px;
     padding: 20px;
     width: 200px;
-    height: 220px; // 높이를 조정하여 글자가 들어갈 공간 확보
+    height: 245px; // 높이를 조정하여 글자가 들어갈 공간 확보
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
@@ -269,4 +269,238 @@ h3 {
     font-size: 15px; /* Adjust the size as needed */
     color: #666; /* Adjust the color as needed */
     margin-bottom: 10px; /* Add some space between the review count and the image */
+}
+.filterContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    background-color: #f8f9fa;
+
+    max-width: 740px;
+
+    margin: 0 auto 20px auto; /* 가운데 정렬과 아래 여백 추가 */
+}
+
+.filterRow {
+    display: flex;
+    gap: 20px;
+    border-top: 1px solid #ddd;
+    align-items: flex-start; /* 상단 정렬 */
+}
+
+.filterTitles {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 12px 8px;
+    padding-left: 10px;
+    color: #fff;
+
+    margin-right: -17px;
+    background-color: #525f788e;
+}
+
+.filterGroups {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex-grow: 1;
+}
+
+.filterGroupContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #ddd;
+
+    // border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.filterGroupContainer:first-child {
+    padding-top: 7px;
+
+    // border-top: 1px solid #ddd;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+// .filterGroup p {
+//     font-size: 16px;
+//     color: #333;
+//     margin-right: 10px; /* 제목과 체크박스 간 간격 추가 */
+//     min-width: 80px;
+// }
+
+.filterGroup label {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+    margin-right: 4px; /* 각 라벨 간 간격 추가 */
+    margin-top: -10px !important;
+    margin-bottom: -4px !important;
+    padding: 3px 7px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filterGroup label.active {
+    background-color: #ffab21;
+    color: #fff;
+}
+
+.filterGroup input {
+    display: none; /* 기본 체크박스 숨기기 */
+}
+@media (max-width: 768px) {
+    .filterRow {
+        flex-direction: row;
+    }
+
+    .filterGroups {
+        gap: 0px;
+    }
+
+    .filterTitles {
+        padding: 10px 5px;
+        gap: 14.5px;
+    }
+
+    .filterGroupContainer {
+        padding-top: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .filterGroup label {
+        margin-right: -5px;
+        padding: 3px 5px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filterGroupContainer:first-child {
+        padding-top: 4px;
+
+        // border-top: 1px solid #ddd;
+    }
+    .filterRow {
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .filterTitles,
+    .filterGroups {
+        gap: 0px;
+        margin-right: -2px;
+    }
+
+    .filterTitles {
+        padding: 8px 5px;
+        gap: 21px;
+        font-size: 13px;
+    }
+
+    .filterGroupContainer {
+        gap: 5px;
+        padding-top: 0px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .filterGroup p {
+        font-size: 12px;
+        margin-right: 5px;
+        min-width: 60px;
+    }
+
+    .filterGroup label {
+        margin-right: 5px;
+        padding: 3px 4px;
+        padding-top: -1px;
+        font-size: 10px;
+        margin-top: -3px !important;
+        margin-bottom: -3px !important;
+    }
+}
+.searchContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 필요에 따라 정렬 방식 변경 가능 */
+    margin-bottom: 20px; /* 입력창과 버튼 사이에 여백 추가 */
+}
+
+.searchInput {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.searchInput:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.searchButton {
+    margin-top: 0px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ffab21;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .searchContainer {
+        margin-bottom: 15px; /* 입력창과 버튼 사이에 여백 추가 */
+    }
+    .searchInput {
+        width: 220px;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .searchButton {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .searchContainer {
+        align-items: stretch;
+    }
+
+    .searchInput {
+        width: 225px;
+        padding: 8px;
+        font-size: 14px;
+        margin-bottom: 10px; /* Add margin to separate input and button on small screens */
+    }
+
+    .searchButton {
+        width: 25%;
+        padding: 0px;
+        height: 35px;
+        font-size: 13px;
+    }
 }

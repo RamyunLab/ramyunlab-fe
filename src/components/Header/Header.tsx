@@ -5,6 +5,7 @@ import { RootState } from "../../Redux/store";
 import { logout } from "../../Redux/slices/AuthSlice.tsx";
 import styles from "./Header.module.scss";
 import logo from "../../assets/images/lower_half2.png"; // 로고 이미지 파일 경로
+import Modal from "../Suggest/Suggest.tsx"; // 모달 컴포넌트 import
 
 interface HeaderProps {
     toggleLoginModal: () => void;
@@ -12,6 +13,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
     const navigate = useNavigate(); // navigate 추가
@@ -58,6 +60,20 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
         navigate("/account"); // 계정 페이지로 이동
     };
 
+    const handleSuggestionClick = () => {
+        setMenuOpen(false);
+        setIsModalOpen(true); // 모달을 띄우도록 상태 변경
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleFavoriteListPage = () => {
+        setMenuOpen(false);
+        navigate("/FavoriteListPage"); // FavoriteListPage로 이동
+    };
+
     return (
         <header className={styles.header}>
             <Link to="/">
@@ -72,8 +88,9 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
                         <ul>
                             <li onClick={handleAccountPage}>마이페이지</li>{" "}
                             {/* 페이지 이동으로 변경 */}
-                            <li onClick={handleLogout}>로그 아웃</li>
-                            <li>찜 목록</li>
+                            <li onClick={handleLogout}>로그아웃</li>
+                            <li onClick={handleSuggestionClick}>건의하기</li>
+                            <li onClick={handleFavoriteListPage}>찜 목록</li> {/* 찜 목록 이동 */}
                             <li>내가 쓴 리뷰</li>
                             <li>공감한 리뷰</li>
                         </ul>
@@ -84,6 +101,7 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
                     로그인
                 </button>
             )}
+            <Modal isOpen={isModalOpen} onClose={closeModal} />
         </header>
     );
 };

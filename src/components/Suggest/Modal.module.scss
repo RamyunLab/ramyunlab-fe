@@ -1,0 +1,100 @@
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    position: relative;
+    border: 2px solid #ffab21;
+}
+
+.modalContent h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.modalContent div {
+    margin-bottom: 15px;
+}
+
+.modalContent label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.modalContent input[type="text"],
+.modalContent input[type="email"] {
+    width: 150px; /* Adjusted width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modalContent input[type="email"].invalid {
+    border-color: red;
+}
+
+.modalContent .errorText {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+.modalContent .titleInput {
+    width: calc(100% - 20px) !important; /* 원하는 너비로 변경 가능 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modalContent textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modalContent .buttonGroup {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modalContent .buttonGroup button {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.modalContent .buttonGroup button:hover {
+    background-color: #0056b3;
+}

@@ -122,7 +122,7 @@
     font-size: 16px;
     color: #666; /* Set a color for the description text */
     margin-bottom: 20px; /* Add margin at the bottom */
-
+    text-align: left;
     @media (max-width: 820px) {
         font-size: 14px; /* Reduce font size on smaller screens */
         margin-bottom: 15px; /* Reduce margin on smaller screens */
