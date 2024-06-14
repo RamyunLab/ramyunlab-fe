@@ -59,6 +59,7 @@ interface Ramyun {
     scoville: number | null;
     avgRate: number;
     reviewCount: number;
+    isFavorite: boolean; // Ensure this property is included
 }
 
 interface RamyunResponse {
@@ -224,6 +225,39 @@ const RamyunList: React.FC = () => {
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             handleSearchButtonClick();
+        }
+    };
+
+    const handleFavoriteAction = async (ramyunIdx: number, isFavorite: boolean) => {
+        const token = localStorage.getItem("token"); // Assuming you store JWT token in local storage
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        try {
+            if (isFavorite) {
+                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/favorites`, {
+                    data: { ramyunIdx },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                alert("찜 삭제 성공");
+            } else {
+                await axios.post(
+                    `${process.env.REACT_APP_API_SERVER}/api/favorites`,
+                    { ramyunIdx },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                alert("찜 추가 성공");
+            }
+        } catch (error) {
+            alert("찜 작업 실패");
         }
     };
 
@@ -520,6 +554,13 @@ const RamyunList: React.FC = () => {
                             className={styles.ramyunImg}
                         />
                         <h3>{ramyun.ramyunName}</h3>
+                        <button
+                            onClick={() =>
+                                handleFavoriteAction(ramyun.ramyunIdx, ramyun.isFavorite)
+                            }
+                        >
+                            {ramyun.isFavorite ? "찜 삭제" : "찜 추가"}
+                        </button>
                     </div>
                 ))}
             </div>

@@ -10,7 +10,7 @@ interface ModalProps {
 const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [userEmail, setUserEmail] = useState("");
     const [message, setMessage] = useState("");
-    const [title, setTitle] = useState(""); // 제목 상태 추가
+    const [title, setTitle] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [userId, setUserId] = useState("");
 
@@ -35,20 +35,35 @@ const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     };
 
     const handleSendEmail = async (event: React.FormEvent) => {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault();
         if (!isValidEmail) {
             return;
         }
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/mail`, {
-                userEmail,
-                title, // 제목 추가
-                message,
-            });
+            const token = localStorage.getItem("token"); // 토큰을 로컬 스토리지에서 가져옴
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_SERVER}/admin/mail`,
+                {
+                    userId,
+                    userEmail,
+                    subject: title, // 제목 추가
+                    text: message, // 내용 추가
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // 토큰 추가
+                        "Content-Type": "application/json;charset=UTF-8",
+                    },
+                }
+            );
 
-            if (response.data.statusCode === 200) {
+            if (response.status === 200) {
                 alert("이메일 발송이 완료되었습니다.");
-                onClose(); // 이메일 발송 성공 후 모달 닫기
+                // 입력 필드 초기화
+                setUserEmail("");
+                setTitle("");
+                setMessage("");
+                onClose();
             } else {
                 alert("이메일 발송에 실패했습니다: " + response.data.message);
             }
