@@ -85,10 +85,10 @@ const AccountPage: React.FC = () => {
 
         if (!isValidPassword(value)) {
             setCurrentPasswordError(
-                "비밀번호는 최소 8자 이상이며, 영어 대소문자, 특수기호, 숫자가 포함되어야 합니다."
+                "입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다."
             );
         } else {
-            setCurrentPasswordError("형식에 맞는 비밀번호입니다.");
+            setCurrentPasswordError("비밀번호가 일치합니다.");
         }
     };
 
@@ -323,195 +323,199 @@ const AccountPage: React.FC = () => {
 
     return (
         <div className={styles.accountPage} onKeyPress={handleKeyPress}>
-            <div className={styles.tabContainer}>
-                <button
-                    className={`${styles.tabButton} ${
-                        activeTab === "deleteAccount" ? styles.active : ""
-                    }`}
-                    onClick={() => handleTabChange("deleteAccount")}
-                >
-                    회원 탈퇴
-                </button>
-                <button
-                    className={`${styles.tabButton} ${
-                        activeTab === "changeNickname" ? styles.active : ""
-                    }`}
-                    onClick={() => handleTabChange("changeNickname")}
-                >
-                    닉네임 수정
-                </button>
-                <button
-                    className={`${styles.tabButton} ${
-                        activeTab === "changePassword" ? styles.active : ""
-                    }`}
-                    onClick={() => handleTabChange("changePassword")}
-                >
-                    비밀번호 변경
-                </button>
-            </div>
-            <div className={styles.tabContent}>
-                {message && <p className={styles.message}>{message}</p>}
-                {activeTab === "deleteAccount" && (
-                    <div className={styles.tabPane}>
-                        <h2>회원 탈퇴</h2>
-                        <div className={styles.inputContainer}>
-                            <input
-                                className={styles.deleteAccountPassword}
-                                type={showPassword ? "text" : "password"}
-                                placeholder="비밀번호를 입력하세요"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <FontAwesomeIcon
-                                icon={showPassword ? faEyeSlash : faEye}
-                                onClick={() => setShowPassword(!showPassword)}
-                                className={styles.passwordIcon}
-                            />
-                            <button
-                                className={styles.checkPasswordBtn}
-                                onClick={handlePasswordCheck}
+            <div className={styles.contentWrapper}>
+                <div className={styles.btnWrapper}>
+                    <div className={styles.tabContainer}>
+                    <button
+                        className={`${styles.tabButton} ${
+                            activeTab === "deleteAccount" ? styles.active : ""
+                        }`}
+                        onClick={() => handleTabChange("deleteAccount")}
+                    >
+                        회원 탈퇴
+                    </button>
+                    <button
+                        className={`${styles.tabButton} ${
+                            activeTab === "changeNickname" ? styles.active : ""
+                        }`}
+                        onClick={() => handleTabChange("changeNickname")}
+                    >
+                        닉네임 수정
+                    </button>
+                    <button
+                        className={`${styles.tabButton} ${
+                            activeTab === "changePassword" ? styles.active : ""
+                        }`}
+                        onClick={() => handleTabChange("changePassword")}
+                    >
+                        비밀번호 변경
+                    </button>
+                    </div>
+                </div>
+                <div className={styles.tabContent}>
+                    {message && <p className={styles.message}>{message}</p>}
+                    {activeTab === "deleteAccount" && (
+                        <div className={styles.tabPane}>
+                            <h2>회원 탈퇴</h2>
+                            <div className={styles.inputContainer}>
+                                <input
+                                    className={styles.deleteAccountPassword}
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="비밀번호를 입력하세요"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <FontAwesomeIcon
+                                    icon={showPassword ? faEyeSlash : faEye}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className={styles.passwordIcon}
+                                />
+                                <button
+                                    className={styles.checkPasswordBtn}
+                                    onClick={handlePasswordCheck}
+                                >
+                                    확인
+                                </button>
+                            </div>
+                            <p
+                                className={
+                                    isPasswordChecked ? styles.successMessage : styles.errorMessage
+                                }
                             >
-                                확인
+                                {passwordError}
+                            </p>
+                            <button
+                                onClick={handleDeleteAccount}
+                                className={styles.deleteAccountBtn}
+                                disabled={!isPasswordChecked}
+                            >
+                                {loading ? "계정 영구 삭제" : "계정 영구 삭제"}
                             </button>
                         </div>
-                        <p
-                            className={
-                                isPasswordChecked ? styles.successMessage : styles.errorMessage
-                            }
-                        >
-                            {passwordError}
-                        </p>
-                        <button
-                            onClick={handleDeleteAccount}
-                            className={styles.deleteAccountBtn}
-                            disabled={!isPasswordChecked}
-                        >
-                            {loading ? "계정 영구 삭제" : "계정 영구 삭제"}
-                        </button>
-                    </div>
-                )}
-                {activeTab === "changeNickname" && (
-                    <div className={styles.tabPane}>
-                        <h2>닉네임 수정</h2>
-                        <div className={styles.nicknameContainer}>
-                            <input
-                                className={styles.changeNicknameInput}
-                                type="text"
-                                value={nickname}
-                                onChange={handleNicknameInputChange}
-                                placeholder="새 닉네임"
-                            />
-                            <button
-                                className={styles.checkNicknameBtn}
-                                onClick={handleNicknameCheck}
+                    )}
+                    {activeTab === "changeNickname" && (
+                        <div className={styles.tabPane}>
+                            <h2>닉네임 수정</h2>
+                            <div className={styles.nicknameContainer}>
+                                <input
+                                    className={styles.changeNicknameInput}
+                                    type="text"
+                                    value={nickname}
+                                    onChange={handleNicknameInputChange}
+                                    placeholder="새 닉네임"
+                                />
+                                <button
+                                    className={styles.checkNicknameBtn}
+                                    onClick={handleNicknameCheck}
+                                >
+                                    확인
+                                </button>
+                            </div>
+                            <p
+                                className={
+                                    isNicknameChecked ? styles.successMessage : styles.errorMessage
+                                }
                             >
-                                확인
+                                {nicknameError}
+                            </p>
+                            <button
+                                onClick={handleNicknameChange}
+                                className={styles.changeNicknameBtn}
+                                disabled={!isNicknameChecked}
+                            >
+                                {loading ? "닉네임 변경" : "닉네임 변경"}
                             </button>
                         </div>
-                        <p
-                            className={
-                                isNicknameChecked ? styles.successMessage : styles.errorMessage
-                            }
-                        >
-                            {nicknameError}
-                        </p>
-                        <button
-                            onClick={handleNicknameChange}
-                            className={styles.changeNicknameBtn}
-                            disabled={!isNicknameChecked}
-                        >
-                            {loading ? "닉네임 변경" : "닉네임 변경"}
-                        </button>
-                    </div>
-                )}
-                {activeTab === "changePassword" && (
-                    <div className={styles.tabPane}>
-                        <h2>비밀번호 변경</h2>
-                        <div className={styles.inputContainer}>
-                            <input
-                                className={styles.currentPassword}
-                                type={showCurrentPassword ? "text" : "password"}
-                                value={currentPassword}
-                                onChange={handleCurrentPasswordInputChange}
-                                placeholder="현재 비밀번호"
-                            />
-                            <FontAwesomeIcon
-                                icon={showCurrentPassword ? faEyeSlash : faEye}
-                                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                className={styles.passwordIcon}
-                            />
+                    )}
+                    {activeTab === "changePassword" && (
+                        <div className={styles.tabPane}>
+                            <h2>비밀번호 변경</h2>
+                            <div className={styles.inputContainer}>
+                                <input
+                                    className={styles.currentPassword}
+                                    type={showCurrentPassword ? "text" : "password"}
+                                    value={currentPassword}
+                                    onChange={handleCurrentPasswordInputChange}
+                                    placeholder="현재 비밀번호"
+                                />
+                                <FontAwesomeIcon
+                                    icon={showCurrentPassword ? faEyeSlash : faEye}
+                                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                    className={styles.passwordIcon}
+                                />
 
-                            <button
-                                className={styles.checkPasswordBtn}
-                                onClick={handleCurrentPasswordCheck}
+                                <button
+                                    className={styles.checkPasswordBtn}
+                                    onClick={handleCurrentPasswordCheck}
+                                >
+                                    확인
+                                </button>
+                            </div>
+                            <p
+                                className={
+                                    isCurrentPasswordChecked
+                                        ? styles.successMessage
+                                        : styles.errorMessage
+                                }
                             >
-                                확인
+                                {currentPasswordError}
+                            </p>
+                            <div className={styles.passwordContainer}>
+                                <input
+                                    className={styles.newPassword}
+                                    type={showNewPassword ? "text" : "password"}
+                                    value={newPassword}
+                                    onChange={handleNewPasswordInputChange}
+                                    placeholder="새 비밀번호"
+                                />
+                                <FontAwesomeIcon
+                                    icon={showNewPassword ? faEyeSlash : faEye}
+                                    onClick={() => setShowNewPassword(!showNewPassword)}
+                                    className={styles.passwordIcon}
+                                />
+                            </div>
+                            <p
+                                className={
+                                    isValidPassword(newPassword)
+                                        ? styles.successMessage
+                                        : styles.errorMessage
+                                }
+                            >
+                                {passwordError}
+                            </p>
+                            <div className={styles.passwordContainer}>
+                                <input
+                                    className={styles.confirmNewPassword}
+                                    type={showConfirmNewPassword ? "text" : "password"}
+                                    value={confirmNewPassword}
+                                    onChange={handleConfirmNewPasswordInputChange}
+                                    placeholder="새 비밀번호 확인"
+                                />
+                                <FontAwesomeIcon
+                                    icon={showConfirmNewPassword ? faEyeSlash : faEye}
+                                    onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
+                                    className={styles.passwordIcon}
+                                />
+                            </div>
+                            <p
+                                className={
+                                    confirmNewPassword === newPassword
+                                        ? styles.successMessage
+                                        : styles.errorMessage
+                                }
+                            >
+                                {confirmPasswordError}
+                            </p>
+                            <button
+                                onClick={handlePasswordChange}
+                                className={styles.changePasswordBtn}
+                                disabled={!isCurrentPasswordChecked || !isValidPassword(newPassword)}
+                            >
+                                {loading ? "비밀번호 변경" : "비밀번호 변경"}
                             </button>
                         </div>
-                        <p
-                            className={
-                                isCurrentPasswordChecked
-                                    ? styles.successMessage
-                                    : styles.errorMessage
-                            }
-                        >
-                            {currentPasswordError}
-                        </p>
-                        <div className={styles.passwordContainer}>
-                            <input
-                                className={styles.newPassword}
-                                type={showNewPassword ? "text" : "password"}
-                                value={newPassword}
-                                onChange={handleNewPasswordInputChange}
-                                placeholder="새 비밀번호"
-                            />
-                            <FontAwesomeIcon
-                                icon={showNewPassword ? faEyeSlash : faEye}
-                                onClick={() => setShowNewPassword(!showNewPassword)}
-                                className={styles.passwordIcon}
-                            />
-                        </div>
-                        <p
-                            className={
-                                isValidPassword(newPassword)
-                                    ? styles.successMessage
-                                    : styles.errorMessage
-                            }
-                        >
-                            {passwordError}
-                        </p>
-                        <div className={styles.passwordContainer}>
-                            <input
-                                className={styles.confirmNewPassword}
-                                type={showConfirmNewPassword ? "text" : "password"}
-                                value={confirmNewPassword}
-                                onChange={handleConfirmNewPasswordInputChange}
-                                placeholder="새 비밀번호 확인"
-                            />
-                            <FontAwesomeIcon
-                                icon={showConfirmNewPassword ? faEyeSlash : faEye}
-                                onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
-                                className={styles.passwordIcon}
-                            />
-                        </div>
-                        <p
-                            className={
-                                confirmNewPassword === newPassword
-                                    ? styles.successMessage
-                                    : styles.errorMessage
-                            }
-                        >
-                            {confirmPasswordError}
-                        </p>
-                        <button
-                            onClick={handlePasswordChange}
-                            className={styles.changePasswordBtn}
-                            disabled={!isCurrentPasswordChecked || !isValidPassword(newPassword)}
-                        >
-                            {loading ? "비밀번호 변경" : "비밀번호 변경"}
-                        </button>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );

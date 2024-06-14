@@ -8,7 +8,6 @@
     margin: 0 auto;
     width: 100%;
     height: 700px;
-    background-color: #f5f5f5;
     border-radius: 8px;
     // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -22,12 +21,25 @@
     }
 }
 
+.contentWrapper {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnWrapper {
+    width: 100%;
+    height: auto;
+}
+
 .tabContainer {
     display: flex;
     margin-right: 250px;
     justify-content: flex-start;
-    margin-bottom: 100px;
-    margin-top: -200px;
+    gap: 2px;
     @media (max-width: 768px) {
         justify-content: center;
         margin-right: 0;
@@ -41,21 +53,20 @@
 
 .tabButton {
     padding: 10px 20px;
-    margin: 0 5px;
-
     border: none;
-    background-color: #007bff;
+    background-color: #ffab12;
     color: white;
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 
     &.active {
-        background-color: #0056b3;
+        background-color: #d38e0f;
+        border-radius: 4px 4px 0 0;
     }
 
     &:hover:not(.active) {
-        background-color: #0069d9;
+        background-color: #e99600;
     }
     @media (max-width: 480px) {
         flex: 1 1 auto; /* Flex grow and shrink to fill available space */
@@ -68,10 +79,14 @@
 }
 
 .tabContent {
+    background-color: #fff9e6;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 4px  ;
+    padding: 50px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .tabPane {
@@ -79,6 +94,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    gap: 12px;
 }
 
 .inputContainer,
@@ -87,7 +103,7 @@
     display: flex;
     // justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
     width: 100%;
     max-width: 300px;
     position: relative;
@@ -128,7 +144,7 @@
 .checkNicknameBtn {
     padding: 10px;
     border: none;
-    background-color: #007bff;
+    background-color: #e74c3c;
     color: white;
     cursor: pointer;
     margin-top: -2px;
@@ -140,19 +156,19 @@
     margin-right: 20px !important;
     font-size: 13px;
     &:hover {
-        background-color: #0056b3;
+        background-color: #c0392b;
     }
 }
 
 .errorMessage {
     color: red;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
     font-size: 14px;
 }
 
 .successMessage {
     color: green;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
     font-size: 14px;
 }
 
