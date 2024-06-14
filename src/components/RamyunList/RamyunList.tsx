@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -94,6 +94,7 @@ const RamyunList: React.FC = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const avgRateButtonRef = useRef<HTMLButtonElement>(null);
 
     const getPageFromQuery = () => {
         const searchParams = new URLSearchParams(location.search);
@@ -159,7 +160,8 @@ const RamyunList: React.FC = () => {
         newPage: number,
         newSort: string,
         newDirection: string,
-        newFilters: any
+        newFilters: any,
+        shouldScroll: boolean
     ) => {
         const params = new URLSearchParams();
         params.set("page", newPage.toString());
@@ -169,18 +171,20 @@ const RamyunList: React.FC = () => {
             newFilters[key].forEach((value: any) => params.append(key, value));
         });
         navigate(`?${params.toString()}`, { replace: false });
+        if (shouldScroll && avgRateButtonRef.current) {
+            avgRateButtonRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
     };
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
-        updateUrlParams(newPage, sort, direction, filters);
-        // window.scrollTo(0, 0);
+        updateUrlParams(newPage, sort, direction, filters, true);
     };
 
     const toggleSortDirection = () => {
         const newDirection = direction === "asc" ? "desc" : "asc";
         setDirection(newDirection);
-        updateUrlParams(1, sort, newDirection, filters);
+        updateUrlParams(1, sort, newDirection, filters, false);
     };
 
     const handleSortChange = (newSort: string) => {
@@ -189,7 +193,7 @@ const RamyunList: React.FC = () => {
         } else {
             setSort(newSort);
             setDirection("asc");
-            updateUrlParams(1, newSort, "asc", filters);
+            updateUrlParams(1, newSort, "asc", filters, false);
             setPage(1);
         }
     };
@@ -202,7 +206,7 @@ const RamyunList: React.FC = () => {
             newFilters[key] = newFilters[key].filter((v: string) => v !== value);
         }
         setFilters(newFilters);
-        updateUrlParams(1, sort, direction, newFilters);
+        updateUrlParams(1, sort, direction, newFilters, false);
         setPage(1);
     };
 
@@ -213,9 +217,10 @@ const RamyunList: React.FC = () => {
     const handleSearchButtonClick = () => {
         const newFilters = { ...filters, name: [searchText] };
         setFilters(newFilters);
-        updateUrlParams(1, sort, direction, newFilters);
+        updateUrlParams(1, sort, direction, newFilters, false);
         setPage(1);
     };
+
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             handleSearchButtonClick();
@@ -264,12 +269,6 @@ const RamyunList: React.FC = () => {
         );
     };
 
-    const ramyunList = data?.data?.content || [];
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [ramyunList]);
-
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -281,6 +280,8 @@ const RamyunList: React.FC = () => {
             </div>
         );
     }
+
+    const ramyunList = data?.data?.content || [];
 
     return (
         <div className={styles.ramyunListContainer}>
@@ -485,6 +486,7 @@ const RamyunList: React.FC = () => {
                 </div>
                 <div className={styles.filterGroup}>
                     <button
+                        ref={avgRateButtonRef}
                         className={`${styles.filterButton} ${
                             sort === "avgRate" ? styles.active : ""
                         }`}
