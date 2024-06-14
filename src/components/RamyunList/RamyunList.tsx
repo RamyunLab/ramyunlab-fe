@@ -62,7 +62,7 @@ interface Ramyun {
     scoville: number | null;
     avgRate: number;
     reviewCount: number;
-    isFavorite: boolean;
+    isLiked: boolean;
 }
 
 interface RamyunResponse {
@@ -232,7 +232,7 @@ const RamyunList: React.FC = () => {
         }
     };
 
-    const handleFavoriteAction = async (ramyunIdx: number, isFavorite: boolean) => {
+    const handleFavoriteAction = async (ramyunIdx: number, isLiked: boolean) => {
         const token = localStorage.getItem("token"); // Assuming you store JWT token in local storage
         if (!token) {
             alert("로그인이 필요합니다.");
@@ -240,7 +240,7 @@ const RamyunList: React.FC = () => {
         }
 
         try {
-            if (isFavorite) {
+            if (isLiked) {
                 await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/favorites`, {
                     data: { ramyunIdx },
                     headers: {
@@ -265,8 +265,8 @@ const RamyunList: React.FC = () => {
         }
     };
 
-    const handleFavoriteToggle = async (ramyunIdx: number, isFavorite: boolean) => {
-        await handleFavoriteAction(ramyunIdx, isFavorite);
+    const handleFavoriteToggle = async (ramyunIdx: number, isLiked: boolean) => {
+        await handleFavoriteAction(ramyunIdx, isLiked);
         // Refresh data after favorite action
         refetch();
     };
@@ -277,7 +277,8 @@ const RamyunList: React.FC = () => {
 
     const renderPagination = () => {
         const totalPages = data?.data?.totalPages || 0;
-        const pages = [];
+        const pages: React.ReactNode[] = [];
+
         const totalBlocks = Math.ceil(totalPages / 5);
         const currentBlock = Math.ceil(page / 5);
 
@@ -330,6 +331,7 @@ const RamyunList: React.FC = () => {
     }
 
     const ramyunList = data?.data?.content || [];
+    // console.log(ramyunList);
 
     return (
         <div className={styles.ramyunListContainer}>
@@ -558,9 +560,7 @@ const RamyunList: React.FC = () => {
                 {ramyunList.map((ramyun, index) => (
                     <div
                         key={ramyun.ramyunIdx}
-                        className={`${styles.ramyunItem} ${
-                            ramyun.isFavorite ? styles.favorite : ""
-                        }`}
+                        className={`${styles.ramyunItem} ${ramyun.isLiked ? styles.favorite : ""}`}
                         onClick={() => handleRamyunClick(ramyun.ramyunIdx)}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -568,16 +568,16 @@ const RamyunList: React.FC = () => {
                         <div className={styles.topContainer}>
                             <FontAwesomeIcon
                                 icon={
-                                    ramyun.isFavorite || hoveredIndex === index
+                                    ramyun.isLiked || hoveredIndex === index
                                         ? solidHeart
                                         : regularHeart
                                 }
                                 onClick={(e) => {
                                     e.stopPropagation(); // Prevents the item click handler
-                                    handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isFavorite);
+                                    handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isLiked);
                                 }}
                                 className={`${styles.favoriteIcon} ${
-                                    ramyun.isFavorite ? styles.favorite : ""
+                                    ramyun.isLiked ? styles.favorite : ""
                                 }`}
                             />
                         </div>
