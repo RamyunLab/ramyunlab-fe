@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
 import styles from "./RamyunList.module.scss";
 
-// 필터 매핑 객체 추가
 const brandMapping = {
     "1": "농심",
     "2": "삼양",
@@ -76,10 +76,6 @@ interface RamyunResponse {
 }
 
 const RamyunList: React.FC = () => {
-    const [ramyunList, setRamyunList] = useState<Ramyun[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [totalPages, setTotalPages] = useState<number>(0);
     const [sort, setSort] = useState<string>("name");
     const [direction, setDirection] = useState<string>("asc");
 
@@ -128,31 +124,24 @@ const RamyunList: React.FC = () => {
     const [page, setPage] = useState<number>(getPageFromQuery());
 
     const fetchRamyunList = async (page: number, sort: string, direction: string, filters: any) => {
-        setLoading(true);
-        try {
-            const params = new URLSearchParams();
-            params.append("page", page.toString());
-            params.append("sort", sort);
-            params.append("direction", direction);
-            Object.keys(filters).forEach((key) => {
-                filters[key].forEach((value: any) => params.append(key, value));
-            });
-            const response = await axios.get<RamyunResponse>(
-                `${process.env.REACT_APP_API_SERVER}/main/search?${params.toString()}`
-            );
-            if (response.data.statusCode === 200) {
-                setRamyunList(response.data.data.content);
-                setTotalPages(response.data.data.totalPages);
-                setError(null);
-            } else {
-                setError("Failed to fetch data");
-            }
-        } catch (error) {
-            setError("Error occurred while fetching data");
-        } finally {
-            setLoading(false);
-        }
+        const params = new URLSearchParams();
+        params.append("page", page.toString());
+        params.append("sort", sort);
+        params.append("direction", direction);
+        Object.keys(filters).forEach((key) => {
+            filters[key].forEach((value: any) => params.append(key, value));
+        });
+        const response = await axios.get<RamyunResponse>(
+            `${process.env.REACT_APP_API_SERVER}/main/search?${params.toString()}`
+        );
+        return response.data;
     };
+
+    const { data, error, isLoading } = useQuery(
+        ["ramyunList", page, sort, direction, filters],
+        () => fetchRamyunList(page, sort, direction, filters),
+        { keepPreviousData: true }
+    );
 
     useEffect(() => {
         const currentPage = getPageFromQuery();
@@ -164,8 +153,6 @@ const RamyunList: React.FC = () => {
         setSort(currentSort);
         setDirection(currentDirection);
         setFilters(currentFilters);
-
-        fetchRamyunList(currentPage, currentSort, currentDirection, currentFilters);
     }, [location.search]);
 
     const updateUrlParams = (
@@ -187,6 +174,7 @@ const RamyunList: React.FC = () => {
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
         updateUrlParams(newPage, sort, direction, filters);
+        // window.scrollTo(0, 0);
     };
 
     const toggleSortDirection = () => {
@@ -235,6 +223,7 @@ const RamyunList: React.FC = () => {
     };
 
     const renderPagination = () => {
+        const totalPages = data?.data?.totalPages || 0;
         const pages = [];
         const totalBlocks = Math.ceil(totalPages / 5);
         const currentBlock = Math.ceil(page / 5);
@@ -275,8 +264,22 @@ const RamyunList: React.FC = () => {
         );
     };
 
+    const ramyunList = data?.data?.content || [];
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [ramyunList]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
     if (error) {
-        return <div>{error}</div>;
+        return (
+            <div>
+                {error instanceof Error ? error.message : "Error occurred while fetching data"}
+            </div>
+        );
     }
 
     return (
