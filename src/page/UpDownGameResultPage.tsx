@@ -14,6 +14,7 @@ const ResultPage: React.FC = () => {
     const finalRamen = location.state?.finalRamen;
 
     const handleGoHome = () => {
+        dispatch(resetGame()); // 게임 상태 초기화
         navigate("/");
     };
 
