@@ -14,6 +14,7 @@ import RamenDetailPage from "./page/RamenDetailPage.tsx";
 import UpDownGamePage from "./page/UpDownGamePage.tsx";
 
 import AccountPage from "./components/AccountModal/AccountPage.tsx";
+import FinalScreen from "./page/FinalScreen.tsx";
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
@@ -46,7 +47,7 @@ const App: React.FC = () => {
                         <Route path="/ramen/:idx" element={<RamenDetailPage />} />
                         <Route path="/UpDownGame" element={<UpDownGamePage />} />
                         <Route path="/account" element={<AccountPage />} />{" "}
-                        {/* AccountPage 경로 추가 */}
+                        <Route path="/tournament/result/:ramenId" element={<FinalScreen />} />
                     </Routes>
                     <Footer />
                 </Router>
