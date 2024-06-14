@@ -59,6 +59,7 @@ interface Ramyun {
     scoville: number | null;
     avgRate: number;
     reviewCount: number;
+    isFavorite: boolean;
 }
 
 interface RamyunResponse {
@@ -225,6 +226,43 @@ const RamyunList: React.FC = () => {
         if (e.key === "Enter") {
             handleSearchButtonClick();
         }
+    };
+
+    const handleFavoriteAction = async (ramyunIdx: number, isFavorite: boolean) => {
+        const token = localStorage.getItem("token"); // Assuming you store JWT token in local storage
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        try {
+            if (isFavorite) {
+                await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/favorites`, {
+                    data: { ramyunIdx },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                alert("찜 삭제 성공");
+            } else {
+                await axios.post(
+                    `${process.env.REACT_APP_API_SERVER}/api/favorites`,
+                    { ramyunIdx },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                alert("찜 추가 성공");
+            }
+        } catch (error) {
+            alert("찜 작업 실패");
+        }
+    };
+
+    const handleRamyunClick = (ramyunIdx: number) => {
+        navigate(`/main/ramyun/${ramyunIdx}`);
     };
 
     const renderPagination = () => {
@@ -508,7 +546,11 @@ const RamyunList: React.FC = () => {
             </div>
             <div className={styles.ramyunList}>
                 {ramyunList.map((ramyun) => (
-                    <div key={ramyun.ramyunIdx} className={styles.ramyunItem}>
+                    <div
+                        key={ramyun.ramyunIdx}
+                        className={styles.ramyunItem}
+                        onClick={() => handleRamyunClick(ramyun.ramyunIdx)}
+                    >
                         <div className={styles.starRating}>
                             <FaStar color="gold" />
                             <span>{ramyun.avgRate.toFixed(1)}</span>
@@ -520,6 +562,14 @@ const RamyunList: React.FC = () => {
                             className={styles.ramyunImg}
                         />
                         <h3>{ramyun.ramyunName}</h3>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevents the item click handler
+                                handleFavoriteAction(ramyun.ramyunIdx, ramyun.isFavorite);
+                            }}
+                        >
+                            {ramyun.isFavorite ? "찜 삭제" : "찜 추가"}
+                        </button>
                     </div>
                 ))}
             </div>
