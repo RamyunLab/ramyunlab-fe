@@ -51,6 +51,7 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
     }, [menuOpen, handleClickOutside]);
 
     const handleLogout = () => {
+        localStorage.removeItem("userInfo");
         dispatch(logout());
         setMenuOpen(false);
     };
@@ -84,6 +85,11 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
         navigate("/LikedReviewsPage");
     };
 
+    const handleRecentlyViewedPage = () => {
+        setMenuOpen(false);
+        navigate("/recently-viewed");
+    };
+
     return (
         <header className={styles.header}>
             <Link to="/">
@@ -100,9 +106,9 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
                             <li onClick={handleLogout}>로그아웃</li>
                             <li onClick={handleSuggestionClick}>건의하기</li>
                             <li onClick={handleFavoriteListPage}>찜 목록</li>
+                            <li onClick={handleRecentlyViewedPage}>최근 본 라면</li>
                             <li onClick={handleMyReviewsPage}>내가 쓴 리뷰</li>
-                            <li onClick={handleLikedReviewsPage}>공감한 리뷰</li>{" "}
-                            {/* 공감한 리뷰 이동 */}
+                            <li onClick={handleLikedReviewsPage}>공감한 리뷰</li>
                         </ul>
                     </div>
                 </div>
