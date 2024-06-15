@@ -18,6 +18,7 @@ interface Review {
     nickname: string;
     liked: boolean;
     recommendIdx: number | null;
+    rvRecommendCount: number | null;
 }
 
 interface ReviewListProps {
@@ -48,8 +49,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             .then((response) => {
                 console.log("Reviews response from server:", response.data);
                 const reviewsData = response.data.data.review.content || [];
-                setReviews(reviewsData);
-                console.log("Reviews data:", reviewsData);
+                // 기본값 설정을 추가합니다
+                const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
+                    ...review,
+                    rvRecommendCount: review.rvRecommendCount ?? 0,
+                    liked: review.liked ?? false,
+                }));
+                setReviews(reviewsWithDefaultValues);
+                console.log("Reviews data:", reviewsWithDefaultValues);
             })
             .catch((error) => {
                 console.error("리뷰 정보를 불러오는데 실패했습니다:", error);
@@ -84,6 +91,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 );
                 currentReview.recommendIdx = null;
+                currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 1) - 1;
             } else {
                 const response = await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
@@ -95,10 +103,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 );
                 currentReview.recommendIdx = response.data.data.recommendIdx;
+                currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 0) + 1;
             }
 
             const updatedReviews = reviews.map((review) =>
-                review.rvIdx === rvIdx ? { ...review, liked: !liked } : review
+                review.rvIdx === rvIdx
+                    ? { ...review, liked: !liked, rvRecommendCount: currentReview.rvRecommendCount }
+                    : review
             );
             setReviews(updatedReviews);
         } catch (error) {
@@ -209,6 +220,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                           reviewPhotoUrl:
                                               response.data.data.reviewPhotoUrl ||
                                               review.reviewPhotoUrl,
+                                          rvRecommendCount:
+                                              response.data.data.rvRecommendCount ?? 0,
                                       }
                                     : review
                             )
@@ -265,7 +278,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                             review.liked ? "solid" : "regular"
                                         }`}
                                     />
-                                    {review.rate}
+                                    {review.rvRecommendCount}
                                 </div>
                             </div>
                             {currentUserId === review.uIdx && (

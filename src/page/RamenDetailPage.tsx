@@ -35,6 +35,7 @@ interface Review {
     nickname: string;
     liked: boolean;
     recommendIdx: number | null;
+    rvRecommendCount: number | null;
 }
 
 const RamenDetailPage: React.FC = () => {
@@ -71,10 +72,15 @@ const RamenDetailPage: React.FC = () => {
             axios
                 .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`)
                 .then((response) => {
-                    console.log("Reviews response from server:", response.data);
+                    console.log("axios get:", response.data);
                     const reviewsData = response.data.data.review.content || [];
-                    setReviews(reviewsData);
-                    console.log("Reviews data:", reviewsData);
+                    // 기본값 설정을 추가합니다
+                    const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
+                        ...review,
+                        rvRecommendCount: review.rvRecommendCount ?? 0,
+                    }));
+                    setReviews(reviewsWithDefaultValues);
+                    console.log("setReviews:", reviewsWithDefaultValues);
                 })
                 .catch((error) => {
                     console.error("리뷰 정보를 불러오는데 실패했습니다:", error);
@@ -109,7 +115,10 @@ const RamenDetailPage: React.FC = () => {
                 },
             })
             .then((response) => {
-                const newReview: Review = response.data.data;
+                const newReview: Review = {
+                    ...response.data.data,
+                    rvRecommendCount: response.data.data.rvRecommendCount ?? 0,
+                };
                 setReviews((prevReviews) => [newReview, ...prevReviews]);
             })
             .catch((error) => {
