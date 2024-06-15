@@ -16,7 +16,6 @@ interface Review {
     rvUpdatedAt: string | null;
     rvDeletedAt: string | null;
     nickname: string;
-    liked: boolean;
     recommendIdx: number | null;
     rvRecommendCount: number | null;
 }
@@ -49,11 +48,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             .then((response) => {
                 console.log("Reviews response from server:", response.data);
                 const reviewsData = response.data.data.review.content || [];
-                // 기본값 설정을 추가합니다
                 const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                     ...review,
                     rvRecommendCount: review.rvRecommendCount ?? 0,
-                    liked: review.liked ?? false,
                 }));
                 setReviews(reviewsWithDefaultValues);
                 console.log("Reviews data:", reviewsWithDefaultValues);
@@ -77,12 +74,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         const currentReview = reviews.find((review) => review.rvIdx === rvIdx);
         if (!currentReview) return;
 
-        const liked = currentReview.liked;
+        const likedKey = `liked_${rvIdx}`;
+        const liked = localStorage.getItem(likedKey) === "true";
         const token = localStorage.getItem("token");
 
         try {
             if (liked) {
-                await axios.delete(
+                const deleteResponse = await axios.delete(
                     `${process.env.REACT_APP_API_SERVER}/api/recReview/${currentReview.recommendIdx}`,
                     {
                         headers: {
@@ -90,8 +88,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                         },
                     }
                 );
+                console.log("Delete:", deleteResponse.data);
                 currentReview.recommendIdx = null;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 1) - 1;
+                localStorage.setItem(likedKey, "false");
             } else {
                 const response = await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
@@ -102,13 +102,15 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                         },
                     }
                 );
+                console.log("Post:", response.data);
                 currentReview.recommendIdx = response.data.data.recommendIdx;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 0) + 1;
+                localStorage.setItem(likedKey, "true");
             }
 
             const updatedReviews = reviews.map((review) =>
                 review.rvIdx === rvIdx
-                    ? { ...review, liked: !liked, rvRecommendCount: currentReview.rvRecommendCount }
+                    ? { ...review, rvRecommendCount: currentReview.rvRecommendCount }
                     : review
             );
             setReviews(updatedReviews);
@@ -241,67 +243,74 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
     return (
         <div className="review-list">
-            {reviews.map((review, index) => (
-                <div className="review" key={index}>
-                    {editMode === review.rvIdx ? (
-                        <ReviewForm
-                            initialContent={editContent}
-                            initialRating={editRating}
-                            initialPhoto={editPhoto}
-                            onSubmit={handleSaveEdit}
-                            onCancel={handleCancelEdit}
-                            isEditMode={true}
-                            rvIdx={review.rvIdx}
-                            ramyunIdx={ramyunIdx}
-                        />
-                    ) : (
-                        <>
-                            <div className="nickname">{review.nickname}</div>
-                            <div className="review-content">
-                                {review.reviewPhotoUrl && (
-                                    <div className="review-image">
-                                        <img src={review.reviewPhotoUrl} alt="Review" />
+            {reviews.map((review, index) => {
+                const likedKey = `liked_${review.rvIdx}`;
+                const liked = localStorage.getItem(likedKey) === "true";
+
+                return (
+                    <div className="review" key={index}>
+                        {editMode === review.rvIdx ? (
+                            <ReviewForm
+                                initialContent={editContent}
+                                initialRating={editRating}
+                                initialPhoto={editPhoto}
+                                onSubmit={handleSaveEdit}
+                                onCancel={handleCancelEdit}
+                                isEditMode={true}
+                                rvIdx={review.rvIdx}
+                                ramyunIdx={ramyunIdx}
+                            />
+                        ) : (
+                            <>
+                                <div className="nickname">{review.nickname}</div>
+                                <div className="review-content">
+                                    {review.reviewPhotoUrl && (
+                                        <div className="review-image">
+                                            <img src={review.reviewPhotoUrl} alt="Review" />
+                                        </div>
+                                    )}
+                                    <div className="content">{review.reviewContent}</div>
+                                    <div className="date">
+                                        {new Date(review.rvCreatedAt).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                <div className="likes-rating">
+                                    <div className="rating">{renderStars(review.rate)}</div>
+                                    <div className="likes">
+                                        <FontAwesomeIcon
+                                            icon={liked ? solidThumbsUp : regularThumbsUp}
+                                            onClick={() => handleLikeToggle(review.rvIdx)}
+                                            className={`thumbs-up-icon ${
+                                                liked ? "solid" : "regular"
+                                            }`}
+                                        />
+                                        {review.rvRecommendCount}
+                                    </div>
+                                </div>
+                                {currentUserId === review.uIdx && (
+                                    <div className="actions">
+                                        <button
+                                            onClick={() =>
+                                                handleEdit(
+                                                    review.rvIdx,
+                                                    review.reviewContent,
+                                                    review.rate,
+                                                    review.reviewPhotoUrl
+                                                )
+                                            }
+                                        >
+                                            수정
+                                        </button>
+                                        <button onClick={() => handleDelete(review.rvIdx)}>
+                                            삭제
+                                        </button>
                                     </div>
                                 )}
-                                <div className="content">{review.reviewContent}</div>
-                                <div className="date">
-                                    {new Date(review.rvCreatedAt).toLocaleDateString()}
-                                </div>
-                            </div>
-                            <div className="likes-rating">
-                                <div className="rating">{renderStars(review.rate)}</div>
-                                <div className="likes">
-                                    <FontAwesomeIcon
-                                        icon={review.liked ? solidThumbsUp : regularThumbsUp}
-                                        onClick={() => handleLikeToggle(review.rvIdx)}
-                                        className={`thumbs-up-icon ${
-                                            review.liked ? "solid" : "regular"
-                                        }`}
-                                    />
-                                    {review.rvRecommendCount}
-                                </div>
-                            </div>
-                            {currentUserId === review.uIdx && (
-                                <div className="actions">
-                                    <button
-                                        onClick={() =>
-                                            handleEdit(
-                                                review.rvIdx,
-                                                review.reviewContent,
-                                                review.rate,
-                                                review.reviewPhotoUrl
-                                            )
-                                        }
-                                    >
-                                        수정
-                                    </button>
-                                    <button onClick={() => handleDelete(review.rvIdx)}>삭제</button>
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
-            ))}
+                            </>
+                        )}
+                    </div>
+                );
+            })}
         </div>
     );
 };

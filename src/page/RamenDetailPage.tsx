@@ -33,7 +33,6 @@ interface Review {
     rvUpdatedAt: string | null;
     rvDeletedAt: string | null;
     nickname: string;
-    liked: boolean;
     recommendIdx: number | null;
     rvRecommendCount: number | null;
 }
@@ -74,7 +73,6 @@ const RamenDetailPage: React.FC = () => {
                 .then((response) => {
                     console.log("axios get:", response.data);
                     const reviewsData = response.data.data.review.content || [];
-                    // 기본값 설정을 추가합니다
                     const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                         ...review,
                         rvRecommendCount: review.rvRecommendCount ?? 0,
@@ -117,7 +115,7 @@ const RamenDetailPage: React.FC = () => {
             .then((response) => {
                 const newReview: Review = {
                     ...response.data.data,
-                    rvRecommendCount: response.data.data.rvRecommendCount ?? 0,
+                    rvRecommendCount: response.data.data.rvRecommendCount || 0,
                 };
                 setReviews((prevReviews) => [newReview, ...prevReviews]);
             })
