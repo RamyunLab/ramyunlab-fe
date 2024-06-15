@@ -253,7 +253,7 @@ const RamyunList: React.FC = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                alert("찜 삭제 성공");
+                alert("찜 완료!");
             } else {
                 await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/favorites`,
@@ -264,7 +264,7 @@ const RamyunList: React.FC = () => {
                         },
                     }
                 );
-                alert("찜 추가 성공");
+                alert("찜 해제 완료!");
             }
         } catch (error) {
             alert("찜 작업 실패");
