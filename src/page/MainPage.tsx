@@ -4,6 +4,7 @@ import TournamentModal from "../components/Tournament/TournamentModal.tsx";
 import "./banner.scss";
 import mbtiImage from "../assets/images/ramyunmbti.jpg";
 import worldcupImage from "../assets/images/worldcup.jpg";
+import randomramyun from "../assets/images/RANDOM.webp";
 import { Link } from "react-router-dom";
 import SCOVILLE from "../assets/images/SCOVILLE2.png"; // Import the worldcup image
 import RamyunList from "../components/RamyunList/RamyunList.tsx"; // Import the RamyunList component
@@ -43,6 +44,9 @@ const MainPage: React.FC = () => {
                     <Link to="/UpDownGame" className="banner-link">
                         <div className="banner-text"></div>
                     </Link>
+                </div>
+                <div className="banner">
+                    <img src={randomramyun} alt="UpDownGame Banner" />
                 </div>
                 {showModal && (
                     <TournamentModal onSelect={handleSelectRounds} onClose={handleModalClose} />
