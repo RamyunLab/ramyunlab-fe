@@ -17,6 +17,7 @@ import FinalScreen from "./page/FinalScreen.tsx";
 import FavoriteListPage from "./page/FavoriteListPage.tsx";
 import ResultPage from "./page/UpDownGameResultPage.tsx"; // 추가된 ResultPage
 import MyReviewsPage from "./page/MyReviewsPage.tsx";
+import LikedReviewsPage from "./page/LikedReviewsPage.tsx";
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
@@ -63,6 +64,7 @@ const App: React.FC = () => {
                         <Route path="/tournament/result/:ramenId" element={<FinalScreen />} />
                         <Route path="/FavoriteListPage" element={<FavoriteListPage />} />
                         <Route path="/MyReviewsPage" element={<MyReviewsPage />} />
+                        <Route path="/LikedReviewsPage" element={<LikedReviewsPage />} />
                     </Routes>
                     <Footer />
                 </Router>

@@ -76,7 +76,12 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
 
     const handleMyReviewsPage = () => {
         setMenuOpen(false);
-        navigate("/MyReviewsPage"); // MyReviewsPage로 이동
+        navigate("/MyReviewsPage");
+    };
+
+    const handleLikedReviewsPage = () => {
+        setMenuOpen(false);
+        navigate("/LikedReviewsPage");
     };
 
     return (
@@ -95,9 +100,9 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
                             <li onClick={handleLogout}>로그아웃</li>
                             <li onClick={handleSuggestionClick}>건의하기</li>
                             <li onClick={handleFavoriteListPage}>찜 목록</li>
-                            <li onClick={handleMyReviewsPage}>내가 쓴 리뷰</li>{" "}
-                            {/* 내가 쓴 리뷰 이동 */}
-                            <li>공감한 리뷰</li>
+                            <li onClick={handleMyReviewsPage}>내가 쓴 리뷰</li>
+                            <li onClick={handleLikedReviewsPage}>공감한 리뷰</li>{" "}
+                            {/* 공감한 리뷰 이동 */}
                         </ul>
                     </div>
                 </div>
