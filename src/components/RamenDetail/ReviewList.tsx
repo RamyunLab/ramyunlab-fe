@@ -9,8 +9,8 @@ interface Review {
     rvIdx: number;
     uIdx: number;
     rIdx: number;
-    rvContent: string;
-    rvRate: number;
+    reviewContent: string;
+    rate: number;
     rvCreatedAt: string;
     reviewPhotoUrl: string | null;
     rvUpdatedAt: string | null;
@@ -42,7 +42,24 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             setCurrentUserId(parsedUserInfo.userIdx);
             setIsLoggedIn(true);
         }
-    }, []);
+
+        axios
+            .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`)
+            .then((response) => {
+                console.log("Reviews response from server:", response.data);
+                const reviewsData = response.data.data.review.content || [];
+                setReviews(reviewsData);
+                console.log("Reviews data:", reviewsData);
+            })
+            .catch((error) => {
+                console.error("리뷰 정보를 불러오는데 실패했습니다:", error);
+                setReviews([]); // 실패 시 빈 배열로 설정
+            });
+    }, [ramyunIdx, setReviews]);
+
+    useEffect(() => {
+        console.log("Updated reviews state:", reviews);
+    }, [reviews]);
 
     const handleLikeToggle = async (rvIdx: number) => {
         if (!isLoggedIn) {
@@ -187,8 +204,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                 review.rvIdx === editMode
                                     ? {
                                           ...review,
-                                          rvContent: newContent,
-                                          rvRate: newRating,
+                                          reviewContent: newContent,
+                                          rate: newRating,
                                           reviewPhotoUrl:
                                               response.data.data.reviewPhotoUrl ||
                                               review.reviewPhotoUrl,
@@ -204,6 +221,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 });
         }
     };
+
+    if (!reviews) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="review-list">
@@ -229,13 +250,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                         <img src={review.reviewPhotoUrl} alt="Review" />
                                     </div>
                                 )}
-                                <div className="content">{review.rvContent}</div>
+                                <div className="content">{review.reviewContent}</div>
                                 <div className="date">
                                     {new Date(review.rvCreatedAt).toLocaleDateString()}
                                 </div>
                             </div>
                             <div className="likes-rating">
-                                <div className="rating">{renderStars(review.rvRate)}</div>
+                                <div className="rating">{renderStars(review.rate)}</div>
                                 <div className="likes">
                                     <FontAwesomeIcon
                                         icon={review.liked ? solidThumbsUp : regularThumbsUp}
@@ -244,7 +265,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                             review.liked ? "solid" : "regular"
                                         }`}
                                     />
-                                    {review.rvRate}
+                                    {review.rate}
                                 </div>
                             </div>
                             {currentUserId === review.uIdx && (
@@ -253,8 +274,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                         onClick={() =>
                                             handleEdit(
                                                 review.rvIdx,
-                                                review.rvContent,
-                                                review.rvRate,
+                                                review.reviewContent,
+                                                review.rate,
                                                 review.reviewPhotoUrl
                                             )
                                         }
