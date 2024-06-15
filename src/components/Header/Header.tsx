@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; // useNavigate 추가
+import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../Redux/store";
 import { logout } from "../../Redux/slices/AuthSlice.tsx";
 import styles from "./Header.module.scss";
-import logo from "../../assets/images/lower_half2.png"; // 로고 이미지 파일 경로
-import Modal from "../Suggest/Suggest.tsx"; // 모달 컴포넌트 import
+import logo from "../../assets/images/lower_half2.png";
+import Modal from "../Suggest/Suggest.tsx";
 
 interface HeaderProps {
     toggleLoginModal: () => void;
@@ -13,10 +13,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // navigate 추가
+    const navigate = useNavigate();
 
     const toggleMenu = useCallback(
         (event: React.MouseEvent) => {
@@ -51,18 +51,19 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
     }, [menuOpen, handleClickOutside]);
 
     const handleLogout = () => {
+        localStorage.removeItem("userInfo");
         dispatch(logout());
         setMenuOpen(false);
     };
 
     const handleAccountPage = () => {
         setMenuOpen(false);
-        navigate("/account"); // 계정 페이지로 이동
+        navigate("/account");
     };
 
     const handleSuggestionClick = () => {
         setMenuOpen(false);
-        setIsModalOpen(true); // 모달을 띄우도록 상태 변경
+        setIsModalOpen(true);
     };
 
     const closeModal = () => {
@@ -71,7 +72,22 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
 
     const handleFavoriteListPage = () => {
         setMenuOpen(false);
-        navigate("/FavoriteListPage"); // FavoriteListPage로 이동
+        navigate("/FavoriteListPage");
+    };
+
+    const handleMyReviewsPage = () => {
+        setMenuOpen(false);
+        navigate("/MyReviewsPage");
+    };
+
+    const handleLikedReviewsPage = () => {
+        setMenuOpen(false);
+        navigate("/LikedReviewsPage");
+    };
+
+    const handleRecentlyViewedPage = () => {
+        setMenuOpen(false);
+        navigate("/recently-viewed");
     };
 
     return (
@@ -86,13 +102,13 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
                     </button>
                     <div className={`${styles.menu} ${menuOpen ? styles.show : ""}`}>
                         <ul>
-                            <li onClick={handleAccountPage}>마이페이지</li>{" "}
-                            {/* 페이지 이동으로 변경 */}
+                            <li onClick={handleAccountPage}>마이페이지</li>
                             <li onClick={handleLogout}>로그아웃</li>
                             <li onClick={handleSuggestionClick}>건의하기</li>
-                            <li onClick={handleFavoriteListPage}>찜 목록</li> {/* 찜 목록 이동 */}
-                            <li>내가 쓴 리뷰</li>
-                            <li>공감한 리뷰</li>
+                            <li onClick={handleFavoriteListPage}>찜 목록</li>
+                            <li onClick={handleRecentlyViewedPage}>최근 본 라면</li>
+                            <li onClick={handleMyReviewsPage}>내가 쓴 리뷰</li>
+                            <li onClick={handleLikedReviewsPage}>공감한 리뷰</li>
                         </ul>
                     </div>
                 </div>

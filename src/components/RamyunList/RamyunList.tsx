@@ -203,7 +203,6 @@ const RamyunList: React.FC = () => {
             toggleSortDirection();
         } else {
             setSort(newSort);
-            // setDirection("asc");
             updateUrlParams(1, newSort, "asc", filters, false);
             setPage(1);
         }
@@ -253,7 +252,7 @@ const RamyunList: React.FC = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                alert("찜 삭제 성공");
+                alert("찜 해제 완료!");
             } else {
                 await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/favorites`,
@@ -264,7 +263,7 @@ const RamyunList: React.FC = () => {
                         },
                     }
                 );
-                alert("찜 추가 성공");
+                alert("찜 완료!");
             }
         } catch (error) {
             alert("찜 작업 실패");
@@ -277,8 +276,23 @@ const RamyunList: React.FC = () => {
         refetch();
     };
 
-    const handleRamyunClick = (ramyunIdx: number) => {
-        navigate(`/main/ramyun/${ramyunIdx}`);
+    const handleRamyunClick = (ramyun: Ramyun) => {
+        // 로그인한 사용자만 로컬 스토리지에 저장
+        const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+        const userId = userInfo.userId;
+        if (userId) {
+            const viewedRamyunListKey = `viewedRamyunList_${userId}`;
+            const viewedRamyunList = JSON.parse(localStorage.getItem(viewedRamyunListKey) || "[]");
+
+            if (!viewedRamyunList.some((item: Ramyun) => item.ramyunIdx === ramyun.ramyunIdx)) {
+                viewedRamyunList.push(ramyun);
+            }
+
+            localStorage.setItem(viewedRamyunListKey, JSON.stringify(viewedRamyunList));
+        }
+
+        // 상세 페이지로 이동
+        navigate(`/main/ramyun/${ramyun.ramyunIdx}`, { state: { ramyun } });
     };
 
     const renderPagination = () => {
@@ -567,7 +581,7 @@ const RamyunList: React.FC = () => {
                     <div
                         key={ramyun.ramyunIdx}
                         className={`${styles.ramyunItem} ${ramyun.isLiked ? styles.favorite : ""}`}
-                        onClick={() => handleRamyunClick(ramyun.ramyunIdx)}
+                        onClick={() => handleRamyunClick(ramyun)}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
                     >
