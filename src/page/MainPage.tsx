@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import TournamentModal from "../components/Tournament/TournamentModal.tsx";
 import "./banner.scss";
 import mbtiImage from "../assets/images/ramyunmbti.jpg";
@@ -26,6 +27,24 @@ const MainPage: React.FC = () => {
         navigate("/tournament", { state: { rounds } });
     };
 
+    const handleRandomRamyunClick = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_SERVER}/main/random`,
+                {},
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            const ramyun = response.data.data.ramyun;
+            navigate(`/main/ramyun/${ramyun.ramyunIdx}`, { state: { ramyun } });
+        } catch (error) {
+            console.error("Failed to fetch random ramyun:", error);
+        }
+    };
+
     return (
         <div className="main-container">
             <div className="banners-container">
@@ -45,8 +64,8 @@ const MainPage: React.FC = () => {
                         <div className="banner-text"></div>
                     </Link>
                 </div>
-                <div className="banner">
-                    <img src={randomramyun} alt="UpDownGame Banner" />
+                <div className="banner" onClick={handleRandomRamyunClick}>
+                    <img src={randomramyun} alt="randomramyun" />
                 </div>
                 {showModal && (
                     <TournamentModal onSelect={handleSelectRounds} onClose={handleModalClose} />
