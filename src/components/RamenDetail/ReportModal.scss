@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .report-modal-content {
@@ -17,6 +18,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 400px;
     text-align: center;
+    z-index: 1010;
 }
 
 .report-modal-content h2 {
@@ -37,6 +39,21 @@
     margin-right: 10px;
 }
 
+.report-reasons textarea {
+    width: 90%;
+    height: 80px;
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    resize: none;
+}
+
+.report-reasons textarea:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
 .report-modal-actions {
     display: flex;
     justify-content: space-between;
@@ -49,6 +66,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-top: 3px;
 }
 
 .report-modal-actions button:hover {

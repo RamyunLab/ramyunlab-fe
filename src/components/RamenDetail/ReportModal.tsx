@@ -23,24 +23,25 @@ const ReportModal: React.FC<ReportModalProps> = ({ onSubmit, onCancel }) => {
                 <h2>신고하기</h2>
                 <div className="report-reasons">
                     {reasons.map((reason, index) => (
-                        <label key={index} className="report-reason">
-                            <input
-                                type="radio"
-                                name="reportReason"
-                                value={reason}
-                                checked={selectedReason === reason}
-                                onChange={(e) => setSelectedReason(e.target.value)}
-                            />
-                            {reason}
-                        </label>
+                        <div key={index}>
+                            <label className="report-reason">
+                                <input
+                                    type="radio"
+                                    name="reportReason"
+                                    value={reason}
+                                    checked={selectedReason === reason}
+                                    onChange={(e) => setSelectedReason(e.target.value)}
+                                />
+                                {reason}
+                            </label>
+                        </div>
                     ))}
-                    {selectedReason === "기타" && (
-                        <textarea
-                            placeholder="신고 사유를 입력하세요"
-                            value={otherReason}
-                            onChange={(e) => setOtherReason(e.target.value)}
-                        />
-                    )}
+                    <textarea
+                        placeholder="신고 사유를 입력하세요"
+                        value={otherReason}
+                        onChange={(e) => setOtherReason(e.target.value)}
+                        disabled={selectedReason !== "기타"}
+                    />
                 </div>
                 <div className="report-modal-actions">
                     <button onClick={handleSubmit}>제출</button>
