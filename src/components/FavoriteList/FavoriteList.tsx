@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as solidHeart, faHeart as regularHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import { FaStar } from "react-icons/fa";
 import styles from "../RamyunList/RamyunList.module.scss"; // 공통 SCSS 파일 사용
 
@@ -178,11 +179,9 @@ const FavoriteList: React.FC = () => {
                             <div className={styles.topContainer}>
                                 <FontAwesomeIcon
                                     icon={
-                                        item.isLiked
-                                            ? hoveredIndex === index
-                                                ? solidHeart
-                                                : solidHeart
-                                            : hoveredIndex === index
+                                        hoveredIndex === index
+                                            ? solidHeart
+                                            : item.isLiked
                                             ? solidHeart
                                             : regularHeart
                                     }
