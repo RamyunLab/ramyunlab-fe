@@ -3,10 +3,8 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import ReviewForm from "./ReviewForm.tsx";
-import ReportModal from "../RamenDetail/ReportModal.tsx";
-
+import ReportModal from "./ReportModal.tsx";
 interface Review {
     rvIdx: number;
     uIdx: number;
@@ -35,8 +33,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     const [editPhoto, setEditPhoto] = useState<string | null>(null);
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [showReportModal, setShowReportModal] = useState<boolean>(false);
-    const [selectedReviewIdx, setSelectedReviewIdx] = useState<number | null>(null);
+    const [reportModalOpen, setReportModalOpen] = useState<boolean>(false); // 신고 모달 상태
+    const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
@@ -120,35 +118,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             setReviews(updatedReviews);
         } catch (error) {
             console.error(`좋아요 ${liked ? "삭제" : "추가"} 실패:`, error);
-        }
-    };
-
-    const handleReportClick = (rvIdx: number) => {
-        setSelectedReviewIdx(rvIdx);
-        setShowReportModal(true);
-    };
-
-    const handleReportSubmit = async (reportReason: string) => {
-        if (!selectedReviewIdx) return;
-
-        const token = localStorage.getItem("token");
-
-        try {
-            const response = await axios.post(
-                `${process.env.REACT_APP_API_SERVER}/api/complaint/${selectedReviewIdx}`,
-                { reportReason },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            console.log("Report:", response.data);
-            alert("신고가 접수되었습니다.");
-            setShowReportModal(false);
-        } catch (error) {
-            console.error("신고 실패:", error);
-            alert("신고에 실패했습니다. 다시 시도해주세요.");
         }
     };
 
@@ -270,6 +239,40 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         }
     };
 
+    const handleReport = (review: Review) => {
+        setSelectedReview(review);
+        setReportModalOpen(true);
+    };
+
+    const handleReportSubmit = async (reportReason: string) => {
+        if (!selectedReview) return;
+
+        const token = localStorage.getItem("token");
+        const reportData = {
+            reportReason,
+            reportCreatedAt: new Date().toISOString(),
+            userIdx: currentUserId,
+            reviewIdx: selectedReview.rvIdx,
+        };
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_SERVER}/api/complaint/${selectedReview.rvIdx}`,
+                reportData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("신고 성공:", response.data);
+            setReportModalOpen(false);
+        } catch (error) {
+            console.error("신고 실패:", error);
+        }
+    };
+
     if (!reviews) {
         return <div>Loading...</div>;
     }
@@ -306,6 +309,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                     <div className="date">
                                         {new Date(review.rvCreatedAt).toLocaleDateString()}
                                     </div>
+                                    <div className="report" onClick={() => handleReport(review)}>
+                                        신고하기
+                                    </div>
                                 </div>
                                 <div className="likes-rating">
                                     <div className="rating">{renderStars(review.rate)}</div>
@@ -339,22 +345,15 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                         </button>
                                     </div>
                                 )}
-                                <div
-                                    className="report"
-                                    onClick={() => handleReportClick(review.rvIdx)}
-                                >
-                                    <FontAwesomeIcon icon={faExclamationTriangle} />
-                                    <span>신고하기</span>
-                                </div>
                             </>
                         )}
                     </div>
                 );
             })}
-            {showReportModal && (
+            {reportModalOpen && (
                 <ReportModal
                     onSubmit={handleReportSubmit}
-                    onCancel={() => setShowReportModal(false)}
+                    onCancel={() => setReportModalOpen(false)}
                 />
             )}
         </div>
