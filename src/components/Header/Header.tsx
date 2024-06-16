@@ -54,6 +54,7 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
         localStorage.removeItem("userInfo");
         dispatch(logout());
         setMenuOpen(false);
+        navigate("/");
     };
 
     const handleAccountPage = () => {
