@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as solidHeart, faHeart as regularHeart } from "@fortawesome/free-solid-svg-icons";
 import { FaStar } from "react-icons/fa";
 import styles from "../RamyunList/RamyunList.module.scss"; // 공통 SCSS 파일 사용
 
@@ -37,7 +36,6 @@ interface FavoriteResponse {
 const FavoriteList: React.FC = () => {
     const [favoriteList, setFavoriteList] = useState<FavoriteItem[]>([]);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const [hoveredHeartIndex, setHoveredHeartIndex] = useState<number | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
@@ -134,8 +132,8 @@ const FavoriteList: React.FC = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    const handleItemClick = (ramyunIdx: number) => {
-        navigate(`/main/ramyun/${ramyunIdx}`);
+    const handleItemClick = (ramyun: FavoriteItem) => {
+        navigate(`/main/ramyun/${ramyun.ramyunIdx}`, { state: { ramyun } });
     };
 
     const renderPagination = () => {
@@ -172,7 +170,7 @@ const FavoriteList: React.FC = () => {
                             className={`${styles.ramyunItem} ${
                                 item.isLiked ? styles.favorite : ""
                             }`}
-                            onClick={() => handleItemClick(item.ramyunIdx)}
+                            onClick={() => handleItemClick(item)}
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
                             style={{ cursor: "pointer" }}
@@ -180,14 +178,14 @@ const FavoriteList: React.FC = () => {
                             <div className={styles.topContainer}>
                                 <FontAwesomeIcon
                                     icon={
-                                        hoveredIndex === index
-                                            ? solidHeart
-                                            : item.isLiked
+                                        item.isLiked
+                                            ? hoveredIndex === index
+                                                ? solidHeart
+                                                : solidHeart
+                                            : hoveredIndex === index
                                             ? solidHeart
                                             : regularHeart
                                     }
-                                    onMouseEnter={() => setHoveredHeartIndex(index)}
-                                    onMouseLeave={() => setHoveredHeartIndex(null)}
                                     onClick={(e) => {
                                         e.stopPropagation(); // Prevents the item click handler
                                         handleFavoriteToggle(item.ramyunIdx, item.isLiked);
