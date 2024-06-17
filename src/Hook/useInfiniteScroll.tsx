@@ -3,7 +3,7 @@ import axios from "axios";
 
 interface Review {
     rvIdx: number;
-    uIdx: number;
+    userIdx: number;
     rIdx: number;
     rvContent: string;
     rvRate: number;

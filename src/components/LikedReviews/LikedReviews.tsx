@@ -4,7 +4,7 @@ import styles from "../MyReviews/MyReviews.module.scss";
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
 interface Review {
     rvIdx: number;
-    uIdx: number;
+    userIdx: number;
     rIdx: number;
     rvContent: string;
     rvRate: number;

@@ -24,7 +24,7 @@ interface RamenInfo {
 
 interface Review {
     rvIdx: number;
-    uIdx: number;
+    userIdx: number;
     rIdx: number;
     reviewContent: string;
     rate: number;
