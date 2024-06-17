@@ -22,6 +22,7 @@ interface Review {
     rvRecommendCount: number | null;
     rvReportCount: number;
     isRecommended: boolean;
+    rvIsReported: boolean; // 추가된 필드
 }
 
 interface ReviewListProps {
@@ -46,13 +47,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
         const token = localStorage.getItem("token");
-        console.log("Local Storage userInfo:", userInfo);
-        console.log("Local Storage token:", token);
         if (userInfo && token) {
             const parsedUserInfo = JSON.parse(userInfo);
-            console.log("Parsed userInfo:", parsedUserInfo);
             setCurrentUserId(parsedUserInfo.userIdx);
-            console.log("userIdx: ", parsedUserInfo.userIdx);
             setIsLoggedIn(true);
         }
 
@@ -61,7 +58,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
     const fetchReviews = (page: number) => {
         const token = localStorage.getItem("token");
-        console.log(`Fetching reviews for ramyunIdx: ${ramyunIdx} on page: ${page}`);
         axios
             .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`, {
                 headers: {
@@ -72,21 +68,21 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 },
             })
             .then((response) => {
-                console.log("Reviews response from server:", response.data);
                 const reviewsData = response.data.data.review.content || [];
                 const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                     ...review,
                     rvRecommendCount: review.rvRecommendCount ?? 0,
-                    rvReportCount: review.rvReportCount ?? 0, // 기본값 설정
+                    rvReportCount: review.rvReportCount ?? 0,
+                    rvIsReported: review.rvIsReported ?? false,
+                    recommendIdx: review.recommendIdx ?? null, // ensure recommendIdx is set
                 }));
                 const sortedReviews = sortReviews(reviewsWithDefaultValues);
                 setReviews(sortedReviews);
                 setTotalPages(response.data.data.review.totalPages);
-                console.log("Set reviews:", sortedReviews);
             })
             .catch((error) => {
                 console.error("Failed to fetch reviews:", error);
-                setReviews([]); // 실패 시 빈 배열로 설정
+                setReviews([]);
             });
     };
 
@@ -127,14 +123,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         try {
             if (liked) {
                 const deleteResponse = await axios.delete(
-                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${currentReview.recommendIdx}`,
+                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     }
                 );
-                console.log("Delete like response:", deleteResponse.data);
                 currentReview.recommendIdx = null;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 1) - 1;
                 currentReview.isRecommended = false;
@@ -148,7 +143,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                         },
                     }
                 );
-                console.log("Add like response:", response.data);
                 currentReview.recommendIdx = response.data.data.recommendIdx;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 0) + 1;
                 currentReview.isRecommended = true;
@@ -161,6 +155,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                               ...review,
                               rvRecommendCount: currentReview.rvRecommendCount,
                               isRecommended: currentReview.isRecommended,
+                              recommendIdx: currentReview.recommendIdx, // ensure the recommendIdx is updated
                           }
                         : review
                 )
@@ -204,7 +199,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     },
                 })
                 .then((response) => {
-                    console.log("Delete review response:", response.data);
                     if (response.data.statusCode === 200) {
                         const updatedReviews = sortReviews(
                             reviews.filter((review) => review.rvIdx !== rvIdx)
@@ -252,14 +246,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         const body = JSON.stringify({
             reviewContent: newContent,
             rate: newRating,
-            rvReportCount: reportCount, // rvReportCount 추가
+            rvReportCount: reportCount,
         });
         const blob = new Blob([body], {
             type: "application/json",
         });
         formData.append("reviewDTO", blob);
 
-        console.log("Saving edited review:", { newContent, newRating, newPhoto, reportCount });
         if (editMode && ramyunIdx) {
             axios
                 .patch(
@@ -273,7 +266,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 )
                 .then((response) => {
-                    console.log("Edit review response:", response.data);
                     if (response.data.statusCode === 200) {
                         fetchReviews(currentPage);
                     }
@@ -297,7 +289,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 reportReason: reportReason,
             };
 
-            console.log("Submitting report:", reportDTO);
             axios
                 .post(
                     `${process.env.REACT_APP_API_SERVER}/api/complaint/${reportReviewId}`,
@@ -310,15 +301,12 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 )
                 .then((response) => {
-                    console.log("Report submission response:", response.data);
-
                     setIsReportModalOpen(false);
                     fetchReviews(currentPage);
                 })
                 .catch((error) => {
-                    console.log("response.data.error", error.response.data.error);
                     console.error("Failed to submit report:", error);
-                    if ((error.response.data.error = "이미 신고한 리뷰입니다.")) {
+                    if (error.response.data.error === "이미 신고한 리뷰입니다.") {
                         alert("이미 신고한 리뷰입니다");
                     }
                 });
@@ -330,56 +318,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             setCurrentPage(newPage);
             fetchReviews(newPage);
         }
-    };
-
-    const handleReviewSubmit = (
-        content: string,
-        rating: number,
-        photo: File | null,
-        reportCount: number
-    ) => {
-        const token = localStorage.getItem("token");
-        const formData = new FormData();
-
-        if (photo) {
-            formData.append("file", photo);
-        }
-
-        const body = JSON.stringify({
-            reviewContent: content,
-            rate: rating,
-            rvReportCount: reportCount, // rvReportCount 추가
-        });
-        const blob = new Blob([body], {
-            type: "application/json",
-        });
-        formData.append("reviewDTO", blob);
-
-        console.log("Submitting new review:", { content, rating, photo, reportCount });
-        axios
-            .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((response) => {
-                console.log("Review submission response:", response.data);
-                const newReview: Review = {
-                    ...response.data.data,
-                    rvRecommendCount: response.data.data.rvRecommendCount || 0,
-                    rvReportCount: response.data.data.rvReportCount || 0, // 기본값 설정
-                };
-                setReviews((prevReviews) => sortReviews([...prevReviews, newReview]));
-                fetchReviews(totalPages); // 맨 끝 페이지로 이동하여 리뷰 목록을 다시 가져옴
-            })
-            .catch((error) => {
-                console.error("Failed to submit review:", error);
-                console.error(
-                    "Error details:",
-                    error.response ? error.response.data : error.message
-                );
-            });
     };
 
     if (!reviews) {
@@ -414,7 +352,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                             <>
                                 <div className="nickname">{review.nickname}</div>
                                 <div className="review-content">
-                                    {review.rvReportCount >= 5 ? (
+                                    {review.rvIsReported ? (
                                         <div className="blind">블라인드 처리된 댓글입니다.</div>
                                     ) : (
                                         <>
@@ -455,7 +393,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                                         review.reviewContent,
                                                         review.rate,
                                                         review.reviewPhotoUrl,
-                                                        review.rvReportCount ?? 0 // 기본값 설정
+                                                        review.rvReportCount ?? 0
                                                     )
                                                 }
                                             >
@@ -502,15 +440,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     onCancel={() => setIsReportModalOpen(false)}
                 />
             )}
-            <ReviewForm
-                initialContent=""
-                initialRating={0}
-                initialPhoto={null}
-                rvReportCount={0} // 기본값 설정
-                onSubmit={handleReviewSubmit}
-                onCancel={() => {}}
-                isEditMode={false}
-            />
         </div>
     );
 };
