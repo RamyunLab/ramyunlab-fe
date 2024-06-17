@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import styles from "./RamyunList.module.scss";
+import Pagination from "./../Pagination/Pagination.tsx"; // Pagination 컴포넌트 임포트
 
 const brandMapping = {
     "1": "농심",
@@ -295,49 +296,6 @@ const RamyunList: React.FC = () => {
         navigate(`/main/ramyun/${ramyun.ramyunIdx}`, { state: { ramyun } });
     };
 
-    const renderPagination = () => {
-        const totalPages = data?.data?.totalPages || 0;
-        const pages: React.ReactNode[] = [];
-
-        const totalBlocks = Math.ceil(totalPages / 5);
-        const currentBlock = Math.ceil(page / 5);
-
-        const startPage = Math.max(1, (currentBlock - 1) * 5 + 1);
-        const endPage = Math.min(startPage + 4, totalPages); // Ensure we don't go beyond total pages
-
-        for (let i = startPage; i <= endPage; i++) {
-            pages.push(
-                <button
-                    key={i}
-                    onClick={() => handlePageChange(i)}
-                    className={`${styles.pageButton} ${i === page ? styles.activePage : ""}`}
-                >
-                    {i}
-                </button>
-            );
-        }
-
-        return (
-            <div className={styles.pagination}>
-                <button
-                    className={styles.prevButton}
-                    onClick={() => handlePageChange(Math.max(startPage - 5, 1))}
-                    disabled={startPage === 1}
-                >
-                    Previous
-                </button>
-                {pages}
-                <button
-                    className={styles.nextButton}
-                    onClick={() => handlePageChange(Math.min(startPage + 5, totalPages))}
-                    disabled={endPage === totalPages}
-                >
-                    Next
-                </button>
-            </div>
-        );
-    };
-
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -351,7 +309,6 @@ const RamyunList: React.FC = () => {
     }
 
     const ramyunList = data?.data?.content || [];
-    // console.log(ramyunList);
 
     return (
         <div className={styles.ramyunListContainer}>
@@ -616,7 +573,11 @@ const RamyunList: React.FC = () => {
                     </div>
                 ))}
             </div>
-            {renderPagination()}
+            <Pagination
+                totalPages={data?.data?.totalPages || 0}
+                currentPage={page}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };

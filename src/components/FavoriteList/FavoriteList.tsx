@@ -4,10 +4,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+    faHeart as solidHeart,
+    faHeart as regularHeart,
+} from "@fortawesome/free-regular-svg-icons";
 import { FaStar } from "react-icons/fa";
 import styles from "../RamyunList/RamyunList.module.scss"; // 공통 SCSS 파일 사용
+import Pagination from "./../Pagination/Pagination.tsx"; // Pagination 컴포넌트 임포트
 
 interface FavoriteItem {
     ramyunIdx: number;
@@ -137,23 +140,6 @@ const FavoriteList: React.FC = () => {
         navigate(`/main/ramyun/${ramyun.ramyunIdx}`, { state: { ramyun } });
     };
 
-    const renderPagination = () => {
-        const pages = [];
-        for (let i = 1; i <= totalPages; i++) {
-            pages.push(
-                <button
-                    key={i}
-                    onClick={() => handlePageChange(i)}
-                    className={`${styles.pageButton} ${i === page ? styles.activePage : ""}`}
-                >
-                    {i}
-                </button>
-            );
-        }
-
-        return <div className={styles.pagination}>{pages}</div>;
-    };
-
     if (error) {
         return <div>{error}</div>;
     }
@@ -210,7 +196,11 @@ const FavoriteList: React.FC = () => {
                     ))}
                 </div>
             )}
-            {renderPagination()}
+            <Pagination
+                totalPages={totalPages}
+                currentPage={page}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };
