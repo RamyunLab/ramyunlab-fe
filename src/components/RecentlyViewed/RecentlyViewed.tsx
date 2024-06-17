@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import styles from "../RamyunList/RamyunList.module.scss"; // 공통 SCSS 파일 사용
-
+import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
 interface Ramyun {
     ramyunIdx: number;
     ramyunName: string;
@@ -118,6 +118,7 @@ const RecentlyViewed: React.FC = () => {
 
     return (
         <div className={styles.ramyunListContainer}>
+            <NavigationButtons />
             <h2>최근 본 라면</h2>
             <div className={styles.ramyunList}>
                 {viewedRamyunList.length === 0 ? (

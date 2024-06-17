@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "../MyReviews/MyReviews.module.scss";
-
+import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
 interface Review {
     rvIdx: number;
     uIdx: number;
@@ -91,6 +91,7 @@ const LikedReviews: React.FC = () => {
 
     return (
         <div className={styles.myReviewsContainer}>
+            <NavigationButtons />
             <h2>공감한 리뷰</h2>
             {isLoggedIn ? (
                 <>
