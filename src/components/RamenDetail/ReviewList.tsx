@@ -293,9 +293,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
             const reportDTO = {
                 reportReason: reportReason,
-                reportCreatedAt: new Date().toISOString(), // 현재 날짜와 시간 추가
-                userIdx: parsedUserInfo.userIdx,
-                reviewIdx: reportReviewId,
             };
 
             console.log("Submitting report:", reportDTO);
@@ -312,10 +309,17 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 )
                 .then((response) => {
                     console.log("Report submission response:", response.data);
+
                     setIsReportModalOpen(false);
+                    // 신고 후 리뷰 목록을 다시 가져옴
+                    fetchReviews(currentPage);
                 })
                 .catch((error) => {
+                    console.log("response.data.error", error.response.data.error);
                     console.error("Failed to submit report:", error);
+                    if ((error.response.data.error = "이미 신고한 리뷰입니다.")) {
+                        alert("이미 신고한 리뷰입니다");
+                    }
                 });
         }
     };
@@ -358,12 +362,18 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                             <>
                                 <div className="nickname">{review.nickname}</div>
                                 <div className="review-content">
-                                    {review.reviewPhotoUrl && (
-                                        <div className="review-image">
-                                            <img src={review.reviewPhotoUrl} alt="Review" />
-                                        </div>
+                                    {review.rvReportCount >= 5 ? (
+                                        <div className="blind">블라인드 처리된 댓글입니다.</div>
+                                    ) : (
+                                        <>
+                                            {review.reviewPhotoUrl && (
+                                                <div className="review-image">
+                                                    <img src={review.reviewPhotoUrl} alt="Review" />
+                                                </div>
+                                            )}
+                                            <div className="content">{review.reviewContent}</div>
+                                        </>
                                     )}
-                                    <div className="content">{review.reviewContent}</div>
                                     <div className="date">
                                         {new Date(review.rvCreatedAt).toLocaleDateString()}
                                     </div>
@@ -405,11 +415,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                         </div>
                                     )}
                                 </div>
-                                <div className="report">
-                                    <button onClick={() => openReportModal(review.rvIdx)}>
-                                        신고하기
-                                    </button>
-                                </div>
+                                {isLoggedIn && currentUserId !== review.userIdx && (
+                                    <div className="report">
+                                        <button onClick={() => openReportModal(review.rvIdx)}>
+                                            신고하기
+                                        </button>
+                                    </div>
+                                )}
                             </>
                         )}
                     </div>

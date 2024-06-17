@@ -18,7 +18,7 @@ const FinalScreen: React.FC = () => {
             setChampion(championFromState);
         } else if (ramenId) {
             axios
-                .get(`/main/ramyun/${ramenId}`)
+                .get(`/game/result/${ramenId}`)
                 .then((response) => {
                     setChampion(response.data.data.ramyun);
                 })
