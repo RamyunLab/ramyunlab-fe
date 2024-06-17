@@ -4,15 +4,28 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    width: 100%; /* Full width to allow centering */
+    width: 700px;
     margin: 0 auto;
+}
+
+.thumbs-up-icon {
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &.solid {
+        color: red;
+    }
+
+    &:hover {
+        color: #f39c12;
+    }
 }
 
 .myReviewsList {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
     align-items: center;
-    gap: 20px; /* Space between items */
+    gap: 20px;
 }
 
 .reviewItem {
@@ -20,17 +33,30 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
-    width: 100%; /* Full width */
-    max-width: 700px; /* Max width to keep it centered */
+    width: 650px; /* Fixed width for items */
+    height: px; /* Fixed height for items */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 
     &:hover {
         border-color: #ffab21;
     }
+}
+
+.reviewContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: -10px;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
 .reviewItem img {
@@ -41,8 +67,8 @@
 
 h3 {
     width: 100%;
-    height: 40px;
-    margin-top: 0px;
+    height: 30px;
+    margin-top: 10px !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,6 +128,31 @@ h3 {
     color: #888;
 }
 
+.recommendCount {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating {
+    margin-top: 10px;
+}
+
+.date {
+    margin-top: 4px !important;
+    font-size: 12px;
+    margin-left: 90%;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Space between stars */
+}
+
 @media (max-width: 768px) {
     .myReviewsContainer {
         padding: 10px;
@@ -109,8 +160,40 @@ h3 {
     }
 
     .reviewItem {
-        width: 120px;
-        height: 160px;
+        width: 300px; /* Adjust width for smaller screens */
+        height: 200px; /* Fixed height for items */
+        padding: 10px;
+    }
+
+    .reviewItem img {
+        width: 100px;
+        height: 100px;
+    }
+
+    h3 {
+        font-size: 16px;
+        height: 30px;
+        margin-bottom: 10px;
+    }
+
+    .recommendCount,
+    .rating,
+    .date {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .myReviewsContainer {
+        padding: 0px;
+        width: 100%;
+    }
+
+    .reviewItem {
+        width: 100%;
+        max-width: 300px;
+        height: 200px; /* Fixed height for items */
+        padding: 10px;
     }
 
     .reviewItem img {
@@ -119,32 +202,14 @@ h3 {
     }
 
     h3 {
-        font-size: 13px;
-        height: 20px;
-        margin-bottom: 2px;
-    }
-}
-
-@media (max-width: 480px) {
-    .myReviewsContainer {
-        padding: 0px;
-        max-width: 100%;
-    }
-
-    .reviewItem {
-        width: 75%;
-        height: 70%;
-        margin-bottom: -100px !important;
-    }
-
-    .reviewItem img {
-        width: 80%;
-        height: 80%;
-    }
-
-    h3 {
         margin-top: 7px;
-        font-size: 12px;
+        font-size: 14px;
         height: 20px;
+    }
+
+    .recommendCount,
+    .rating,
+    .date {
+        font-size: 10px;
     }
 }

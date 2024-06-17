@@ -2,25 +2,30 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "../MyReviews/MyReviews.module.scss";
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
+
 interface Review {
     rvIdx: number;
-    uIdx: number;
-    rIdx: number;
-    rvContent: string;
-    rvRate: number;
+    reviewContent: string;
+    rate: number;
     rvCreatedAt: string;
-    reviewPhotoUrl: string | null;
-    rvUpdatedAt: string | null;
-    rvDeletedAt: string | null;
-    nickname: string;
-    liked: boolean;
-    recommendIdx: number | null;
+    rvUpdatedAt: string;
+    rvRecommendCount: number;
+    userIdx: number;
+    ramyunIdx: number;
 }
 
 interface ReviewResponse {
-    reviews: Review[];
-    currentPage: number;
-    totalPages: number;
+    statusCode: number;
+    message: string;
+    data: {
+        totalPages: number;
+        totalElements: number;
+        first: boolean;
+        last: boolean;
+        size: number;
+        content: Review[];
+        number: number;
+    };
 }
 
 const LikedReviews: React.FC = () => {
@@ -40,7 +45,7 @@ const LikedReviews: React.FC = () => {
     const fetchReviews = async (page: number) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(
+            const response = await axios.get<ReviewResponse>(
                 `${process.env.REACT_APP_API_SERVER}/api/recReview?page=${page}`,
                 {
                     headers: {
@@ -50,9 +55,9 @@ const LikedReviews: React.FC = () => {
             );
 
             if (response.data.statusCode === 200) {
-                const data: ReviewResponse = response.data.data;
-                setReviews(data.reviews);
-                setCurrentPage(data.currentPage);
+                const data = response.data.data;
+                setReviews(data.content);
+                setCurrentPage(data.number + 1); // 페이지 번호는 0부터 시작하므로 1을 더해줌
                 setTotalPages(data.totalPages);
             } else {
                 setReviews([]);
@@ -99,19 +104,16 @@ const LikedReviews: React.FC = () => {
                         {reviews && reviews.length > 0 ? (
                             reviews.map((review) => (
                                 <div key={review.rvIdx} className={styles.reviewItem}>
-                                    <h3 className={styles.nickname}>{review.nickname}</h3>
                                     <div className={styles.reviewContent}>
-                                        {review.reviewPhotoUrl && (
-                                            <div className={styles.reviewImage}>
-                                                <img src={review.reviewPhotoUrl} alt="Review" />
-                                            </div>
-                                        )}
-                                        <div className={styles.content}>{review.rvContent}</div>
+                                        <div className={styles.content}>{review.reviewContent}</div>
                                         <div className={styles.date}>
                                             {new Date(review.rvCreatedAt).toLocaleDateString()}
                                         </div>
                                         <div className={styles.rating}>
-                                            {renderStars(review.rvRate)}
+                                            {renderStars(review.rate)}
+                                        </div>
+                                        <div className={styles.recommendCount}>
+                                            공감 수: {review.rvRecommendCount}
                                         </div>
                                     </div>
                                 </div>
