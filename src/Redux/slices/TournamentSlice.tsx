@@ -38,6 +38,12 @@ const tournamentSlice = createSlice({
             state.champion = null;
             state.currentMatchIndex = 0;
         },
+        setNextRound(state) {
+            state.currentMatchups = state.winners;
+            state.winners = [];
+            state.round = state.round ? state.round / 2 : null;
+            state.currentMatchIndex = 0;
+        },
     },
 });
 
@@ -49,6 +55,7 @@ export const {
     setChampion,
     setCurrentMatchIndex,
     resetTournament,
+    setNextRound,
 } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;

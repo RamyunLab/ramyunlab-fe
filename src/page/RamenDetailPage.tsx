@@ -35,60 +35,82 @@ interface Review {
     nickname: string;
     recommendIdx: number | null;
     rvRecommendCount: number | null;
+    rvReportCount: number;
+    isRecommended: boolean;
 }
 
 const RamenDetailPage: React.FC = () => {
     const { ramyunIdx } = useParams<{ ramyunIdx: string }>();
     const [ramen, setRamen] = useState<RamenInfo | null>(null);
     const [reviews, setReviews] = useState<Review[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
 
     useEffect(() => {
         if (ramyunIdx) {
-            axios
-                .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}`)
-                .then((response) => {
-                    const data = response.data.data.ramyun;
+            const token = localStorage.getItem("token");
+
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+            const fetchRamenDetails = axios.get(
+                `${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}`,
+                {
+                    headers,
+                }
+            );
+
+            const fetchReviews = axios.get(
+                `${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`,
+                {
+                    headers,
+                    params: {
+                        page: currentPage,
+                    },
+                }
+            );
+
+            Promise.all([fetchRamenDetails, fetchReviews])
+                .then(([ramenResponse, reviewsResponse]) => {
+                    console.log("Ramen details response:", ramenResponse);
+                    console.log("Reviews response:", reviewsResponse);
+
+                    const ramenData = ramenResponse.data.data.ramyun;
                     const mappedRamen: RamenInfo = {
-                        r_idx: data.ramyunIdx,
-                        r_name: data.ramyunName,
-                        r_img: data.ramyunImg,
-                        b_name: data.brandName,
-                        r_kcal: data.ramyunKcal,
-                        r_noodle: data.noodle,
-                        r_is_cup: data.isCup,
-                        r_cooking: data.cooking,
-                        r_gram: data.gram,
-                        r_na: data.ramyunNa,
-                        r_scoville: data.scoville || undefined,
-                        isLiked: response.data.data.isLiked,
+                        r_idx: ramenData.ramyunIdx,
+                        r_name: ramenData.ramyunName,
+                        r_img: ramenData.ramyunImg,
+                        b_name: ramenData.brandName,
+                        r_kcal: ramenData.ramyunKcal,
+                        r_noodle: ramenData.noodle,
+                        r_is_cup: ramenData.isCup,
+                        r_cooking: ramenData.cooking,
+                        r_gram: ramenData.gram,
+                        r_na: ramenData.ramyunNa,
+                        r_scoville: ramenData.scoville || undefined,
+                        isLiked: ramenResponse.data.data.isLiked,
                     };
                     setRamen(mappedRamen);
-                })
-                .catch((error) => {
-                    console.error("라면 정보를 불러오는데 실패했습니다:", error);
-                });
 
-            axios
-                .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`)
-                .then((response) => {
-                    console.log("axios get:", response.data);
-                    const reviewsData = response.data.data.review.content || [];
+                    const reviewsData = reviewsResponse.data.data.review.content || [];
                     const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                         ...review,
                         rvRecommendCount: review.rvRecommendCount ?? 0,
+                        rvReportCount: review.rvReportCount ?? 0, // 기본값 설정
                     }));
                     setReviews(reviewsWithDefaultValues);
-                    console.log("setReviews:", reviewsWithDefaultValues);
+                    setTotalPages(reviewsResponse.data.data.review.totalPages);
                 })
                 .catch((error) => {
-                    console.error("리뷰 정보를 불러오는데 실패했습니다:", error);
-                    setReviews([]); // 실패 시 빈 배열로 설정
+                    console.error("Failed to fetch data:", error);
+                    console.error(
+                        "Error details:",
+                        error.response ? error.response.data : error.message
+                    );
                 });
         }
-    }, [ramyunIdx]);
+    }, [ramyunIdx, currentPage]);
 
     const handleReviewSubmit = (newContent: string, newRating: number, newPhoto: File | null) => {
-        // 새로운 리뷰를 등록하는 로직 추가
         const token = localStorage.getItem("token");
         const formData = new FormData();
 
@@ -99,12 +121,14 @@ const RamenDetailPage: React.FC = () => {
         const body = JSON.stringify({
             reviewContent: newContent,
             rate: newRating,
+            rvReportCount: 0, // 리뷰 작성 시 기본값 0으로 설정
         });
         const blob = new Blob([body], {
             type: "application/json",
         });
         formData.append("reviewDTO", blob);
 
+        console.log("Submitting new review:", { newContent, newRating, newPhoto });
         axios
             .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, formData, {
                 headers: {
@@ -113,15 +137,27 @@ const RamenDetailPage: React.FC = () => {
                 },
             })
             .then((response) => {
+                console.log("Review submission response:", response);
                 const newReview: Review = {
                     ...response.data.data,
                     rvRecommendCount: response.data.data.rvRecommendCount || 0,
+                    rvReportCount: response.data.data.rvReportCount || 0, // 기본값 설정
                 };
                 setReviews((prevReviews) => [newReview, ...prevReviews]);
             })
             .catch((error) => {
-                console.error("리뷰 등록 실패:", error);
+                console.error("Failed to submit review:", error);
+                console.error(
+                    "Error details:",
+                    error.response ? error.response.data : error.message
+                );
             });
+    };
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
     };
 
     if (!ramen) {
@@ -144,10 +180,28 @@ const RamenDetailPage: React.FC = () => {
                 initialContent=""
                 initialRating={3}
                 initialPhoto={null}
+                rvReportCount={0} // 기본값 설정
                 onSubmit={handleReviewSubmit}
                 onCancel={() => {}}
                 isEditMode={false}
             />
+            <div className="pagination">
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    이전
+                </button>
+                <span>
+                    {currentPage} / {totalPages}
+                </span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    다음
+                </button>
+            </div>
         </div>
     );
 };

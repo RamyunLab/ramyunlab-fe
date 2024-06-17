@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import "./ReviewForm.scss"; // 스타일 파일 추가
 
 interface ReviewFormProps {
     initialContent: string;
     initialRating: number;
     initialPhoto: string | null;
-    onSubmit: (newContent: string, newRating: number, newPhoto: File | null) => void;
+    rvReportCount: number; // 새로운 prop 추가
+    onSubmit: (content: string, rating: number, photo: File | null, reportCount: number) => void;
     onCancel: () => void;
     isEditMode: boolean;
     rvIdx?: number;
@@ -16,64 +17,106 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     initialContent,
     initialRating,
     initialPhoto,
+    rvReportCount = 0, // 기본값 0으로 설정
     onSubmit,
     onCancel,
     isEditMode,
     rvIdx,
     ramyunIdx,
 }) => {
-    const [content, setContent] = useState(initialContent);
-    const [rating, setRating] = useState(initialRating);
+    const [content, setContent] = useState<string>(initialContent);
+    const [rating, setRating] = useState<number>(initialRating);
     const [photo, setPhoto] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(initialPhoto);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0];
-            setPhoto(file);
-            setPhotoPreview(URL.createObjectURL(file));
-        }
+    useEffect(() => {
+        setContent(initialContent);
+        setRating(initialRating);
+        setPhotoPreview(initialPhoto);
+    }, [initialContent, initialRating, initialPhoto]);
+
+    const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setContent(e.target.value);
     };
 
-    const handleSubmit = () => {
-        console.log("Submit clicked");
-        console.log("Content:", content);
-        console.log("Rating:", rating);
-        console.log("Photo:", photo);
-        onSubmit(content, rating, photo);
+    const handleRatingChange = (newRating: number) => {
+        setRating(newRating);
+    };
+
+    const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setPhoto(file);
+        setPhotoPreview(file ? URL.createObjectURL(file) : null);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSubmit(content, rating, photo, rvReportCount);
     };
 
     return (
-        <div className="review-form">
-            <div className="rating">
-                {Array.from({ length: 5 }, (_, index) => (
+        <form onSubmit={handleSubmit} className="review-form">
+            <div className="form-header">
+                <StarRating rating={rating} onRatingChange={handleRatingChange} />
+            </div>
+            <textarea
+                value={content}
+                onChange={handleContentChange}
+                placeholder="리뷰를 입력하세요"
+                className="review-textarea"
+            />
+            <input type="file" onChange={handlePhotoChange} className="file-input" />
+            {photoPreview && <img src={photoPreview} alt="Preview" className="photo-preview" />}
+            <div className="button-group">
+                <button type="submit" className="submit-button">
+                    {isEditMode ? "수정 완료" : "리뷰 등록"}
+                </button>
+                {isEditMode && (
+                    <button type="button" onClick={onCancel} className="cancel-button">
+                        취소
+                    </button>
+                )}
+            </div>
+        </form>
+    );
+};
+
+interface StarRatingProps {
+    rating: number;
+    onRatingChange: (rating: number) => void;
+}
+
+const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange }) => {
+    const [hoverRating, setHoverRating] = useState<number>(0);
+
+    const handleMouseEnter = (index: number) => {
+        setHoverRating(index);
+    };
+
+    const handleMouseLeave = () => {
+        setHoverRating(0);
+    };
+
+    const handleClick = (index: number) => {
+        onRatingChange(index);
+    };
+
+    return (
+        <div className="star-rating">
+            {Array.from({ length: 5 }, (_, index) => {
+                const starIndex = index + 1;
+                return (
                     <span
-                        key={index}
-                        className={index < rating ? "star filled" : "star"}
-                        onClick={() => setRating(index + 1)}
+                        key={starIndex}
+                        className={`star ${starIndex <= (hoverRating || rating) ? "filled" : ""}`}
+                        onMouseEnter={() => handleMouseEnter(starIndex)}
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => handleClick(starIndex)}
                     >
                         ★
                     </span>
-                ))}
-            </div>
-            <textarea
-                placeholder="내용을 입력하세요"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-            />
-            <label className="file-label">
-                이미지 업로드
-                <input type="file" accept="image/*" onChange={handleFileChange} hidden />
-            </label>
-            {photoPreview && (
-                <div className="photo-preview">
-                    <img src={photoPreview} alt="미리보기" />
-                </div>
-            )}
-            <div className="submit-button-container">
-                <button onClick={handleSubmit}>{isEditMode ? "수정" : "등록"}</button>
-                {isEditMode && <button onClick={onCancel}>취소</button>}
-            </div>
+                );
+            })}
         </div>
     );
 };
