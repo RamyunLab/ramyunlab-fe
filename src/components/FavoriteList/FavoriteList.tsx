@@ -161,7 +161,7 @@ const FavoriteList: React.FC = () => {
     return (
         <div className={styles.ramyunListContainer}>
             <NavigationButtons></NavigationButtons>
-            <h2>찜 목록</h2>
+
             {loading ? (
                 <p>Loading...</p>
             ) : (

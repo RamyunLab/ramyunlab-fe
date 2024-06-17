@@ -119,7 +119,7 @@ const RecentlyViewed: React.FC = () => {
     return (
         <div className={styles.ramyunListContainer}>
             <NavigationButtons />
-            <h2>최근 본 라면</h2>
+
             <div className={styles.ramyunList}>
                 {viewedRamyunList.length === 0 ? (
                     <p>최근 본 라면이 없습니다.</p>
