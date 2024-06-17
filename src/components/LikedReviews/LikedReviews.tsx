@@ -3,18 +3,11 @@ import axios from "axios";
 import { FaStar, FaThumbsUp } from "react-icons/fa";
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
 import styles from "../MyReviews/MyReviews.module.scss";
-
+import Pagination from "../Pagination/Pagination.tsx";
 interface Review {
     rvIdx: number;
-
     reviewContent: string;
     rate: number;
-
-    userIdx: number;
-    rIdx: number;
-    rvContent: string;
-    rvRate: number;
-
     rvCreatedAt: string;
     rvUpdatedAt: string;
     rvRecommendCount: number;
@@ -103,9 +96,6 @@ const LikedReviews: React.FC = () => {
                                 <div key={review.rvIdx} className={styles.reviewItem}>
                                     <div className={styles.reviewContent}>
                                         <div className={styles.content}>{review.reviewContent}</div>
-                                        <div className={styles.date}>
-                                            {new Date(review.rvCreatedAt).toLocaleDateString()}
-                                        </div>
                                         <div className={styles.rating}>
                                             {renderStars(review.rate)}
                                         </div>
@@ -117,6 +107,9 @@ const LikedReviews: React.FC = () => {
                                             />
                                             공감 수: {review.rvRecommendCount}
                                         </div>
+                                        <div className={styles.date}>
+                                            {new Date(review.rvCreatedAt).toLocaleDateString()}
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -124,17 +117,11 @@ const LikedReviews: React.FC = () => {
                             <div className={styles.noReviews}>리뷰가 없습니다.</div>
                         )}
                     </div>
-                    <div className={styles.pagination}>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handlePageChange(index + 1)}
-                                className={currentPage === index + 1 ? styles.activePage : ""}
-                            >
-                                {index + 1}
-                            </button>
-                        ))}
-                    </div>
+                    <Pagination
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        onPageChange={handlePageChange}
+                    />
                 </>
             ) : (
                 <p>로그인 후 이용해주세요.</p>

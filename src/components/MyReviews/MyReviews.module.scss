@@ -34,7 +34,7 @@
     border-radius: 8px;
     padding: 20px;
     width: 650px; /* Fixed width for items */
-    height: px; /* Fixed height for items */
+    height: auto; /* Fixed height for items */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
@@ -57,12 +57,6 @@
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden;
     text-overflow: ellipsis; /* Add ellipsis for overflow text */
-}
-
-.reviewItem img {
-    width: 150px;
-    height: 150px !important;
-    border-radius: 8px;
 }
 
 h3 {
@@ -142,7 +136,7 @@ h3 {
 }
 
 .date {
-    margin-top: 4px !important;
+    margin-top: -10px !important;
     font-size: 12px;
     margin-left: 90%;
 }
@@ -160,14 +154,9 @@ h3 {
     }
 
     .reviewItem {
-        width: 300px; /* Adjust width for smaller screens */
-        height: 200px; /* Fixed height for items */
+        width: 460px; /* Adjust width for smaller screens */
+        height: 100%; /* Fixed height for items */
         padding: 10px;
-    }
-
-    .reviewItem img {
-        width: 100px;
-        height: 100px;
     }
 
     h3 {
@@ -190,26 +179,20 @@ h3 {
     }
 
     .reviewItem {
-        width: 100%;
-        max-width: 300px;
-        height: 200px; /* Fixed height for items */
+        width: 300px;
+        font-size: 12px;
+        height: 100%; /* Fixed height for items */
         padding: 10px;
-    }
-
-    .reviewItem img {
-        width: 75px;
-        height: 75px;
-    }
-
-    h3 {
-        margin-top: 7px;
-        font-size: 14px;
-        height: 20px;
     }
 
     .recommendCount,
     .rating,
     .date {
         font-size: 10px;
+    }
+    .date {
+        margin-top: -10px !important;
+        font-size: 10px;
+        margin-left: 80%;
     }
 }
