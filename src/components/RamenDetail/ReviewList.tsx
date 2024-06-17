@@ -46,8 +46,11 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
         const token = localStorage.getItem("token");
+        console.log("Local Storage userInfo:", userInfo);
+        console.log("Local Storage token:", token);
         if (userInfo && token) {
             const parsedUserInfo = JSON.parse(userInfo);
+            console.log("Parsed userInfo:", parsedUserInfo);
             setCurrentUserId(parsedUserInfo.userIdx);
             setIsLoggedIn(true);
         }
@@ -289,9 +292,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
             const reportDTO = {
                 reportReason: reportReason,
-                reportCreatedAt: new Date().toISOString(), // 현재 날짜와 시간 추가
-                userIdx: parsedUserInfo.userIdx,
-                reviewIdx: reportReviewId,
             };
 
             console.log("Submitting report:", reportDTO);
