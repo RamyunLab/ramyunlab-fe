@@ -262,6 +262,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                           rvRecommendCount:
                                               response.data.data.rvRecommendCount ?? 0,
                                           rvReportCount: reportCount, // 수정된 rvReportCount
+                                          isRecommended: response.data.data.isRecommended, // isRecommended 추가
                                       }
                                     : review
                             )
