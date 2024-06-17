@@ -25,10 +25,10 @@ const RamenDetail: React.FC = () => {
     useEffect(() => {
         const fetchRamyun = async (id: string) => {
             try {
-                const response = await axios.get<Ramyun>(
+                const response = await axios.get(
                     `${process.env.REACT_APP_API_SERVER}/main/ramyun/${id}`
                 );
-                setRamyun(response.data);
+                setRamyun(response.data.data.ramyun);
             } catch (error) {
                 console.error("Error fetching ramyun data", error);
             }
