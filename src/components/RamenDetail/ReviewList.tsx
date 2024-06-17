@@ -79,14 +79,33 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     rvRecommendCount: review.rvRecommendCount ?? 0,
                     rvReportCount: review.rvReportCount ?? 0, // 기본값 설정
                 }));
-                setReviews(reviewsWithDefaultValues);
+                const sortedReviews = sortReviews(reviewsWithDefaultValues);
+                setReviews(sortedReviews);
                 setTotalPages(response.data.data.review.totalPages);
-                console.log("Set reviews:", reviewsWithDefaultValues);
+                console.log("Set reviews:", sortedReviews);
             })
             .catch((error) => {
                 console.error("Failed to fetch reviews:", error);
                 setReviews([]); // 실패 시 빈 배열로 설정
             });
+    };
+
+    const sortReviews = (reviews: Review[]) => {
+        const bestReviews = reviews
+            .filter((review) => review.rvRecommendCount && review.rvRecommendCount >= 10)
+            .sort((a, b) => {
+                if (b.rvRecommendCount === a.rvRecommendCount) {
+                    return new Date(a.rvCreatedAt).getTime() - new Date(b.rvCreatedAt).getTime();
+                }
+                return (b.rvRecommendCount ?? 0) - (a.rvRecommendCount ?? 0);
+            })
+            .slice(0, 3);
+
+        const normalReviews = reviews
+            .filter((review) => !bestReviews.includes(review))
+            .sort((a, b) => new Date(a.rvCreatedAt).getTime() - new Date(b.rvCreatedAt).getTime());
+
+        return [...bestReviews, ...normalReviews];
     };
 
     useEffect(() => {
@@ -135,14 +154,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 currentReview.isRecommended = true;
             }
 
-            const updatedReviews = reviews.map((review) =>
-                review.rvIdx === rvIdx
-                    ? {
-                          ...review,
-                          rvRecommendCount: currentReview.rvRecommendCount,
-                          isRecommended: currentReview.isRecommended,
-                      }
-                    : review
+            const updatedReviews = sortReviews(
+                reviews.map((review) =>
+                    review.rvIdx === rvIdx
+                        ? {
+                              ...review,
+                              rvRecommendCount: currentReview.rvRecommendCount,
+                              isRecommended: currentReview.isRecommended,
+                          }
+                        : review
+                )
             );
             setReviews(updatedReviews);
         } catch (error) {
@@ -185,9 +206,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 .then((response) => {
                     console.log("Delete review response:", response.data);
                     if (response.data.statusCode === 200) {
-                        setReviews((prevReviews) =>
-                            prevReviews.filter((review) => review.rvIdx !== rvIdx)
+                        const updatedReviews = sortReviews(
+                            reviews.filter((review) => review.rvIdx !== rvIdx)
                         );
+                        setReviews(updatedReviews);
                     }
                 })
                 .catch((error) => {
@@ -253,25 +275,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 .then((response) => {
                     console.log("Edit review response:", response.data);
                     if (response.data.statusCode === 200) {
-                        setReviews((prevReviews) =>
-                            prevReviews.map((review) =>
-                                review.rvIdx === editMode
-                                    ? {
-                                          ...review,
-                                          reviewContent: newContent,
-                                          rate: newRating,
-                                          reviewPhotoUrl:
-                                              response.data.data.reviewPhotoUrl ||
-                                              review.reviewPhotoUrl,
-                                          rvRecommendCount:
-                                              response.data.data.rvRecommendCount ?? 0,
-                                          rvReportCount: reportCount, // 수정된 rvReportCount
-                                          isRecommended: response.data.data.isRecommended, // isRecommended 추가
-                                      }
-                                    : review
-                            )
-                        );
-                        setEditMode(null);
+                        fetchReviews(currentPage);
                     }
                 })
                 .catch((error) => {
@@ -288,8 +292,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     const handleReportSubmit = (reportReason: string) => {
         if (reportReviewId !== null) {
             const token = localStorage.getItem("token");
-            const userInfo = localStorage.getItem("userInfo");
-            const parsedUserInfo = userInfo ? JSON.parse(userInfo) : { userIdx: null };
 
             const reportDTO = {
                 reportReason: reportReason,
@@ -311,7 +313,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     console.log("Report submission response:", response.data);
 
                     setIsReportModalOpen(false);
-                    // 신고 후 리뷰 목록을 다시 가져옴
                     fetchReviews(currentPage);
                 })
                 .catch((error) => {
@@ -327,7 +328,58 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     const handlePageChange = (newPage: number) => {
         if (newPage > 0 && newPage <= totalPages) {
             setCurrentPage(newPage);
+            fetchReviews(newPage);
         }
+    };
+
+    const handleReviewSubmit = (
+        content: string,
+        rating: number,
+        photo: File | null,
+        reportCount: number
+    ) => {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+
+        if (photo) {
+            formData.append("file", photo);
+        }
+
+        const body = JSON.stringify({
+            reviewContent: content,
+            rate: rating,
+            rvReportCount: reportCount, // rvReportCount 추가
+        });
+        const blob = new Blob([body], {
+            type: "application/json",
+        });
+        formData.append("reviewDTO", blob);
+
+        console.log("Submitting new review:", { content, rating, photo, reportCount });
+        axios
+            .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((response) => {
+                console.log("Review submission response:", response.data);
+                const newReview: Review = {
+                    ...response.data.data,
+                    rvRecommendCount: response.data.data.rvRecommendCount || 0,
+                    rvReportCount: response.data.data.rvReportCount || 0, // 기본값 설정
+                };
+                setReviews((prevReviews) => sortReviews([...prevReviews, newReview]));
+                fetchReviews(totalPages); // 맨 끝 페이지로 이동하여 리뷰 목록을 다시 가져옴
+            })
+            .catch((error) => {
+                console.error("Failed to submit review:", error);
+                console.error(
+                    "Error details:",
+                    error.response ? error.response.data : error.message
+                );
+            });
     };
 
     if (!reviews) {
@@ -450,6 +502,15 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     onCancel={() => setIsReportModalOpen(false)}
                 />
             )}
+            <ReviewForm
+                initialContent=""
+                initialRating={0}
+                initialPhoto={null}
+                rvReportCount={0} // 기본값 설정
+                onSubmit={handleReviewSubmit}
+                onCancel={() => {}}
+                isEditMode={false}
+            />
         </div>
     );
 };
