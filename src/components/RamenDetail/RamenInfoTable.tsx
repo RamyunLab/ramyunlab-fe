@@ -29,25 +29,7 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
-        // 찜 상태 확인 로직 (임시로 찜 상태를 false로 설정)
-        // 실제 구현 시에는 서버에서 찜 상태를 확인하여 설정해야 함
         setIsFavorite(ramen.isLiked);
-
-        // 찜 상태 확인 로직
-        // axios
-        //     .get(`${process.env.REACT_APP_API_SERVER}/api/user/favorite`, {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         },
-        //     })
-        //     .then((response) => {
-        //         const favorites = response.data.data.content;
-        //         const isFav = favorites.some((fav: any) => fav.r_idx === ramen.r_idx);
-        //         setIsFavorite(isFav);
-        //     })
-        //     .catch((error) => {
-        //         console.error("찜 상태 확인 실패:", error);
-        //     });
     }, [ramen.r_idx]);
 
     const handleFavoriteToggle = () => {
@@ -127,15 +109,15 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
                     </tr>
                     <tr>
                         <td>면 종류</td>
-                        <td>{ramen.r_noodle ? "유지" : "비유지"}</td>
+                        <td>{ramen.r_noodle ? "유탕면" : "건면"}</td>
                     </tr>
                     <tr>
                         <td>컵라면 여부</td>
-                        <td>{ramen.r_is_cup ? "예" : "아니오"}</td>
+                        <td>{ramen.r_is_cup ? "컵라면" : "봉지라면"}</td>
                     </tr>
                     <tr>
                         <td>조리 필요 여부</td>
-                        <td>{ramen.r_cooking ? "예" : "아니오"}</td>
+                        <td>{ramen.r_cooking ? "국물라면" : "볶음면 & 비빔면"}</td>
                     </tr>
                     <tr>
                         <td>중량</td>
