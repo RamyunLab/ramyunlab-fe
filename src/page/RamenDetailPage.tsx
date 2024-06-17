@@ -161,9 +161,6 @@ const RamenDetailPage: React.FC = () => {
                 <RamenDetail image={ramen.r_img} />
                 <RamenInfoTable ramen={ramen} />
             </div>
-            <div className="average-rating">
-                <span>★ ★ ★ ★ ★</span>
-            </div>
             {ramyunIdx && (
                 <ReviewList reviews={reviews} setReviews={setReviews} ramyunIdx={ramyunIdx} />
             )}

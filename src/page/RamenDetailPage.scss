@@ -192,20 +192,52 @@
     }
 }
 
+.ramen-stars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ramen-star {
+    color: gold;
+    margin-right: 2px;
+    font-size: 60px;
+}
+
+.ramen-star.full {
+    color: gold;
+}
+
+.ramen-star.half {
+    color: gold;
+}
+
+.ramen-star.empty {
+    color: lightgray;
+}
+
+.stars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .star {
-    font-size: 14px;
+    color: gold;
+    margin-right: 2px;
+    font-size: 20px;
 }
 
 .star.full {
-    color: #f39c12;
+    color: gold;
 }
 
 .star.half {
-    color: #f39c12;
+    color: gold;
 }
 
 .star.empty {
-    color: #ccc;
+    color: lightgray;
 }
 
 .review .content {
