@@ -117,6 +117,12 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         const currentReview = reviews.find((review) => review.rvIdx === rvIdx);
         if (!currentReview) return;
 
+        // 현재 사용자가 해당 리뷰의 작성자인지 확인
+        if (currentReview.userIdx === currentUserId) {
+            alert("자신의 리뷰에는 좋아요를 클릭할 수 없습니다.");
+            return;
+        }
+
         const liked = currentReview.isRecommended;
         const token = localStorage.getItem("token");
 
@@ -155,7 +161,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                               ...review,
                               rvRecommendCount: currentReview.rvRecommendCount,
                               isRecommended: currentReview.isRecommended,
-                              recommendIdx: currentReview.recommendIdx, // ensure the recommendIdx is updated
+                              recommendIdx: currentReview.recommendIdx,
                           }
                         : review
                 )
