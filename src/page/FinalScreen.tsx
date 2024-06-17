@@ -58,7 +58,7 @@ const FinalScreen: React.FC = () => {
 
     const handleKakaoShare = () => {
         if (champion) {
-            const detailPageUrl = `http://43.203.209.183/main/ramyun/${champion.r_idx}`;
+            const detailPageUrl = `http://43.203.209.183/tournament/result/${champion.r_idx}`;
             if (window.Kakao) {
                 window.Kakao.Link.sendDefault({
                     objectType: "feed",
