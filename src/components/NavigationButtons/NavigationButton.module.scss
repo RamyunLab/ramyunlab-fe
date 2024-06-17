@@ -1,10 +1,9 @@
-// NavigationButtons.module.scss
 .navigationButtons {
     display: flex;
     justify-content: space-around;
     margin-bottom: 0px;
     margin-top: 50px;
-    // margin-left: -180px;
+    flex-wrap: wrap; /* Add flex-wrap for wrapping buttons on smaller screens */
 }
 
 .navButton {
@@ -13,16 +12,45 @@
     background-color: #ccc;
     color: #000;
     cursor: pointer;
-    // border: 1px solid #f5f5f5;
+    border: 1px solid #000;
     transition: background-color 0.3s, color 0.3s;
+
+    @media (max-width: 768px) {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
 }
 
 .navButton:hover {
-    background-color: #aaa;
+    background: #ffab21;
+    color: white;
 }
 
 .activeButton {
-    border: 1px solid #333;
     background: #ffab21;
     color: white;
+    position: relative; /* Needed for the pseudo-element */
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            rgba(255, 255, 255, 0.3),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.3)
+        );
+        transform: rotate(45deg);
+        opacity: 0;
+        pointer-events: none;
+    }
 }

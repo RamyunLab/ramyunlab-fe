@@ -2,18 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaStar, FaThumbsUp } from "react-icons/fa";
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
+import Pagination from "../Pagination/Pagination.tsx"; // Pagination 컴포넌트 임포트
 import styles from "./MyReviews.module.scss";
 
 interface Review {
     rvIdx: number;
-
     reviewContent: string;
     rate: number;
-
-   userIdx: number;
-    rIdx: number;
-    rvContent: string;
-    rvRate: number;
     rvCreatedAt: string;
     rvUpdatedAt: string;
     rvRecommendCount: number;
@@ -123,17 +118,11 @@ const MyReviews: React.FC = () => {
                             <div className={styles.noReviews}>리뷰가 없습니다.</div>
                         )}
                     </div>
-                    <div className={styles.pagination}>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handlePageChange(index + 1)}
-                                className={currentPage === index + 1 ? styles.activePage : ""}
-                            >
-                                {index + 1}
-                            </button>
-                        ))}
-                    </div>
+                    <Pagination
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        onPageChange={handlePageChange}
+                    />
                 </>
             ) : (
                 <p>로그인 후 이용해주세요.</p>
