@@ -5,6 +5,7 @@ import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import ReviewForm from "./ReviewForm.tsx";
 import ReportModal from "./ReportModal.tsx";
+
 interface Review {
     rvIdx: number;
     uIdx: number;
@@ -18,6 +19,8 @@ interface Review {
     nickname: string;
     recommendIdx: number | null;
     rvRecommendCount: number | null;
+    rvReportCount: number;
+    isRecommended: boolean;
 }
 
 interface ReviewListProps {
@@ -31,10 +34,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     const [editContent, setEditContent] = useState<string>("");
     const [editRating, setEditRating] = useState<number>(0);
     const [editPhoto, setEditPhoto] = useState<string | null>(null);
+    const [editReportCount, setEditReportCount] = useState<number>(0);
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [reportModalOpen, setReportModalOpen] = useState<boolean>(false); // 신고 모달 상태
-    const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+    const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
+    const [reportReviewId, setReportReviewId] = useState<number | null>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
@@ -45,23 +51,38 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             setIsLoggedIn(true);
         }
 
+        fetchReviews(currentPage);
+    }, [ramyunIdx, currentPage]);
+
+    const fetchReviews = (page: number) => {
+        const token = localStorage.getItem("token");
+        console.log(`Fetching reviews for ramyunIdx: ${ramyunIdx} on page: ${page}`);
         axios
-            .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`)
+            .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`, {
+                headers: {
+                    Authorization: token ? `Bearer ${token}` : undefined,
+                },
+                params: {
+                    page: page,
+                },
+            })
             .then((response) => {
                 console.log("Reviews response from server:", response.data);
                 const reviewsData = response.data.data.review.content || [];
                 const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                     ...review,
                     rvRecommendCount: review.rvRecommendCount ?? 0,
+                    rvReportCount: review.rvReportCount ?? 0, // 기본값 설정
                 }));
                 setReviews(reviewsWithDefaultValues);
-                console.log("Reviews data:", reviewsWithDefaultValues);
+                setTotalPages(response.data.data.review.totalPages);
+                console.log("Set reviews:", reviewsWithDefaultValues);
             })
             .catch((error) => {
-                console.error("리뷰 정보를 불러오는데 실패했습니다:", error);
+                console.error("Failed to fetch reviews:", error);
                 setReviews([]); // 실패 시 빈 배열로 설정
             });
-    }, [ramyunIdx, setReviews]);
+    };
 
     useEffect(() => {
         console.log("Updated reviews state:", reviews);
@@ -90,7 +111,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                         },
                     }
                 );
-                console.log("Delete:", deleteResponse.data);
+                console.log("Delete like response:", deleteResponse.data);
                 currentReview.recommendIdx = null;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 1) - 1;
                 localStorage.setItem(likedKey, "false");
@@ -104,7 +125,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                         },
                     }
                 );
-                console.log("Post:", response.data);
+                console.log("Add like response:", response.data);
                 currentReview.recommendIdx = response.data.data.recommendIdx;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 0) + 1;
                 localStorage.setItem(likedKey, "true");
@@ -117,7 +138,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             );
             setReviews(updatedReviews);
         } catch (error) {
-            console.error(`좋아요 ${liked ? "삭제" : "추가"} 실패:`, error);
+            console.error(`Failed to ${liked ? "delete" : "add"} like:`, error);
         }
     };
 
@@ -154,6 +175,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     },
                 })
                 .then((response) => {
+                    console.log("Delete review response:", response.data);
                     if (response.data.statusCode === 200) {
                         setReviews((prevReviews) =>
                             prevReviews.filter((review) => review.rvIdx !== rvIdx)
@@ -161,7 +183,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 })
                 .catch((error) => {
-                    console.error("리뷰 삭제 실패:", error);
+                    console.error("Failed to delete review:", error);
                 });
         }
     };
@@ -170,19 +192,26 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         rvIdx: number,
         content: string,
         rating: number,
-        photoUrl: string | null
+        photoUrl: string | null,
+        reportCount: number
     ) => {
         setEditMode(rvIdx);
         setEditContent(content);
         setEditRating(rating);
         setEditPhoto(photoUrl);
+        setEditReportCount(reportCount);
     };
 
     const handleCancelEdit = () => {
         setEditMode(null);
     };
 
-    const handleSaveEdit = (newContent: string, newRating: number, newPhoto: File | null) => {
+    const handleSaveEdit = (
+        newContent: string,
+        newRating: number,
+        newPhoto: File | null,
+        reportCount: number
+    ) => {
         const token = localStorage.getItem("token");
         const formData = new FormData();
 
@@ -193,12 +222,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         const body = JSON.stringify({
             reviewContent: newContent,
             rate: newRating,
+            rvReportCount: reportCount, // rvReportCount 추가
         });
         const blob = new Blob([body], {
             type: "application/json",
         });
         formData.append("reviewDTO", blob);
 
+        console.log("Saving edited review:", { newContent, newRating, newPhoto, reportCount });
         if (editMode && ramyunIdx) {
             axios
                 .patch(
@@ -212,8 +243,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 )
                 .then((response) => {
+                    console.log("Edit review response:", response.data);
                     if (response.data.statusCode === 200) {
-                        console.log("Response from server:", response.data);
                         setReviews((prevReviews) =>
                             prevReviews.map((review) =>
                                 review.rvIdx === editMode
@@ -226,6 +257,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                               review.reviewPhotoUrl,
                                           rvRecommendCount:
                                               response.data.data.rvRecommendCount ?? 0,
+                                          rvReportCount: reportCount, // 수정된 rvReportCount
                                       }
                                     : review
                             )
@@ -234,42 +266,52 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 })
                 .catch((error) => {
-                    console.error("리뷰 수정 실패:", error);
+                    console.error("Failed to save edited review:", error);
                 });
         }
     };
 
-    const handleReport = (review: Review) => {
-        setSelectedReview(review);
-        setReportModalOpen(true);
+    const openReportModal = (rvIdx: number) => {
+        setReportReviewId(rvIdx);
+        setIsReportModalOpen(true);
     };
 
-    const handleReportSubmit = async (reportReason: string) => {
-        if (!selectedReview) return;
+    const handleReportSubmit = (reportReason: string) => {
+        if (reportReviewId !== null) {
+            const token = localStorage.getItem("token");
+            const reportDTO = {
+                reportReason: reportReason,
+                reportCreatedAt: new Date().toISOString(), // Add the current date and time
+            };
 
-        const token = localStorage.getItem("token");
-        const reportData = {
-            reportReason,
-            reportCreatedAt: new Date().toISOString(),
-            userIdx: currentUserId,
-            reviewIdx: selectedReview.rvIdx,
-        };
+            console.log("Submitting report:", {
+                reportReason,
+                reportCreatedAt: reportDTO.reportCreatedAt,
+            });
+            axios
+                .post(
+                    `${process.env.REACT_APP_API_SERVER}/api/complaint/${reportReviewId}`,
+                    reportDTO,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
+                .then((response) => {
+                    console.log("Report submission response:", response.data);
+                    setIsReportModalOpen(false);
+                })
+                .catch((error) => {
+                    console.error("Failed to submit report:", error);
+                });
+        }
+    };
 
-        try {
-            const response = await axios.post(
-                `${process.env.REACT_APP_API_SERVER}/api/complaint/${selectedReview.rvIdx}`,
-                reportData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            console.log("신고 성공:", response.data);
-            setReportModalOpen(false);
-        } catch (error) {
-            console.error("신고 실패:", error);
+    const handlePageChange = (newPage: number) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setCurrentPage(newPage);
         }
     };
 
@@ -290,6 +332,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                 initialContent={editContent}
                                 initialRating={editRating}
                                 initialPhoto={editPhoto}
+                                rvReportCount={editReportCount}
                                 onSubmit={handleSaveEdit}
                                 onCancel={handleCancelEdit}
                                 isEditMode={true}
@@ -309,9 +352,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                     <div className="date">
                                         {new Date(review.rvCreatedAt).toLocaleDateString()}
                                     </div>
-                                    <div className="report" onClick={() => handleReport(review)}>
-                                        신고하기
-                                    </div>
                                 </div>
                                 <div className="likes-rating">
                                     <div className="rating">{renderStars(review.rate)}</div>
@@ -325,8 +365,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                         />
                                         {review.rvRecommendCount}
                                     </div>
-                                </div>
-                                {currentUserId === review.uIdx && (
                                     <div className="actions">
                                         <button
                                             onClick={() =>
@@ -334,7 +372,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                                     review.rvIdx,
                                                     review.reviewContent,
                                                     review.rate,
-                                                    review.reviewPhotoUrl
+                                                    review.reviewPhotoUrl,
+                                                    review.rvReportCount ?? 0 // 기본값 설정
                                                 )
                                             }
                                         >
@@ -344,16 +383,38 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                             삭제
                                         </button>
                                     </div>
-                                )}
+                                </div>
+                                <div className="report">
+                                    <button onClick={() => openReportModal(review.rvIdx)}>
+                                        신고하기
+                                    </button>
+                                </div>
                             </>
                         )}
                     </div>
                 );
             })}
-            {reportModalOpen && (
+            <div className="pagination">
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    이전
+                </button>
+                <span>
+                    {currentPage} / {totalPages}
+                </span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    다음
+                </button>
+            </div>
+            {isReportModalOpen && (
                 <ReportModal
                     onSubmit={handleReportSubmit}
-                    onCancel={() => setReportModalOpen(false)}
+                    onCancel={() => setIsReportModalOpen(false)}
                 />
             )}
         </div>

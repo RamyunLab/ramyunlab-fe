@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 interface ReviewFormProps {
     initialContent: string;
     initialRating: number;
     initialPhoto: string | null;
-    onSubmit: (newContent: string, newRating: number, newPhoto: File | null) => void;
+    rvReportCount: number; // 새로운 prop 추가
+    onSubmit: (content: string, rating: number, photo: File | null, reportCount: number) => void;
     onCancel: () => void;
     isEditMode: boolean;
     rvIdx?: number;
@@ -16,65 +16,54 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     initialContent,
     initialRating,
     initialPhoto,
+    rvReportCount = 0, // 기본값 0으로 설정
     onSubmit,
     onCancel,
     isEditMode,
     rvIdx,
     ramyunIdx,
 }) => {
-    const [content, setContent] = useState(initialContent);
-    const [rating, setRating] = useState(initialRating);
+    const [content, setContent] = useState<string>(initialContent);
+    const [rating, setRating] = useState<number>(initialRating);
     const [photo, setPhoto] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(initialPhoto);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0];
-            setPhoto(file);
-            setPhotoPreview(URL.createObjectURL(file));
-        }
+    useEffect(() => {
+        setContent(initialContent);
+        setRating(initialRating);
+        setPhotoPreview(initialPhoto);
+    }, [initialContent, initialRating, initialPhoto]);
+
+    const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setContent(e.target.value);
     };
 
-    const handleSubmit = () => {
-        console.log("Submit clicked");
-        console.log("Content:", content);
-        console.log("Rating:", rating);
-        console.log("Photo:", photo);
-        onSubmit(content, rating, photo);
+    const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRating(Number(e.target.value));
+    };
+
+    const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setPhoto(file);
+        setPhotoPreview(file ? URL.createObjectURL(file) : null);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSubmit(content, rating, photo, rvReportCount);
     };
 
     return (
-        <div className="review-form">
-            <div className="rating">
-                {Array.from({ length: 5 }, (_, index) => (
-                    <span
-                        key={index}
-                        className={index < rating ? "star filled" : "star"}
-                        onClick={() => setRating(index + 1)}
-                    >
-                        ★
-                    </span>
-                ))}
-            </div>
-            <textarea
-                placeholder="내용을 입력하세요"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-            />
-            <label className="file-label">
-                이미지 업로드
-                <input type="file" accept="image/*" onChange={handleFileChange} hidden />
-            </label>
-            {photoPreview && (
-                <div className="photo-preview">
-                    <img src={photoPreview} alt="미리보기" />
-                </div>
-            )}
-            <div className="submit-button-container">
-                <button onClick={handleSubmit}>{isEditMode ? "수정" : "등록"}</button>
-                {isEditMode && <button onClick={onCancel}>취소</button>}
-            </div>
-        </div>
+        <form onSubmit={handleSubmit}>
+            <textarea value={content} onChange={handleContentChange} />
+            <input type="number" value={rating} onChange={handleRatingChange} min="1" max="5" />
+            <input type="file" onChange={handlePhotoChange} />
+            {photoPreview && <img src={photoPreview} alt="Preview" />}
+            <button type="submit">{isEditMode ? "수정 완료" : "리뷰 등록"}</button>
+            <button type="button" onClick={onCancel}>
+                취소
+            </button>
+        </form>
     );
 };
 
