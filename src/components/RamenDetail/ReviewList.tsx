@@ -292,6 +292,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
             const reportDTO = {
                 reportReason: reportReason,
+                reportCreatedAt: new Date().toISOString(), // 현재 날짜와 시간 추가
+                userIdx: parsedUserInfo.userIdx,
+                reviewIdx: reportReviewId,
             };
 
             console.log("Submitting report:", reportDTO);
@@ -330,7 +333,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         <div className="review-list">
             {reviews.map((review, index) => {
                 return (
-                    <div className="review" key={index}>
+                    <div
+                        className={`review ${
+                            review.rvRecommendCount && review.rvRecommendCount >= 10
+                                ? "best-review"
+                                : ""
+                        }`}
+                        key={index}
+                    >
                         {editMode === review.rvIdx ? (
                             <ReviewForm
                                 initialContent={editContent}
@@ -371,7 +381,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                                 review.isRecommended ? "solid" : "regular"
                                             }`}
                                         />
-                                        {review.rvRecommendCount}
+                                        {review.rvRecommendCount ?? 0}
                                     </div>
                                     <div className="actions">
                                         <button
