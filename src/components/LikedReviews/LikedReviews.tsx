@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "../MyReviews/MyReviews.module.scss";
+import { FaStar, FaThumbsUp } from "react-icons/fa";
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
+import styles from "../MyReviews/MyReviews.module.scss";
 
 interface Review {
     rvIdx: number;
@@ -12,6 +13,7 @@ interface Review {
     rvRecommendCount: number;
     userIdx: number;
     ramyunIdx: number;
+    isRecommended: boolean; // 공감 여부를 추가
 }
 
 interface ReviewResponse {
@@ -73,24 +75,12 @@ const LikedReviews: React.FC = () => {
     };
 
     const renderStars = (rating: number) => {
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 !== 0;
-        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
         return (
-            <>
-                {Array.from({ length: fullStars }, (_, i) => (
-                    <span key={`full-${i}`} className={`${styles.star} ${styles.full}`}>
-                        ★
-                    </span>
+            <div className={styles.stars}>
+                {Array.from({ length: 5 }, (_, i) => (
+                    <FaStar key={i} color={i < rating ? "gold" : "lightgray"} />
                 ))}
-                {halfStar && <span className={`${styles.star} ${styles.half}`}>☆</span>}
-                {Array.from({ length: emptyStars }, (_, i) => (
-                    <span key={`empty-${i}`} className={`${styles.star} ${styles.empty}`}>
-                        ☆
-                    </span>
-                ))}
-            </>
+            </div>
         );
     };
 
@@ -113,6 +103,11 @@ const LikedReviews: React.FC = () => {
                                             {renderStars(review.rate)}
                                         </div>
                                         <div className={styles.recommendCount}>
+                                            <FaThumbsUp
+                                                className={`thumbs-up-icon ${
+                                                    review.isRecommended ? "solid" : "regular"
+                                                }`}
+                                            />
                                             공감 수: {review.rvRecommendCount}
                                         </div>
                                     </div>
