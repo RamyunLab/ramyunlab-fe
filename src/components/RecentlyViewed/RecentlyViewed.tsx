@@ -7,6 +7,8 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import styles from "../RamyunList/RamyunList.module.scss"; // 공통 SCSS 파일 사용
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
+import Pagination from "../Pagination/Pagination.tsx"; // Pagination 컴포넌트 임포트
+
 interface Ramyun {
     ramyunIdx: number;
     ramyunName: string;
@@ -27,15 +29,22 @@ interface Ramyun {
 const RecentlyViewed: React.FC = () => {
     const [viewedRamyunList, setViewedRamyunList] = useState<Ramyun[]>([]);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [itemsPerPage] = useState<number>(12); // 한 페이지에 보여줄 아이템 수
     const navigate = useNavigate();
 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
         const userId = userInfo.userId;
 
-        const viewedRamyunListKey = `viewedRamyunList_${userId}`;
-        const savedViewedRamyunList = JSON.parse(localStorage.getItem(viewedRamyunListKey) || "[]");
-        setViewedRamyunList(savedViewedRamyunList);
+        if (userId) {
+            const viewedRamyunListKey = `viewedRamyunList_${userId}`;
+            const savedViewedRamyunList = JSON.parse(
+                localStorage.getItem(viewedRamyunListKey) || "[]"
+            );
+
+            setViewedRamyunList(savedViewedRamyunList.reverse());
+        }
     }, []);
 
     const handleRamyunClick = (ramyun: Ramyun) => {
@@ -57,20 +66,19 @@ const RecentlyViewed: React.FC = () => {
                 savedViewedRamyunList.splice(existingIndex, 1);
             }
 
-            // 12개 초과 시 가장 오래된 항목을 제거하고 나머지 항목들을 앞으로 한 칸씩 옮기기
-            if (savedViewedRamyunList.length >= 12) {
-                savedViewedRamyunList.shift();
-            }
+            // 리스트의 맨 앞에 추가
+            savedViewedRamyunList.unshift(ramyun);
 
-            // 리스트의 마지막에 추가
-            savedViewedRamyunList.push(ramyun);
+            // 12개 초과 시 가장 오래된 항목을 제거
+            if (savedViewedRamyunList.length > 12) {
+                savedViewedRamyunList = savedViewedRamyunList.slice(0, 12);
+            }
 
             // 로컬 스토리지에 저장
             localStorage.setItem(viewedRamyunListKey, JSON.stringify(savedViewedRamyunList));
-            setViewedRamyunList(savedViewedRamyunList);
+            setViewedRamyunList([...savedViewedRamyunList]);
         }
-
-        navigate(`/main/ramyun/${ramyun.ramyunIdx}`, { state: { ramyun } });
+        navigate(`/main/ramyun/${ramyun.ramyunIdx}`);
     };
 
     const handleFavoriteAction = async (ramyunIdx: number, isLiked: boolean) => {
@@ -116,15 +124,23 @@ const RecentlyViewed: React.FC = () => {
         );
     };
 
+    const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+    };
+
+    // 현재 페이지에 해당하는 라면 목록을 계산
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = viewedRamyunList.slice(indexOfFirstItem, indexOfLastItem);
+
     return (
         <div className={styles.ramyunListContainer}>
             <NavigationButtons />
-
             <div className={styles.ramyunList}>
-                {viewedRamyunList.length === 0 ? (
+                {currentItems.length === 0 ? (
                     <p>최근 본 라면이 없습니다.</p>
                 ) : (
-                    viewedRamyunList.map((ramyun, index) => (
+                    currentItems.map((ramyun, index) => (
                         <div
                             key={ramyun.ramyunIdx}
                             className={`${styles.ramyunItem} ${
@@ -166,6 +182,11 @@ const RecentlyViewed: React.FC = () => {
                     ))
                 )}
             </div>
+            <Pagination
+                totalPages={Math.ceil(viewedRamyunList.length / itemsPerPage)}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };

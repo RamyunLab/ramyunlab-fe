@@ -4,9 +4,9 @@ import LikedReviews from "../components/LikedReviews/LikedReviews.tsx";
 
 const FavoriteListPage: React.FC = () => {
     return (
-        <div>
+        <section>
             <LikedReviews />
-        </div>
+        </section>
     );
 };
 
