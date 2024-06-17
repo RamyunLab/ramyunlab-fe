@@ -26,15 +26,15 @@ interface Review {
     rvIdx: number;
     uIdx: number;
     rIdx: number;
-    rvContent: string;
-    rvRate: number;
+    reviewContent: string;
+    rate: number;
     rvCreatedAt: string;
     reviewPhotoUrl: string | null;
     rvUpdatedAt: string | null;
     rvDeletedAt: string | null;
     nickname: string;
-    liked: boolean;
     recommendIdx: number | null;
+    rvRecommendCount: number | null;
 }
 
 const RamenDetailPage: React.FC = () => {
@@ -63,10 +63,26 @@ const RamenDetailPage: React.FC = () => {
                         isLiked: response.data.data.isLiked,
                     };
                     setRamen(mappedRamen);
-                    setReviews(response.data.data.review.content);
                 })
                 .catch((error) => {
                     console.error("라면 정보를 불러오는데 실패했습니다:", error);
+                });
+
+            axios
+                .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`)
+                .then((response) => {
+                    console.log("axios get:", response.data);
+                    const reviewsData = response.data.data.review.content || [];
+                    const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
+                        ...review,
+                        rvRecommendCount: review.rvRecommendCount ?? 0,
+                    }));
+                    setReviews(reviewsWithDefaultValues);
+                    console.log("setReviews:", reviewsWithDefaultValues);
+                })
+                .catch((error) => {
+                    console.error("리뷰 정보를 불러오는데 실패했습니다:", error);
+                    setReviews([]); // 실패 시 빈 배열로 설정
                 });
         }
     }, [ramyunIdx]);
@@ -97,7 +113,10 @@ const RamenDetailPage: React.FC = () => {
                 },
             })
             .then((response) => {
-                const newReview: Review = response.data.data;
+                const newReview: Review = {
+                    ...response.data.data,
+                    rvRecommendCount: response.data.data.rvRecommendCount || 0,
+                };
                 setReviews((prevReviews) => [newReview, ...prevReviews]);
             })
             .catch((error) => {
