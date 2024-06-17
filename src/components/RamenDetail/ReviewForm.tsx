@@ -52,6 +52,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit(content, rating, photo, rvReportCount);
+        resetForm();
+    };
+
+    const resetForm = () => {
+        setContent("");
+        setRating(0);
+        setPhoto(null);
+        setPhotoPreview(null);
     };
 
     return (
