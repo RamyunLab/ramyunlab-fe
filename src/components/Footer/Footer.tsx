@@ -1,73 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Footer.scss";
 
 const Footer = () => {
-    const [isContributorOpen, setContributorOpen] = useState(false);
-    const [isFrontOpen, setFrontOpen] = useState(false);
-    const [isBackOpen, setBackOpen] = useState(false);
-
-    const toggleContributor = () => {
-        const nextState = !isContributorOpen;
-        setContributorOpen(nextState);
-        setFrontOpen(nextState);
-        setBackOpen(nextState);
-    };
-
-    const toggleFront = () => setFrontOpen(!isFrontOpen);
-    const toggleBack = () => setBackOpen(!isBackOpen);
-
-    const toggleAll = () => {
-        const nextState = !(isContributorOpen && isFrontOpen && isBackOpen);
-        setContributorOpen(nextState);
-        setFrontOpen(nextState);
-        setBackOpen(nextState);
-    };
-
     return (
-        <footer
-            className={`footer-container ${
-                isContributorOpen || isFrontOpen || isBackOpen ? "open" : "closed"
-            }`}
-            onClick={toggleAll}
-        >
+        <footer className="footer-container open">
             <div className="stack-section">
                 <div className="logo-section">
                     {/* <img src="/images/tetrist_bc.gif" alt="Tetrist Logo" /> */}
                 </div>
                 <div>
-                    <h4 onClick={toggleContributor}>Contributor</h4>
-                    {isContributorOpen && (
-                        <ul>
-                            <li>진현정</li>
-                            <li>신동원</li>
-                            <li>이대원</li>
-                            <li>전재민</li>
-                            <li>추수연</li>
-                        </ul>
-                    )}
+                    <h4>Contributor</h4>
+                    <ul>
+                        <li>진현정</li>
+                        <li>신동원</li>
+                        <li>이대원</li>
+                        <li>전재민</li>
+                        <li>추수연</li>
+                    </ul>
                 </div>
                 <div>
-                    <h4 onClick={toggleFront}>Front</h4>
-                    {isFrontOpen && (
-                        <ul>
-                            <li>ReactJS</li>
-                            <li>Redux</li>
-                            <li>SCSS</li>
-                            <li>ReactQuery</li>
-                            <li>TypeScript</li>
-                        </ul>
-                    )}
+                    <h4>Front</h4>
+                    <ul>
+                        <li>ReactJS</li>
+                        <li>ReactQuery</li>
+                        <li>Redux</li>
+                        <li>Redux-Toolkit</li>
+                        <li>SCSS</li>
+                        <li>TypeScript</li>
+                    </ul>
                 </div>
                 <div>
-                    <h4 onClick={toggleBack}>Back</h4>
-                    {isBackOpen && (
-                        <ul>
-                            <li>Spring</li>
-                            <li>Swagger</li>
-                            <li>MySQL</li>
-                            <li>Aws</li>
-                        </ul>
-                    )}
+                    <h4>Back</h4>
+                    <ul>
+                        <li>Spring Boot</li>
+                        <li>Spring</li>
+                        <li>Swagger</li>
+                        <li>MySQL</li>
+                        <li>JPA</li>
+                        <li>dotenv</li>
+                    </ul>
                 </div>
                 <div className="github-icon">
                     <a

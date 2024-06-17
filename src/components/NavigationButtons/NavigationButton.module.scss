@@ -12,7 +12,7 @@
     background-color: #ccc;
     color: #000;
     cursor: pointer;
-    border: 1px solid #000;
+    // border: 1px solid #000;
     transition: background-color 0.3s, color 0.3s;
 
     @media (max-width: 768px) {
@@ -28,11 +28,13 @@
 
 .navButton:hover {
     background: #ffab21;
+
     color: white;
 }
 
 .activeButton {
     background: #ffab21;
+
     color: white;
     position: relative; /* Needed for the pseudo-element */
 
