@@ -5,6 +5,7 @@ import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import ReviewForm from "./ReviewForm.tsx";
 import ReportModal from "./ReportModal.tsx";
+import "./ReviewList.scss";
 
 interface Review {
     rvIdx: number;
@@ -97,8 +98,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         const currentReview = reviews.find((review) => review.rvIdx === rvIdx);
         if (!currentReview) return;
 
-        const likedKey = `liked_${rvIdx}`;
-        const liked = localStorage.getItem(likedKey) === "true";
+        const liked = currentReview.isRecommended;
         const token = localStorage.getItem("token");
 
         try {
@@ -114,7 +114,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 console.log("Delete like response:", deleteResponse.data);
                 currentReview.recommendIdx = null;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 1) - 1;
-                localStorage.setItem(likedKey, "false");
+                currentReview.isRecommended = false;
             } else {
                 const response = await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
@@ -128,12 +128,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 console.log("Add like response:", response.data);
                 currentReview.recommendIdx = response.data.data.recommendIdx;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 0) + 1;
-                localStorage.setItem(likedKey, "true");
+                currentReview.isRecommended = true;
             }
 
             const updatedReviews = reviews.map((review) =>
                 review.rvIdx === rvIdx
-                    ? { ...review, rvRecommendCount: currentReview.rvRecommendCount }
+                    ? {
+                          ...review,
+                          rvRecommendCount: currentReview.rvRecommendCount,
+                          isRecommended: currentReview.isRecommended,
+                      }
                     : review
             );
             setReviews(updatedReviews);
@@ -279,15 +283,17 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     const handleReportSubmit = (reportReason: string) => {
         if (reportReviewId !== null) {
             const token = localStorage.getItem("token");
+            const userInfo = localStorage.getItem("userInfo");
+            const parsedUserInfo = userInfo ? JSON.parse(userInfo) : { userIdx: null };
+
             const reportDTO = {
                 reportReason: reportReason,
-                reportCreatedAt: new Date().toISOString(), // Add the current date and time
+                reportCreatedAt: new Date().toISOString(), // 현재 날짜와 시간 추가
+                userIdx: parsedUserInfo.userIdx,
+                reviewIdx: reportReviewId,
             };
 
-            console.log("Submitting report:", {
-                reportReason,
-                reportCreatedAt: reportDTO.reportCreatedAt,
-            });
+            console.log("Submitting report:", reportDTO);
             axios
                 .post(
                     `${process.env.REACT_APP_API_SERVER}/api/complaint/${reportReviewId}`,
@@ -322,9 +328,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     return (
         <div className="review-list">
             {reviews.map((review, index) => {
-                const likedKey = `liked_${review.rvIdx}`;
-                const liked = localStorage.getItem(likedKey) === "true";
-
                 return (
                     <div className="review" key={index}>
                         {editMode === review.rvIdx ? (
@@ -357,10 +360,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                     <div className="rating">{renderStars(review.rate)}</div>
                                     <div className="likes">
                                         <FontAwesomeIcon
-                                            icon={liked ? solidThumbsUp : regularThumbsUp}
+                                            icon={
+                                                review.isRecommended
+                                                    ? solidThumbsUp
+                                                    : regularThumbsUp
+                                            }
                                             onClick={() => handleLikeToggle(review.rvIdx)}
                                             className={`thumbs-up-icon ${
-                                                liked ? "solid" : "regular"
+                                                review.isRecommended ? "solid" : "regular"
                                             }`}
                                         />
                                         {review.rvRecommendCount}

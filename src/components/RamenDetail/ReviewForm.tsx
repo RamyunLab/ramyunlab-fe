@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./ReviewForm.scss"; // 스타일 파일 추가
 
 interface ReviewFormProps {
     initialContent: string;
@@ -38,8 +39,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         setContent(e.target.value);
     };
 
-    const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setRating(Number(e.target.value));
+    const handleRatingChange = (newRating: number) => {
+        setRating(newRating);
     };
 
     const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,16 +55,69 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <textarea value={content} onChange={handleContentChange} />
-            <input type="number" value={rating} onChange={handleRatingChange} min="1" max="5" />
-            <input type="file" onChange={handlePhotoChange} />
-            {photoPreview && <img src={photoPreview} alt="Preview" />}
-            <button type="submit">{isEditMode ? "수정 완료" : "리뷰 등록"}</button>
-            <button type="button" onClick={onCancel}>
-                취소
-            </button>
+        <form onSubmit={handleSubmit} className="review-form">
+            <div className="form-header">
+                <StarRating rating={rating} onRatingChange={handleRatingChange} />
+            </div>
+            <textarea
+                value={content}
+                onChange={handleContentChange}
+                placeholder="리뷰를 입력하세요"
+                className="review-textarea"
+            />
+            <input type="file" onChange={handlePhotoChange} className="file-input" />
+            {photoPreview && <img src={photoPreview} alt="Preview" className="photo-preview" />}
+            <div className="button-group">
+                <button type="submit" className="submit-button">
+                    {isEditMode ? "수정 완료" : "리뷰 등록"}
+                </button>
+                {isEditMode && (
+                    <button type="button" onClick={onCancel} className="cancel-button">
+                        취소
+                    </button>
+                )}
+            </div>
         </form>
+    );
+};
+
+interface StarRatingProps {
+    rating: number;
+    onRatingChange: (rating: number) => void;
+}
+
+const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange }) => {
+    const [hoverRating, setHoverRating] = useState<number>(0);
+
+    const handleMouseEnter = (index: number) => {
+        setHoverRating(index);
+    };
+
+    const handleMouseLeave = () => {
+        setHoverRating(0);
+    };
+
+    const handleClick = (index: number) => {
+        onRatingChange(index);
+    };
+
+    return (
+        <div className="star-rating">
+            {Array.from({ length: 5 }, (_, index) => {
+                const starIndex = index + 1;
+                return (
+                    <span
+                        key={starIndex}
+                        className={`star ${starIndex <= (hoverRating || rating) ? "filled" : ""}`}
+                        onMouseEnter={() => handleMouseEnter(starIndex)}
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => handleClick(starIndex)}
+                    >
+                        ★
+                    </span>
+                );
+            })}
+        </div>
     );
 };
 
