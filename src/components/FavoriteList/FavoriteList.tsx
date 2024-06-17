@@ -8,7 +8,7 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import { FaStar } from "react-icons/fa";
 import styles from "../RamyunList/RamyunList.module.scss"; // 공통 SCSS 파일 사용
-
+import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx"; // 컴포넌트 가져오기
 interface FavoriteItem {
     ramyunIdx: number;
     ramyunName: string;
@@ -160,6 +160,7 @@ const FavoriteList: React.FC = () => {
 
     return (
         <div className={styles.ramyunListContainer}>
+            <NavigationButtons></NavigationButtons>
             <h2>찜 목록</h2>
             {loading ? (
                 <p>Loading...</p>

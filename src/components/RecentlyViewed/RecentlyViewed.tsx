@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import styles from "../RamyunList/RamyunList.module.scss"; // 공통 SCSS 파일 사용
-
+import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
 interface Ramyun {
     ramyunIdx: number;
     ramyunName: string;
@@ -33,21 +33,9 @@ const RecentlyViewed: React.FC = () => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
         const userId = userInfo.userId;
 
-        if (userId) {
-            const viewedRamyunListKey = `viewedRamyunList_${userId}`;
-            const savedViewedRamyunList = JSON.parse(
-                localStorage.getItem(viewedRamyunListKey) || "[]"
-            );
-
-            // Ensure the list does not exceed 12 items
-            if (savedViewedRamyunList.length > 12) {
-                const trimmedList = savedViewedRamyunList.slice(-12);
-                localStorage.setItem(viewedRamyunListKey, JSON.stringify(trimmedList));
-                setViewedRamyunList(trimmedList);
-            } else {
-                setViewedRamyunList(savedViewedRamyunList);
-            }
-        }
+        const viewedRamyunListKey = `viewedRamyunList_${userId}`;
+        const savedViewedRamyunList = JSON.parse(localStorage.getItem(viewedRamyunListKey) || "[]");
+        setViewedRamyunList(savedViewedRamyunList);
     }, []);
 
     const handleRamyunClick = (ramyun: Ramyun) => {
@@ -69,13 +57,13 @@ const RecentlyViewed: React.FC = () => {
                 savedViewedRamyunList.splice(existingIndex, 1);
             }
 
-            // 리스트의 맨 앞에 추가
-            savedViewedRamyunList.unshift(ramyun);
-
-            // 12개 초과 시 가장 오래된 항목을 제거
-            if (savedViewedRamyunList.length > 12) {
-                savedViewedRamyunList.pop();
+            // 12개 초과 시 가장 오래된 항목을 제거하고 나머지 항목들을 앞으로 한 칸씩 옮기기
+            if (savedViewedRamyunList.length >= 12) {
+                savedViewedRamyunList.shift();
             }
+
+            // 리스트의 마지막에 추가
+            savedViewedRamyunList.push(ramyun);
 
             // 로컬 스토리지에 저장
             localStorage.setItem(viewedRamyunListKey, JSON.stringify(savedViewedRamyunList));
@@ -130,56 +118,52 @@ const RecentlyViewed: React.FC = () => {
 
     return (
         <div className={styles.ramyunListContainer}>
+            <NavigationButtons />
             <h2>최근 본 라면</h2>
             <div className={styles.ramyunList}>
                 {viewedRamyunList.length === 0 ? (
                     <p>최근 본 라면이 없습니다.</p>
                 ) : (
-                    viewedRamyunList
-                        .slice() // Copy the array to avoid mutating the original state
-                        .reverse() // Reverse the order to show the most recent first
-                        .map((ramyun, index) => (
-                            <div
-                                key={ramyun.ramyunIdx}
-                                className={`${styles.ramyunItem} ${
-                                    ramyun.isLiked ? styles.favorite : ""
-                                }`}
-                                onClick={() => handleRamyunClick(ramyun)}
-                                onMouseEnter={() => setHoveredIndex(index)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                            >
-                                <div className={styles.topContainer}>
-                                    <FontAwesomeIcon
-                                        icon={
-                                            ramyun.isLiked || hoveredIndex === index
-                                                ? solidHeart
-                                                : regularHeart
-                                        }
-                                        onClick={(e) => {
-                                            e.stopPropagation(); // Prevents the item click handler
-                                            handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isLiked);
-                                        }}
-                                        className={`${styles.favoriteIcon} ${
-                                            ramyun.isLiked ? styles.favorite : ""
-                                        }`}
-                                    />
-                                </div>
-
-                                <img
-                                    src={ramyun.ramyunImg}
-                                    alt={ramyun.ramyunName}
-                                    className={styles.ramyunImg}
+                    viewedRamyunList.map((ramyun, index) => (
+                        <div
+                            key={ramyun.ramyunIdx}
+                            className={`${styles.ramyunItem} ${
+                                ramyun.isLiked ? styles.favorite : ""
+                            }`}
+                            onClick={() => handleRamyunClick(ramyun)}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                        >
+                            <div className={styles.topContainer}>
+                                <FontAwesomeIcon
+                                    icon={
+                                        ramyun.isLiked || hoveredIndex === index
+                                            ? solidHeart
+                                            : regularHeart
+                                    }
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevents the item click handler
+                                        handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isLiked);
+                                    }}
+                                    className={`${styles.favoriteIcon} ${
+                                        ramyun.isLiked ? styles.favorite : ""
+                                    }`}
                                 />
-                                <h3>{ramyun.ramyunName}</h3>
-                                <div className={styles.starRating}>
-                                    <FaStar color="gold" />
-                                    <span>{(ramyun.avgRate ?? 0).toFixed(1)}</span>
-                                    <span className={styles.reviewCount}>
-                                        ({ramyun.reviewCount})
-                                    </span>
-                                </div>
                             </div>
-                        ))
+
+                            <img
+                                src={ramyun.ramyunImg}
+                                alt={ramyun.ramyunName}
+                                className={styles.ramyunImg}
+                            />
+                            <h3>{ramyun.ramyunName}</h3>
+                            <div className={styles.starRating}>
+                                <FaStar color="gold" />
+                                <span>{(ramyun.avgRate ?? 0).toFixed(1)}</span>
+                                <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
+                            </div>
+                        </div>
+                    ))
                 )}
             </div>
         </div>

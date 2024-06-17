@@ -1,5 +1,7 @@
+// MyReviews.tsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx"; // 컴포넌트 가져오기
 import styles from "./MyReviews.module.scss";
 
 interface Review {
@@ -91,6 +93,7 @@ const MyReviews: React.FC = () => {
 
     return (
         <div className={styles.myReviewsContainer}>
+            <NavigationButtons /> {/* 네비게이션 버튼 추가 */}
             <h2>내가 쓴 리뷰</h2>
             {isLoggedIn ? (
                 <>

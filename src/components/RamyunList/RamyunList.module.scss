@@ -94,6 +94,7 @@
     justify-content: space-between; // 아이템들 사이에 공간을 고르게 배치
     &:hover {
         border-color: #ffab21; /* 테두리 색상 변경 */
+        cursor: pointer;
     }
 }
 
