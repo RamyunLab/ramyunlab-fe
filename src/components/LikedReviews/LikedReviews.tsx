@@ -87,7 +87,7 @@ const LikedReviews: React.FC = () => {
     return (
         <div className={styles.myReviewsContainer}>
             <NavigationButtons />
-            <h2>공감한 리뷰</h2>
+
             {isLoggedIn ? (
                 <>
                     <div className={styles.myReviewsList}>
@@ -95,18 +95,19 @@ const LikedReviews: React.FC = () => {
                             reviews.map((review) => (
                                 <div key={review.rvIdx} className={styles.reviewItem}>
                                     <div className={styles.reviewContent}>
-                                        <div className={styles.content}>{review.reviewContent}</div>
-                                        <div className={styles.rating}>
-                                            {renderStars(review.rate)}
-                                        </div>
                                         <div className={styles.recommendCount}>
                                             <FaThumbsUp
                                                 className={`thumbs-up-icon ${
                                                     review.isRecommended ? "solid" : "regular"
                                                 }`}
                                             />
-                                            공감 수: {review.rvRecommendCount}
+                                            {review.rvRecommendCount}
                                         </div>
+                                        <div className={styles.content}>{review.reviewContent}</div>
+                                        <div className={styles.rating}>
+                                            {renderStars(review.rate)}
+                                        </div>
+
                                         <div className={styles.date}>
                                             {new Date(review.rvCreatedAt).toLocaleDateString()}
                                         </div>

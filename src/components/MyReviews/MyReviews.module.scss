@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    width: 700px;
+    width: 800px;
     margin: 0 auto;
 }
 
@@ -31,15 +31,16 @@
 .reviewItem {
     background: #fff;
     border: 1px solid #ddd;
+
     border-radius: 8px;
-    padding: 20px;
+    padding: 7px 17px;
     width: 650px; /* Fixed width for items */
     height: auto; /* Fixed height for items */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    text-align: left; /* Align text to the left */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* Align items to the start (left) */
     overflow: hidden;
 
     &:hover {
@@ -50,8 +51,8 @@
 .reviewContent {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start; /* Align content to the start (left) */
+    text-align: left;
     width: 100%;
     margin-top: -10px;
     white-space: nowrap; /* Prevent text from wrapping */
@@ -123,6 +124,10 @@ h3 {
 }
 
 .recommendCount {
+    margin-left: 6.5px;
+    position: relative;
+    top: 2px;
+    margin-bottom: 6px !important;
     margin-top: 10px;
     font-size: 14px;
     color: #555;
@@ -138,15 +143,24 @@ h3 {
 .date {
     margin-top: -10px !important;
     font-size: 12px;
-    margin-left: 90%;
+    margin-left: auto;
 }
 
 .stars {
+    margin-left: 5px;
     display: flex;
     justify-content: center;
+    font-size: 14px;
     gap: 5px; /* Space between stars */
 }
-
+.content {
+    padding: 5px;
+    color: #333;
+    background-color: rgba(234, 232, 228, 0.64);
+    width: 640px;
+    height: 40px;
+    border-radius: 5px;
+}
 @media (max-width: 768px) {
     .myReviewsContainer {
         padding: 10px;
