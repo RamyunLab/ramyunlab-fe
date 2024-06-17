@@ -6,8 +6,15 @@ import styles from "../MyReviews/MyReviews.module.scss";
 
 interface Review {
     rvIdx: number;
+
     reviewContent: string;
     rate: number;
+
+    userIdx: number;
+    rIdx: number;
+    rvContent: string;
+    rvRate: number;
+
     rvCreatedAt: string;
     rvUpdatedAt: string;
     rvRecommendCount: number;

@@ -87,7 +87,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
             console.log(response.data); // 서버 응답 확인
 
             if (response.data.statusCode === 200) {
-                const { token, userId, idx } = response.data.data;
+                const { token, userId, userIdx } = response.data.data;
 
                 if (rememberId) {
                     localStorage.setItem("rememberedId", id);
@@ -96,7 +96,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                 }
 
                 localStorage.setItem("token", token);
-                localStorage.setItem("userInfo", JSON.stringify({ userId, idx }));
+                localStorage.setItem("userInfo", JSON.stringify({ userId, userIdx }));
 
                 // 리덕스 상태 업데이트
                 dispatch(login(token));

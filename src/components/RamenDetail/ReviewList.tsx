@@ -9,7 +9,7 @@ import "./ReviewList.scss";
 
 interface Review {
     rvIdx: number;
-    uIdx: number;
+    userIdx: number;
     rIdx: number;
     reviewContent: string;
     rate: number;
@@ -52,6 +52,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             const parsedUserInfo = JSON.parse(userInfo);
             console.log("Parsed userInfo:", parsedUserInfo);
             setCurrentUserId(parsedUserInfo.userIdx);
+            console.log("userIdx: ", parsedUserInfo.userIdx);
             setIsLoggedIn(true);
         }
 
@@ -292,6 +293,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
             const reportDTO = {
                 reportReason: reportReason,
+                reportCreatedAt: new Date().toISOString(), // 현재 날짜와 시간 추가
+                userIdx: parsedUserInfo.userIdx,
+                reviewIdx: reportReviewId,
             };
 
             console.log("Submitting report:", reportDTO);
@@ -330,7 +334,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         <div className="review-list">
             {reviews.map((review, index) => {
                 return (
-                    <div className="review" key={index}>
+                    <div
+                        className={`review ${
+                            review.rvRecommendCount && review.rvRecommendCount >= 10
+                                ? "best-review"
+                                : ""
+                        }`}
+                        key={index}
+                    >
                         {editMode === review.rvIdx ? (
                             <ReviewForm
                                 initialContent={editContent}
@@ -371,26 +382,28 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                                 review.isRecommended ? "solid" : "regular"
                                             }`}
                                         />
-                                        {review.rvRecommendCount}
+                                        {review.rvRecommendCount ?? 0}
                                     </div>
-                                    <div className="actions">
-                                        <button
-                                            onClick={() =>
-                                                handleEdit(
-                                                    review.rvIdx,
-                                                    review.reviewContent,
-                                                    review.rate,
-                                                    review.reviewPhotoUrl,
-                                                    review.rvReportCount ?? 0 // 기본값 설정
-                                                )
-                                            }
-                                        >
-                                            수정
-                                        </button>
-                                        <button onClick={() => handleDelete(review.rvIdx)}>
-                                            삭제
-                                        </button>
-                                    </div>
+                                    {currentUserId === review.userIdx && (
+                                        <div className="actions">
+                                            <button
+                                                onClick={() =>
+                                                    handleEdit(
+                                                        review.rvIdx,
+                                                        review.reviewContent,
+                                                        review.rate,
+                                                        review.reviewPhotoUrl,
+                                                        review.rvReportCount ?? 0 // 기본값 설정
+                                                    )
+                                                }
+                                            >
+                                                수정
+                                            </button>
+                                            <button onClick={() => handleDelete(review.rvIdx)}>
+                                                삭제
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="report">
                                     <button onClick={() => openReportModal(review.rvIdx)}>
