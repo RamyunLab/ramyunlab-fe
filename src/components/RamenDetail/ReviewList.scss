@@ -377,60 +377,135 @@
         }
     }
 }
-.image-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+
+/* 반응형 디자인 시작 */
+@media (max-width: 768px) {
+    .review {
+        padding: 15px;
+    }
+
+    .review-content .date {
+        font-size: 11px;
+    }
+
+    .likes-rating {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .rating {
+            font-size: 12px;
+        }
+
+        .actions button {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+    }
+
+    .report button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .pagination button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .pagination span {
+        font-size: 12px;
+    }
 }
 
-.image-modal-content {
-    position: relative;
-    width: 90%;
-    max-width: 600px; /* Maximum width for larger screens */
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 20px;
-}
-
-.image-modal-content img {
-    width: 100%;
-    height: auto;
-    max-height: 80vh;
-}
-
-.image-modal .close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    color: black;
-    font-size: 50px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Media query for smaller screens */
-@media (max-width: 600px) {
-    .image-modal-content {
-        width: 95%;
+@media (max-width: 480px) {
+    .review {
         padding: 10px;
     }
-    .image-modal .close {
-        font-size: 50px !important;
+
+    .review-content .date {
+        font-size: 10px;
     }
 
-    .image-modal .close {
-        font-size: 20px;
-        top: 5px;
-        right: 5px;
+    .likes-rating {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .rating {
+            font-size: 10px;
+        }
+
+        .actions button {
+            font-size: 10px;
+            padding: 3px 6px;
+        }
+    }
+
+    .report button {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .pagination button {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .pagination span {
+        font-size: 10px;
+// .image-modal {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     position: fixed;
+//     z-index: 1000;
+//     left: 0;
+//     top: 0;
+//     width: 100%;
+//     height: 100%;
+//     overflow: auto;
+//     background-color: rgba(0, 0, 0, 0.5);
+// }
+
+// .image-modal-content {
+//     position: relative;
+//     width: 90%;
+//     max-width: 600px; /* Maximum width for larger screens */
+//     padding: 20px;
+//     background-color: white;
+//     border-radius: 10px;
+//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+//     margin: 20px;
+// }
+
+// .image-modal-content img {
+//     width: 100%;
+//     height: auto;
+//     max-height: 80vh;
+// }
+
+// .image-modal .close {
+//     position: absolute;
+//     top: 10px;
+//     right: 20px;
+//     color: black;
+//     font-size: 50px;
+//     font-weight: bold;
+//     cursor: pointer;
+// }
+
+// /* Media query for smaller screens */
+// @media (max-width: 600px) {
+//     .image-modal-content {
+//         width: 95%;
+//         padding: 10px;
+//     }
+//     .image-modal .close {
+//         font-size: 50px !important;
+//     }
+
+//     .image-modal .close {
+//         font-size: 20px;
+//         top: 5px;
+//         right: 5px;
     }
 }

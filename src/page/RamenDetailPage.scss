@@ -218,20 +218,52 @@
     }
 }
 
+.ramen-stars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ramen-star {
+    color: gold;
+    margin-right: 2px;
+    font-size: 60px;
+}
+
+.ramen-star.full {
+    color: gold;
+}
+
+.ramen-star.half {
+    color: gold;
+}
+
+.ramen-star.empty {
+    color: lightgray;
+}
+
+.stars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .star {
-    font-size: 14px;
+    color: gold;
+    margin-right: 2px;
+    font-size: 20px;
 }
 
 .star.full {
-    color: #f39c12;
+    color: gold;
 }
 
 .star.half {
-    color: #f39c12;
+    color: gold;
 }
 
 .star.empty {
-    color: #ccc;
+    color: lightgray;
 }
 
 .review .content {
@@ -262,158 +294,229 @@
 .review .actions button:hover {
     background-color: #d35400;
 }
+
+
+/* 반응형 디자인 시작 */
 @media (max-width: 768px) {
     .ramen-info-container {
         flex-direction: column;
         align-items: center;
-        width: 100%;
     }
 
+    .ramen-detail,
     .ramen-info-table-container {
-        width: 43%;
-        height: inherit;
-
-        text-align: center;
-        margin-left: 52% !important;
-    }
-    .ramen-info-table {
-        margin-top: -50px;
         width: 100%;
-
-        border-collapse: collapse;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-    .ramen-info-table th,
-    .ramen-info-table td {
-        padding: 4px 15px;
-        border-bottom: 1px solid #eee;
-        text-align: left;
-        font-size: 14px;
-    }
-
-    .ramen-info-table th {
-        background-color: #f39c12;
-        color: white;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    .ramen-info-table td {
-        background-color: #fff;
-        color: #333;
-    }
-    .favorite-icon {
-        font-size: 20px;
-        cursor: pointer;
-        transition: color 0.3s;
-        color: #ccc;
-        margin-left: 15px;
-        margin-right: 5px;
     }
 
     .ramen-name {
-        font-size: 14px !important;
+        font-size: 36px;
     }
-    .ramen-name-container {
-        display: flex;
-        align-items: center;
-        // justify-content: space-between;
-        margin-bottom: 30px;
-        // border: 1px solid blue;
-        margin-left: -120%;
-        margin-top: -380px !important;
+
+    .favorite-icon {
+        font-size: 36px;
     }
+
+    .ramen-info-table th,
+    .ramen-info-table td {
+        font-size: 14px;
+    }
+
     .average-rating {
-        font-size: 24px;
+        font-size: 40px;
     }
 
-    .review-content {
+    .review .actions button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .review .date {
+        font-size: 12px;
+    }
+
+    .likes-rating {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
     }
 
-    .review .actions {
-        justify-content: center;
+    .likes .thumbs-up-icon {
+        font-size: 20px;
+//         width: 100%;
+//     }
+
+//     .ramen-info-table-container {
+//         width: 43%;
+//         height: inherit;
+
+//         text-align: center;
+//         margin-left: 52% !important;
+//     }
+//     .ramen-info-table {
+//         margin-top: -50px;
+//         width: 100%;
+
+//         border-collapse: collapse;
+//         background-color: #fff;
+//         border-radius: 10px;
+//         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//         overflow: hidden;
+//     }
+//     .ramen-info-table th,
+//     .ramen-info-table td {
+//         padding: 4px 15px;
+//         border-bottom: 1px solid #eee;
+//         text-align: left;
+//         font-size: 14px;
+//     }
+
+//     .ramen-info-table th {
+//         background-color: #f39c12;
+//         color: white;
+//         font-weight: bold;
+//         text-transform: uppercase;
+//     }
+
+//     .ramen-info-table td {
+//         background-color: #fff;
+//         color: #333;
+//     }
+//     .favorite-icon {
+//         font-size: 20px;
+//         cursor: pointer;
+//         transition: color 0.3s;
+//         color: #ccc;
+//         margin-left: 15px;
+//         margin-right: 5px;
+//     }
+
+//     .ramen-name {
+//         font-size: 14px !important;
+//     }
+//     .ramen-name-container {
+//         display: flex;
+//         align-items: center;
+//         // justify-content: space-between;
+//         margin-bottom: 30px;
+//         // border: 1px solid blue;
+//         margin-left: -120%;
+//         margin-top: -380px !important;
+//     }
+//     .average-rating {
+//         font-size: 24px;
+//     }
+
+//     .review-content {
+//         flex-direction: column;
+//         align-items: center;
+//     }
+
+//     .review .actions {
+//         justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
-    .ramen-info-container {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
+    .ramen-name {
+        font-size: 28px;
     }
 
-    .ramen-info-table-container {
-        width: 43%;
-        height: inherit;
-
-        text-align: center;
-        margin-left: 50% !important;
+    .favorite-icon {
+        font-size: 28px;
     }
-    .ramen-info-table {
-        margin-top: -50px;
-        width: 100%;
 
-        border-collapse: collapse;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
     .ramen-info-table th,
     .ramen-info-table td {
-        padding: 4px 15px;
-        border-bottom: 1px solid #eee;
-        text-align: left;
+        font-size: 12px;
+    }
+
+    .average-rating {
+        font-size: 30px;
+    }
+
+    .review .actions button {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .review .date {
         font-size: 10px;
     }
 
-    .ramen-info-table th {
-        background-color: #f39c12;
-        color: white;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    .ramen-info-table td {
-        background-color: #fff;
-        color: #333;
-    }
-    .favorite-icon {
+    .likes .thumbs-up-icon {
         font-size: 18px;
-        cursor: pointer;
-        transition: color 0.3s;
-        color: #ccc;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
+//     .ramen-info-container {
+//         flex-direction: column;
+//         align-items: center;
+//         width: 100%;
+//     }
 
-    .ramen-name {
-        font-size: 13px !important;
-    }
-    .ramen-name-container {
-        display: flex;
-        align-items: center;
-        // justify-content: space-between;
-        margin-bottom: 30px;
-        // border: 1px solid blue;
-        margin-left: -120%;
-        margin-top: -320px !important;
-    }
-    .average-rating {
-        font-size: 24px;
-    }
+//     .ramen-info-table-container {
+//         width: 43%;
+//         height: inherit;
 
-    .review-content {
-        flex-direction: column;
-        align-items: center;
-    }
+//         text-align: center;
+//         margin-left: 50% !important;
+//     }
+//     .ramen-info-table {
+//         margin-top: -50px;
+//         width: 100%;
 
-    .review .actions {
-        justify-content: center;
+//         border-collapse: collapse;
+//         background-color: #fff;
+//         border-radius: 10px;
+//         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//         overflow: hidden;
+//     }
+//     .ramen-info-table th,
+//     .ramen-info-table td {
+//         padding: 4px 15px;
+//         border-bottom: 1px solid #eee;
+//         text-align: left;
+//         font-size: 10px;
+//     }
+
+//     .ramen-info-table th {
+//         background-color: #f39c12;
+//         color: white;
+//         font-weight: bold;
+//         text-transform: uppercase;
+//     }
+
+//     .ramen-info-table td {
+//         background-color: #fff;
+//         color: #333;
+//     }
+//     .favorite-icon {
+//         font-size: 18px;
+//         cursor: pointer;
+//         transition: color 0.3s;
+//         color: #ccc;
+//         margin-left: 5px;
+//         margin-right: 5px;
+//     }
+
+//     .ramen-name {
+//         font-size: 13px !important;
+//     }
+//     .ramen-name-container {
+//         display: flex;
+//         align-items: center;
+//         // justify-content: space-between;
+//         margin-bottom: 30px;
+//         // border: 1px solid blue;
+//         margin-left: -120%;
+//         margin-top: -320px !important;
+//     }
+//     .average-rating {
+//         font-size: 24px;
+//     }
+
+//     .review-content {
+//         flex-direction: column;
+//         align-items: center;
+//     }
+
+//     .review .actions {
+//         justify-content: center;
     }
 }

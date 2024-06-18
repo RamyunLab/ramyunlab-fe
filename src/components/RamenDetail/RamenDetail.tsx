@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import "./RamenDetail.scss";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+
 
 interface Ramyun {
     ramyunIdx: number;
@@ -59,15 +60,33 @@ const RamenDetail: React.FC = () => {
         }
     }, [ramyun]);
 
+    const renderStars = (rating: number) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 !== 0;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        return (
+            <div className="ramen-stars">
+                {Array.from({ length: fullStars }, (_, i) => (
+                    <FaStar key={`full-${i}`} className="ramen-star full" />
+                ))}
+                {halfStar && <FaStarHalfAlt className="ramen-star half" />}
+                {Array.from({ length: emptyStars }, (_, i) => (
+                    <FaRegStar key={`empty-${i}`} className="ramen-star empty" />
+                ))}
+            </div>
+        );
+    };
+
     if (!ramyun) {
         return <div>라면 정보를 불러오지 못했습니다.</div>;
     }
 
     return (
-        <div className="ramen-detail">
-            <img src={ramyun.ramyunImg} alt={ramyun.ramyunName} className="ramen-image" />
-            <p className="rating">★ ★ ★ ★ ★ {ramyun.avgRate}</p>
-            {/* 다른 라면 상세 정보들 */}
+        <div>
+            <h1>{ramyun.ramyunName}</h1>
+            <img src={ramyun.ramyunImg} alt={ramyun.ramyunName} />
+            <div>{renderStars(ramyun.avgRate)}</div>
         </div>
     );
 };
