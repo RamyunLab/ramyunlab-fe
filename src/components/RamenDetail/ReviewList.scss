@@ -142,3 +142,80 @@
         }
     }
 }
+
+/* 반응형 디자인 시작 */
+@media (max-width: 768px) {
+    .review {
+        padding: 15px;
+    }
+
+    .review-content .date {
+        font-size: 11px;
+    }
+
+    .likes-rating {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .rating {
+            font-size: 12px;
+        }
+
+        .actions button {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+    }
+
+    .report button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .pagination button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .pagination span {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .review {
+        padding: 10px;
+    }
+
+    .review-content .date {
+        font-size: 10px;
+    }
+
+    .likes-rating {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .rating {
+            font-size: 10px;
+        }
+
+        .actions button {
+            font-size: 10px;
+            padding: 3px 6px;
+        }
+    }
+
+    .report button {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .pagination button {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .pagination span {
+        font-size: 10px;
+    }
+}

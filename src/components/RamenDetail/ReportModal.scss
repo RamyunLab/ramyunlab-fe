@@ -81,3 +81,33 @@
 .report-modal-actions button:nth-child(2):hover {
     background-color: #aaa;
 }
+
+/* 반응형 디자인 시작 */
+
+@media (max-width: 768px) {
+    .report-modal-content {
+        width: 80%;
+        padding: 15px;
+    }
+
+    .report-modal-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .report-modal-actions button {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .report-modal-content {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .report-reasons textarea {
+        width: 100%;
+    }
+}

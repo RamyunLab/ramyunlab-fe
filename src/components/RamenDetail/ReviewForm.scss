@@ -119,3 +119,59 @@
         background-color: #d35400;
     }
 }
+
+/* 반응형 디자인 시작 */
+@media (max-width: 768px) {
+    .review-form {
+        padding: 15px;
+    }
+
+    .review-textarea {
+        font-size: 14px;
+    }
+
+    .file-input {
+        font-size: 14px;
+    }
+
+    .submit-button,
+    .cancel-button {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-form {
+        padding: 10px;
+    }
+
+    .review-textarea {
+        font-size: 12px;
+    }
+
+    .file-input {
+        font-size: 12px;
+    }
+
+    .submit-button,
+    .cancel-button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .form-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .button-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+    }
+
+    .photo-preview {
+        max-height: 150px;
+    }
+}
