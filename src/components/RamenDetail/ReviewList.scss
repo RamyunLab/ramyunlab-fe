@@ -1,9 +1,12 @@
 .review-list {
     background-color: #ffffff;
     padding: 20px;
+    margin: 0 auto;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    width: 800px;
+    height: auto;
 }
 
 .review {
@@ -23,27 +26,34 @@
 
 .review-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 10px;
 }
 
-.review-image img {
-    max-width: 100%;
-    max-height: 150px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    object-fit: cover;
+.review-image {
+    // margin-right: 20px;
+
+    img {
+        max-width: 150px !important;
+        max-height: 150px !important;
+        border-radius: 5px !important;
+        margin-left: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
+    }
 }
 
 .review .content {
-    font-size: 16px;
+    font-size: 30px !important;
     color: #555;
+
     margin: 10px 0;
 }
 
 .review .date {
     color: #888;
     font-size: 14px;
+    align-self: flex-end; /* Align the date to the right */
 }
 
 .likes-rating {
@@ -78,31 +88,45 @@
     }
 }
 
-.actions {
+.review-actions {
     display: flex;
     gap: 10px;
-}
 
-.actions button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.3s;
-
-    &:hover {
-        background-color: #0056b3;
+    button {
+        padding: 0px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 11px;
+        margin-top: 10px;
+        width: 50px;
+        height: 30px;
+        color: white;
+        transition: background-color 0.3s;
     }
-}
 
-.actions button:nth-child(2) {
-    background-color: #f39c12;
+    button:nth-child(2) {
+        background-color: #f39c12;
 
-    &:hover {
-        background-color: #d35400;
+        &:hover {
+            background-color: #d35400;
+        }
+    }
+
+    button:first-child {
+        background-color: #007bff;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+
+    button:last-child {
+        background-color: #e74c3c;
+
+        &:hover {
+            background-color: #c0392b;
+        }
     }
 }
 

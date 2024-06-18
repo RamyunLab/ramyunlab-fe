@@ -358,16 +358,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                             <>
                                 <div className="nickname">{review.nickname}</div>
                                 <div className="review-content">
+                                    <div className="content">{review.reviewContent}</div>
                                     {review.reviewPhotoUrl && (
                                         <div className="review-image">
                                             <img src={review.reviewPhotoUrl} alt="Review" />
                                         </div>
                                     )}
-                                    <div className="content">{review.reviewContent}</div>
-                                    <div className="date">
-                                        {new Date(review.rvCreatedAt).toLocaleDateString()}
-                                    </div>
                                 </div>
+
                                 <div className="likes-rating">
                                     <div className="rating">{renderStars(review.rate)}</div>
                                     <div className="likes">
@@ -384,8 +382,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                         />
                                         {review.rvRecommendCount ?? 0}
                                     </div>
+                                </div>
+                                <div className="review-actions">
                                     {currentUserId === review.userIdx && (
-                                        <div className="actions">
+                                        <>
                                             <button
                                                 onClick={() =>
                                                     handleEdit(
@@ -402,13 +402,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                             <button onClick={() => handleDelete(review.rvIdx)}>
                                                 삭제
                                             </button>
-                                        </div>
+                                        </>
                                     )}
-                                </div>
-                                <div className="report">
                                     <button onClick={() => openReportModal(review.rvIdx)}>
                                         신고하기
                                     </button>
+                                </div>
+                                <div className="date">
+                                    {new Date(review.rvCreatedAt).toLocaleDateString()}
                                 </div>
                             </>
                         )}

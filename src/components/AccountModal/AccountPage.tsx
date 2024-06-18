@@ -10,7 +10,7 @@ import styles from "./AccountPage.module.scss"; // styles 파일 이름 변경
 const AccountPage: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate(); // useNavigate 훅을 사용합니다.
-    const [activeTab, setActiveTab] = useState("deleteAccount");
+    const [activeTab, setActiveTab] = useState("changeNickname");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
@@ -84,9 +84,7 @@ const AccountPage: React.FC = () => {
         setCurrentPassword(value);
 
         if (!isValidPassword(value)) {
-            setCurrentPasswordError(
-                "입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다."
-            );
+            setCurrentPasswordError("입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다.");
         } else {
             setCurrentPasswordError("비밀번호가 일치합니다.");
         }
@@ -326,30 +324,30 @@ const AccountPage: React.FC = () => {
             <div className={styles.contentWrapper}>
                 <div className={styles.btnWrapper}>
                     <div className={styles.tabContainer}>
-                    <button
-                        className={`${styles.tabButton} ${
-                            activeTab === "deleteAccount" ? styles.active : ""
-                        }`}
-                        onClick={() => handleTabChange("deleteAccount")}
-                    >
-                        회원 탈퇴
-                    </button>
-                    <button
-                        className={`${styles.tabButton} ${
-                            activeTab === "changeNickname" ? styles.active : ""
-                        }`}
-                        onClick={() => handleTabChange("changeNickname")}
-                    >
-                        닉네임 수정
-                    </button>
-                    <button
-                        className={`${styles.tabButton} ${
-                            activeTab === "changePassword" ? styles.active : ""
-                        }`}
-                        onClick={() => handleTabChange("changePassword")}
-                    >
-                        비밀번호 변경
-                    </button>
+                        <button
+                            className={`${styles.tabButton} ${
+                                activeTab === "deleteAccount" ? styles.active : ""
+                            }`}
+                            onClick={() => handleTabChange("deleteAccount")}
+                        >
+                            회원 탈퇴
+                        </button>
+                        <button
+                            className={`${styles.tabButton} ${
+                                activeTab === "changeNickname" ? styles.active : ""
+                            }`}
+                            onClick={() => handleTabChange("changeNickname")}
+                        >
+                            닉네임 수정
+                        </button>
+                        <button
+                            className={`${styles.tabButton} ${
+                                activeTab === "changePassword" ? styles.active : ""
+                            }`}
+                            onClick={() => handleTabChange("changePassword")}
+                        >
+                            비밀번호 변경
+                        </button>
                     </div>
                 </div>
                 <div className={styles.tabContent}>
@@ -493,7 +491,9 @@ const AccountPage: React.FC = () => {
                                 />
                                 <FontAwesomeIcon
                                     icon={showConfirmNewPassword ? faEyeSlash : faEye}
-                                    onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
+                                    onClick={() =>
+                                        setShowConfirmNewPassword(!showConfirmNewPassword)
+                                    }
                                     className={styles.passwordIcon}
                                 />
                             </div>
@@ -509,7 +509,9 @@ const AccountPage: React.FC = () => {
                             <button
                                 onClick={handlePasswordChange}
                                 className={styles.changePasswordBtn}
-                                disabled={!isCurrentPasswordChecked || !isValidPassword(newPassword)}
+                                disabled={
+                                    !isCurrentPasswordChecked || !isValidPassword(newPassword)
+                                }
                             >
                                 {loading ? "비밀번호 변경" : "비밀번호 변경"}
                             </button>

@@ -6,6 +6,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: "Nanum Gothic", sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .form-header {
@@ -103,6 +105,7 @@
 }
 
 .submit-button {
+    margin-top: 10px;
     background-color: #007bff;
     color: white;
 
@@ -117,5 +120,29 @@
 
     &:hover {
         background-color: #d35400;
+    }
+}
+@media (max-width: 768px) {
+    .review-form {
+        padding: 15px;
+        width: 80%;
+    }
+
+    .review-textarea {
+        font-size: 14px;
+    }
+
+    .star-rating .star {
+        font-size: 20px;
+    }
+
+    .file-input {
+        font-size: 14px;
+    }
+
+    .submit-button,
+    .cancel-button {
+        padding: 10px 15px;
+        font-size: 14px;
     }
 }
