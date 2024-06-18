@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import "./RamenDetail.scss";
 
 interface Ramyun {
     ramyunIdx: number;
@@ -63,10 +64,9 @@ const RamenDetail: React.FC = () => {
     }
 
     return (
-        <div>
-            <h1>{ramyun.ramyunName}</h1>
-            <img src={ramyun.ramyunImg} alt={ramyun.ramyunName} />
-            <p>평점: {ramyun.avgRate}</p>
+        <div className="ramen-detail">
+            <img src={ramyun.ramyunImg} alt={ramyun.ramyunName} className="ramen-image" />
+            <p className="rating"> {ramyun.avgRate}</p>
             {/* 다른 라면 상세 정보들 */}
         </div>
     );

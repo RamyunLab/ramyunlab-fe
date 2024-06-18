@@ -1,0 +1,26 @@
+// RamenDetail.scss
+
+.ramen-detail {
+    text-align: center;
+    margin: 0 auto;
+    padding: 20px;
+    width: 80px;
+    margin-left: 00px;
+
+    .ramen-image {
+        width: 400px; /* Fixed width for the ramen image */
+        height: 400px;
+        margin-top: 80px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-left: -40px;
+    }
+
+    .rating {
+        margin: 10px -37px;
+        font-size: 24px;
+        color: #f39c12;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+}
