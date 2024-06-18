@@ -31,7 +31,7 @@
 @media (max-width: 768px) {
     .ramen-detail {
         padding: 15px;
-        margin-left: 8%;
+        margin-left: 9%;
         .ramen-image {
             width: 250px; /* Adjust maximum width for smaller screens */
             height: 250px;
@@ -54,6 +54,7 @@
 
         .rating {
             font-size: 16px; /* Adjust font size for very small screens */
+            margin-left: -40px;
         }
     }
 }
