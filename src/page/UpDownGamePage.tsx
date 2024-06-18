@@ -3,9 +3,9 @@ import UpDownGame from "../components/UpDownGame/UpDownGame.tsx";
 
 const UpDownGamePage: React.FC = () => {
     return (
-        <div>
+        <section>
             <UpDownGame />
-        </div>
+        </section>
     );
 };
 
