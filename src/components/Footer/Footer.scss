@@ -45,6 +45,7 @@
     margin-top: 0px;
     align-items: center; /* 가로 중앙 정렬 */
     justify-content: center; /* 가로 중앙 정렬 */
+    transition: color 0.3s; /* 색상 변경 시 부드러운 전환 효과 추가 */
 }
 
 /* 미디어 쿼리를 추가하여 다양한 화면 크기에 맞춰 조정 */

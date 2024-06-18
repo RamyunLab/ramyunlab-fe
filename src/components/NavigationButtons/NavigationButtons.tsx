@@ -1,7 +1,6 @@
-// NavigationButtons.tsx
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import styles from "./NavigationButton.module.scss";
+import styles from "../NavigationButtons/NavigationButton.module.scss";
 
 const NavigationButtons: React.FC = () => {
     const navigate = useNavigate();
@@ -12,7 +11,7 @@ const NavigationButtons: React.FC = () => {
     };
 
     const isActive = (path: string) => {
-        return location.pathname === path ? styles.activeButton : "";
+        return location.pathname === path ? `${styles.activeButton} ${styles.shine}` : "";
     };
 
     return (

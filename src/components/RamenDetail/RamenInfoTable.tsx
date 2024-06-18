@@ -84,12 +84,12 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
     return (
         <div className="ramen-info-table-container">
             <div className="ramen-name-container">
-                <div className="ramen-name">{ramen.r_name}</div>
                 <FontAwesomeIcon
                     icon={isFavorite ? solidHeart : regularHeart}
                     onClick={handleFavoriteToggle}
                     className={`favorite-icon ${isFavorite ? "fa-solid" : "fa-regular"}`}
                 />
+                <div className="ramen-name">{ramen.r_name}</div>
             </div>
             <table className="ramen-info-table">
                 <thead>

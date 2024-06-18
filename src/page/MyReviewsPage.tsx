@@ -5,9 +5,9 @@ import styles from "../components/MyReviews/MyReviews.module.scss";
 
 const MbtiPage: React.FC = () => {
     return (
-        <div className={styles.mbtiPage}>
+        <section className={styles.mbtiPage}>
             <MyReviews />
-        </div>
+        </section>
     );
 };
 

@@ -4,9 +4,9 @@ import FavoriteList from "../components/FavoriteList/FavoriteList.tsx";
 
 const FavoriteListPage: React.FC = () => {
     return (
-        <div>
+        <section>
             <FavoriteList />
-        </div>
+        </section>
     );
 };
 

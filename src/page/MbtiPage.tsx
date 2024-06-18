@@ -5,10 +5,10 @@ import styles from "./MbtiPage.module.scss";
 
 const MbtiPage: React.FC = () => {
     return (
-        <div className={styles.mbtiPage}>
+        <section className={styles.mbtiPage}>
             <Question />
             <Result />
-        </div>
+        </section>
     );
 };
 

@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
+
 interface Ramyun {
     ramyunIdx: number;
     ramyunName: string;
