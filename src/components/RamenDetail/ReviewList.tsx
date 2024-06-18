@@ -42,6 +42,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     const [reportReviewId, setReportReviewId] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
+    const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+    const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
@@ -326,6 +328,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         }
     };
 
+    const openImageModal = (imageUrl: string | null) => {
+        setSelectedImageUrl(imageUrl);
+        setIsImageModalOpen(true);
+    };
+
+    const closeImageModal = () => {
+        setIsImageModalOpen(false);
+        setSelectedImageUrl(null);
+    };
+
     if (!reviews) {
         return <div>Loading...</div>;
     }
@@ -361,7 +373,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                     <div className="content">{review.reviewContent}</div>
                                     {review.reviewPhotoUrl && (
                                         <div className="review-image">
-                                            <img src={review.reviewPhotoUrl} alt="Review" />
+                                            <img
+                                                src={review.reviewPhotoUrl}
+                                                alt="Review"
+                                                onClick={() =>
+                                                    openImageModal(review.reviewPhotoUrl)
+                                                }
+                                                style={{ cursor: "pointer" }}
+                                            />
                                         </div>
                                     )}
                                 </div>
@@ -438,6 +457,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     onSubmit={handleReportSubmit}
                     onCancel={() => setIsReportModalOpen(false)}
                 />
+            )}
+            {isImageModalOpen && selectedImageUrl && (
+                <div className="image-modal">
+                    <div className="image-modal-content">
+                        <span className="close" onClick={closeImageModal}>
+                            &times;
+                        </span>
+                        <img src={selectedImageUrl} alt="Enlarged Review" />
+                    </div>
+                </div>
             )}
         </div>
     );
