@@ -66,7 +66,7 @@ const RamenDetail: React.FC = () => {
     return (
         <div className="ramen-detail">
             <img src={ramyun.ramyunImg} alt={ramyun.ramyunName} className="ramen-image" />
-            <p className="rating"> {ramyun.avgRate}</p>
+            <p className="rating">★ ★ ★ ★ ★ {ramyun.avgRate}</p>
             {/* 다른 라면 상세 정보들 */}
         </div>
     );

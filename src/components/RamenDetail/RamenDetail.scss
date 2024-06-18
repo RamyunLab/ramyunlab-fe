@@ -5,22 +5,55 @@
     margin: 0 auto;
     padding: 20px;
     width: 80px;
-    margin-left: 00px;
 
+    margin-left: 20px;
+    // margin-bottom: 60px;
     .ramen-image {
         width: 400px; /* Fixed width for the ramen image */
         height: 400px;
         margin-top: 80px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-left: -40px;
+        margin-left: -60px;
     }
 
     .rating {
-        margin: 10px -37px;
+        margin: 20px -85px;
         font-size: 24px;
         color: #f39c12;
         margin-bottom: 15px;
         font-weight: bold;
+        margin-left: -75%;
+        margin-top: 10px;
+        margin-bottom: 80px;
+    }
+}
+@media (max-width: 768px) {
+    .ramen-detail {
+        padding: 15px;
+        margin-left: 8%;
+        .ramen-image {
+            width: 250px; /* Adjust maximum width for smaller screens */
+            height: 250px;
+        }
+
+        .rating {
+            font-size: 20px; /* Adjust font size for smaller screens */
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .ramen-detail {
+        padding: 10px;
+
+        .ramen-image {
+            width: 200px; /* Adjust maximum width for smaller screens */
+            height: 200px;
+        }
+
+        .rating {
+            font-size: 16px; /* Adjust font size for very small screens */
+        }
     }
 }
