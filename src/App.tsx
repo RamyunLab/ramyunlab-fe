@@ -20,6 +20,7 @@ import MyReviewsPage from "./page/MyReviewsPage.tsx";
 import LikedReviewsPage from "./page/LikedReviewsPage.tsx";
 import RecentlyViewed from "./components/RecentlyViewed/RecentlyViewed.tsx";
 import LoginToKakao from "./components/Auth/LoginToKakao.tsx";
+import NotFoundPage from "./page/404Page.tsx";
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
@@ -69,6 +70,7 @@ const App: React.FC = () => {
                         <Route path="/LikedReviewsPage" element={<LikedReviewsPage />} />
                         <Route path="/recently-viewed" element={<RecentlyViewed />} />
                         <Route path="/loginToKakao" element={<LoginToKakao />} />
+                        <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                     <Footer />
                 </Router>

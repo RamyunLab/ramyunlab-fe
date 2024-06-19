@@ -145,6 +145,7 @@ const UpDownGame: React.FC = () => {
                 </>
             )}
             <h1 className={styles.title}>라면 스코빌 업앤다운 게임</h1>
+            <p className={styles.do}> 더 매운 라면을 골라주세요!</p>
             {!isGameOver && (
                 <ProgressBar currentStep={roundCount + 1} totalSteps={10} /> /* ProgressBar 추가 */
             )}
