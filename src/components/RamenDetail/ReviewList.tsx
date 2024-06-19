@@ -411,18 +411,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                         <div className="blind">블라인드 처리된 댓글입니다.</div>
                                     ) : (
                                         <>
-                                            {review.reviewPhotoUrl && (
-                                                <div className="review-image">
-                                                    <img
-                                                        src={review.reviewPhotoUrl}
-                                                        alt="Review"
-                                                        onClick={() =>
-                                                            openImageModal(review.reviewPhotoUrl)
-                                                        }
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                </div>
-                                            )}
                                             {review.reviewContent ? (
                                                 <div className="content">
                                                     {review.reviewContent
@@ -437,6 +425,18 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                             ) : (
                                                 <div className="content empty">
                                                     리뷰 내용이 없습니다.
+                                                </div>
+                                            )}
+                                            {review.reviewPhotoUrl && (
+                                                <div className="review-image">
+                                                    <img
+                                                        src={review.reviewPhotoUrl}
+                                                        alt="Review"
+                                                        onClick={() =>
+                                                            openImageModal(review.reviewPhotoUrl)
+                                                        }
+                                                        style={{ cursor: "pointer" }}
+                                                    />
                                                 </div>
                                             )}
                                         </>
