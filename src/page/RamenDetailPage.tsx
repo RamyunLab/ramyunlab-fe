@@ -170,12 +170,6 @@ const RamenDetailPage: React.FC = () => {
                 const newTotalPages = Math.ceil((reviews.length + 1) / 5);
                 setReviews((prevReviews) => [...prevReviews, newReview]);
                 setTotalPages(newTotalPages);
-
-                // 새로운 페이지가 생겼다면 그 페이지로 이동
-                if (newTotalPages > totalPages) {
-                    setCurrentPage(newTotalPages);
-                }
-                updateAvgRate(newRating);
             })
             .catch((error) => {
                 console.error("Failed to submit review:", error);

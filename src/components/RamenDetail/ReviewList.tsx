@@ -206,15 +206,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
                         setReviews((prevReviews) =>
                             prevReviews.filter((review) => review.rvIdx !== rvIdx)
                         );
-                        // 페이지 새로고침
-                        const newTotalPages = Math.ceil(reviews.length / 5);
-                        setTotalPages(newTotalPages);
-
-                        if (currentPage > newTotalPages) {
-                            setCurrentPage(newTotalPages);
-                        } else {
-                            fetchReviews(currentPage);
-                        }
                     }
                 })
                 .catch((error) => {
