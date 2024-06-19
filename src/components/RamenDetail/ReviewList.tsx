@@ -56,8 +56,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
     const [reportReviewId, setReportReviewId] = useState<number | null>(null);
-    // const [currentPage, setCurrentPage] = useState<number>(1);
-    // const [totalPages, setTotalPages] = useState<number>(1);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
@@ -397,31 +395,17 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                 <div className="review-content">
                                     {review.rvIsReported ? (
                                         <div className="blind">블라인드 처리된 댓글입니다.</div>
+                                    ) : review.reviewContent ? (
+                                        <div className="content">
+                                            {review.reviewContent.split("\n").map((line, index) => (
+                                                <React.Fragment key={index}>
+                                                    {line}
+                                                    <br />
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
                                     ) : (
-                                        <>
-                                            {review.reviewPhotoUrl && (
-                                                <div className="review-image">
-                                                    <img
-                                                        src={review.reviewPhotoUrl}
-                                                        alt="Review"
-                                                        onClick={() =>
-                                                            openImageModal(review.reviewPhotoUrl)
-                                                        }
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                </div>
-                                            )}
-                                            <div className="content">
-                                                {review.reviewContent
-                                                    .split("\n")
-                                                    .map((line, index) => (
-                                                        <React.Fragment key={index}>
-                                                            {line}
-                                                            <br />
-                                                        </React.Fragment>
-                                                    ))}
-                                            </div>
-                                        </>
+                                        <div className="content"></div>
                                     )}
                                 </div>
 

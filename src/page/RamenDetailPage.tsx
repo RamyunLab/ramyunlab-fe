@@ -167,8 +167,8 @@ const RamenDetailPage: React.FC = () => {
                 };
 
                 // 업데이트된 리뷰 목록과 페이지네이션 설정
-                setReviews((prevReviews) => [...prevReviews, newReview]);
                 const newTotalPages = Math.ceil((reviews.length + 1) / 5);
+                setReviews((prevReviews) => [...prevReviews, newReview]);
                 setTotalPages(newTotalPages);
 
                 // 새로운 페이지가 생겼다면 그 페이지로 이동
