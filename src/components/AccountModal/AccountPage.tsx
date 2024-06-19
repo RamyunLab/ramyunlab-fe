@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"; // useNavigate를 사용합니다.
@@ -29,6 +29,7 @@ const AccountPage: React.FC = () => {
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+    const [showTap, setShowTap] = useState(true);
 
     const isValidNickname = (nickname: string) => {
         const nicknamePattern = /^[a-zA-Z가-힣0-9]{2,10}$/;
@@ -319,6 +320,22 @@ const AccountPage: React.FC = () => {
         }
     };
 
+    useEffect(()=>{
+        const userInfoString = localStorage.getItem("userInfo");
+        console.log(userInfoString);
+        
+        if(userInfoString) {
+            const userInfo = JSON.parse(userInfoString);
+            console.log("userInfo:: ", userInfo);
+            const userId = userInfo.userId;
+            console.log("userId:: ", userId);
+
+            if(!userId.startsWith("kakao_")) {
+                setShowTap(true)
+            } else setShowTap(false);
+        }
+    },[]);
+
     return (
         <div className={styles.accountPage} onKeyPress={handleKeyPress}>
             <div className={styles.contentWrapper}>
@@ -345,6 +362,7 @@ const AccountPage: React.FC = () => {
                                 activeTab === "changePassword" ? styles.active : ""
                             }`}
                             onClick={() => handleTabChange("changePassword")}
+                            style={showTap?{display:"block"}:{display:"none"}}
                         >
                             비밀번호 변경
                         </button>
