@@ -114,7 +114,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         try {
             if (liked) {
                 const deleteResponse = await axios.delete(
-                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${currentReview.recommendIdx}`,
+                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
