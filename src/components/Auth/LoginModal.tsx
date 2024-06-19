@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Modal.scss";
 import kakao from "../../assets/images/kakao_login_medium_wide.png";
+
 interface LoginModalProps {
     toggleLoginModal: () => void;
     toggleRegisterModal: () => void;
@@ -100,6 +101,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
 
                 // 리덕스 상태 업데이트
                 dispatch(login(token));
+
+                // 로그인 성공 메시지
+                alert("로그인에 성공했습니다");
                 toggleLoginModal();
 
                 const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");

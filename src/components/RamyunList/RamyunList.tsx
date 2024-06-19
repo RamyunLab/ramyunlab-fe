@@ -534,47 +534,53 @@ const RamyunList: React.FC = () => {
                 </div>
             </div>
             <div className={styles.ramyunList}>
-                {ramyunList.map((ramyun, index) => (
-                    <div
-                        key={ramyun.ramyunIdx}
-                        className={`${styles.ramyunItem} ${ramyun.isLiked ? styles.favorite : ""}`}
-                        onClick={() => handleRamyunClick(ramyun)}
-                        onMouseEnter={() => setHoveredIndex(index)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                        <div className={styles.topContainer}>
-                            <FontAwesomeIcon
-                                icon={
-                                    ramyun.isLiked || hoveredIndex === index
-                                        ? solidHeart
-                                        : regularHeart
-                                }
-                                onClick={(e) => {
-                                    e.stopPropagation(); // Prevents the item click handler
-                                    handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isLiked);
-                                }}
-                                className={`${styles.favoriteIcon} ${
-                                    ramyun.isLiked ? styles.favorite : ""
-                                }`}
-                            />
-                        </div>
+                {ramyunList.length === 0 ? (
+                    <div className={styles.noRamyunMessage}>적절한 라면이 없습니다!</div>
+                ) : (
+                    ramyunList.map((ramyun, index) => (
+                        <div
+                            key={ramyun.ramyunIdx}
+                            className={`${styles.ramyunItem} ${
+                                ramyun.isLiked ? styles.favorite : ""
+                            }`}
+                            onClick={() => handleRamyunClick(ramyun)}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                        >
+                            <div className={styles.topContainer}>
+                                <FontAwesomeIcon
+                                    icon={
+                                        ramyun.isLiked || hoveredIndex === index
+                                            ? solidHeart
+                                            : regularHeart
+                                    }
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevents the item click handler
+                                        handleFavoriteToggle(ramyun.ramyunIdx, ramyun.isLiked);
+                                    }}
+                                    className={`${styles.favoriteIcon} ${
+                                        ramyun.isLiked ? styles.favorite : ""
+                                    }`}
+                                />
+                            </div>
 
-                        <img
-                            src={ramyun.ramyunImg}
-                            alt={ramyun.ramyunName}
-                            className={styles.ramyunImg}
-                        />
-                        <h3>{ramyun.ramyunName}</h3>
-                        <div className={styles.starRating}>
-                            <FaStar color="gold" />
-                            <span>{ramyun.avgRate.toFixed(1)}</span>
-                            <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
+                            <img
+                                src={ramyun.ramyunImg}
+                                alt={ramyun.ramyunName}
+                                className={styles.ramyunImg}
+                            />
+                            <h3>{ramyun.ramyunName}</h3>
+                            <div className={styles.starRating}>
+                                <FaStar color="gold" />
+                                <span>{ramyun.avgRate.toFixed(1)}</span>
+                                <span className={styles.reviewCount}>({ramyun.reviewCount})</span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
             <Pagination
-                totalPages={data?.data?.totalPages || 0}
+                totalPages={ramyunList.length === 0 ? 1 : data?.data?.totalPages || 0}
                 currentPage={page}
                 onPageChange={handlePageChange}
             />
