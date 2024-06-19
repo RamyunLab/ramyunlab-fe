@@ -183,7 +183,7 @@ const RamenDetailPage: React.FC = () => {
                 onCancel={() => {}}
                 isEditMode={false}
             />
-            <div className="pagination">
+            {/* <div className="pagination">
                 <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -199,7 +199,7 @@ const RamenDetailPage: React.FC = () => {
                 >
                     다음
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 };

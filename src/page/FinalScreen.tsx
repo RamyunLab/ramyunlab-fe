@@ -18,7 +18,7 @@ const FinalScreen: React.FC = () => {
             setChampion(championFromState);
         } else if (ramenId) {
             axios
-                .get(`/main/ramyun/${ramenId}`)
+                .get(`/game/result/${ramenId}`)
                 .then((response) => {
                     setChampion(response.data.data.ramyun);
                 })
@@ -58,7 +58,7 @@ const FinalScreen: React.FC = () => {
 
     const handleKakaoShare = () => {
         if (champion) {
-            const detailPageUrl = `http://43.203.209.183/main/ramyun/${champion.r_idx}`;
+            const detailPageUrl = `http://43.203.209.183/tournament/result/${champion.r_idx}`;
             if (window.Kakao) {
                 window.Kakao.Link.sendDefault({
                     objectType: "feed",
@@ -103,9 +103,6 @@ const FinalScreen: React.FC = () => {
             </div>
             <button onClick={handleHome}>홈으로</button>
             <button onClick={handleDetailPage}>상세 페이지 이동</button>
-            <button className="share-button" onClick={handleShare}>
-                결과 공유하기
-            </button>
             <button className="kakao-share-button" onClick={handleKakaoShare}>
                 카카오톡으로 공유
             </button>
