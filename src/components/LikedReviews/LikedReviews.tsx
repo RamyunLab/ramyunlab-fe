@@ -4,8 +4,9 @@ import { FaStar, FaThumbsUp } from "react-icons/fa";
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
 import styles from "../MyReviews/MyReviews.module.scss";
 import Pagination from "../Pagination/Pagination.tsx";
+import { useNavigate } from "react-router-dom";
 interface Review {
-    rvIdx: number;
+    reviewIdx: number;
     reviewContent: string;
     rate: number;
     rvCreatedAt: string;
@@ -36,6 +37,8 @@ const LikedReviews: React.FC = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -43,6 +46,18 @@ const LikedReviews: React.FC = () => {
             fetchReviews(1);
         }
     }, []);
+
+    const handleItemOnclick = async (reviewNo: number, ramyunIdx: number) => {
+        const url = `${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/my?reviewNo=${reviewNo}`;
+        console.log("요청 url:: ", url);
+        await axios
+            .get(url)
+            .then((res) =>
+                navigate(
+                    `/main/ramyun/${ramyunIdx}/review?reviewNo=${reviewNo}&page=${res.data.data}`
+                )
+            );
+    };
 
     const fetchReviews = async (page: number) => {
         try {
@@ -93,7 +108,13 @@ const LikedReviews: React.FC = () => {
                     <div className={styles.myReviewsList}>
                         {reviews && reviews.length > 0 ? (
                             reviews.map((review) => (
-                                <div key={review.rvIdx} className={styles.reviewItem}>
+                                <div
+                                    key={review.reviewIdx}
+                                    className={styles.reviewItem}
+                                    onClick={() =>
+                                        handleItemOnclick(review.reviewIdx, review.ramyunIdx)
+                                    }
+                                >
                                     <div className={styles.reviewContent}>
                                         <div className={styles.recommendCount}>
                                             <FaThumbsUp
