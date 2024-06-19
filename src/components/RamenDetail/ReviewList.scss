@@ -63,10 +63,13 @@
 
 .review-image {
     img {
+        width: 100%;
+        border: 1px solid;
         max-width: 150px !important;
         max-height: 150px !important;
         border-radius: 5px !important;
-        margin-left: 10px;
+        margin-left: -30px;
+
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         object-fit: cover;
     }
@@ -75,18 +78,21 @@
 .review .content {
     font-size: 14px;
     color: #555;
+    width: 100%;
+    // border: 1px solid red;
     margin: 10px 0;
 }
 
 .review .date {
     color: #888;
     font-size: 14px;
+    text-align: right;
     align-self: flex-end; /* Align the date to the right */
 }
 
 .likes-rating {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
 }
 
@@ -98,12 +104,14 @@
 }
 
 .likes {
-    display: flex;
-    align-items: center;
+    // display: flex;
+    // align-items: center;
 
+    margin-right: 48px;
     .thumbs-up-icon {
         cursor: pointer;
-        margin-right: 8px;
+        margin-top: -2px;
+        // margin-right: 50px !important;
         transition: color 0.3s;
 
         &.solid {
@@ -233,6 +241,7 @@
     .review-image img {
         max-width: 100px !important;
         max-height: 100px !important;
+        margin-left: 330px;
     }
 
     .review .date {

@@ -371,6 +371,23 @@ const ReviewList: React.FC<ReviewListProps> = ({
         setSelectedImageUrl(null);
     };
 
+    const handleClickOutsideModal = (event: MouseEvent) => {
+        if (event.target instanceof Node && event.target.closest(".image-modal-content") === null) {
+            closeImageModal();
+        }
+    };
+
+    useEffect(() => {
+        if (isImageModalOpen) {
+            document.addEventListener("mousedown", handleClickOutsideModal);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutsideModal);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutsideModal);
+        };
+    }, [isImageModalOpen]);
+
     if (!reviews) {
         return <div>Loading...</div>;
     }
