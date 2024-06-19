@@ -256,8 +256,20 @@ const RamenDetailPage: React.FC = () => {
                         setReviews={setReviews}
                         ramyunIdx={ramyunIdx}
                         isBestReviewList={true}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                        setTotalPages={setTotalPages}
                     />
-                    <ReviewList reviews={reviews} setReviews={setReviews} ramyunIdx={ramyunIdx} />
+                    <ReviewList
+                        reviews={reviews}
+                        setReviews={setReviews}
+                        ramyunIdx={ramyunIdx}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                        setTotalPages={setTotalPages}
+                    />
                 </>
             )}
             <ReviewForm

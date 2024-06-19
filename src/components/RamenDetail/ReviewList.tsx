@@ -31,6 +31,10 @@ interface ReviewListProps {
     setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
     ramyunIdx: string;
     isBestReviewList?: boolean;
+    currentPage: number;
+    totalPages: number;
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    setTotalPages: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ReviewList: React.FC<ReviewListProps> = ({
@@ -38,6 +42,10 @@ const ReviewList: React.FC<ReviewListProps> = ({
     setReviews,
     ramyunIdx,
     isBestReviewList = false,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setTotalPages,
 }) => {
     const [editMode, setEditMode] = useState<number | null>(null);
     const [editContent, setEditContent] = useState<string>("");
@@ -48,8 +56,8 @@ const ReviewList: React.FC<ReviewListProps> = ({
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
     const [reportReviewId, setReportReviewId] = useState<number | null>(null);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [totalPages, setTotalPages] = useState<number>(1);
+    // const [currentPage, setCurrentPage] = useState<number>(1);
+    // const [totalPages, setTotalPages] = useState<number>(1);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
@@ -206,6 +214,8 @@ const ReviewList: React.FC<ReviewListProps> = ({
 
                         if (currentPage > newTotalPages) {
                             setCurrentPage(newTotalPages);
+                        } else {
+                            fetchReviews(currentPage);
                         }
                     }
                 })
