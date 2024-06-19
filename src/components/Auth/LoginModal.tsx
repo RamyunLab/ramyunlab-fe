@@ -5,7 +5,7 @@ import { login } from "../../Redux/slices/AuthSlice.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Modal.scss";
-
+import kakao from "../../assets/images/kakao_login_medium_wide.png";
 interface LoginModalProps {
     toggleLoginModal: () => void;
     toggleRegisterModal: () => void;
@@ -133,6 +133,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
             handleLogin();
         }
     };
+    const handleKakaoLogin = async () => {
+        const response = await axiosInstance.get(`${process.env.REACT_APP_API_SERVER}/auth/kakao`);
+        window.location.href = response.data;
+    };
 
     return (
         <div className="modal" onKeyPress={handleKeyPress}>
@@ -175,6 +179,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                 <button onClick={handleLogin}>로그인</button>
                 <div className="links">
                     <span onClick={toggleRegisterModal}>회원 가입</span>
+                </div>
+                <div onClick={handleKakaoLogin}>
+                    <img src={kakao} alt="카카오 로그인 이미지" />
                 </div>
             </div>
         </div>
