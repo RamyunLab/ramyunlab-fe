@@ -157,6 +157,15 @@ const RamenDetailPage: React.FC = () => {
                 };
                 setReviews((prevReviews) => [...prevReviews, newReview]);
                 updateAvgRate(newRating);
+
+                // 페이지네이션 업데이트
+                const newTotalPages = Math.ceil((reviews.length + 1) / 5);
+                setTotalPages(newTotalPages);
+
+                // 만약 새로운 페이지가 생겼다면 그 페이지로 이동
+                if (currentPage < newTotalPages) {
+                    setCurrentPage(newTotalPages);
+                }
             })
             .catch((error) => {
                 console.error("Failed to submit review:", error);
