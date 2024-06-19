@@ -45,6 +45,7 @@ const RamenDetailPage: React.FC = () => {
     const { ramyunIdx } = useParams<{ ramyunIdx: string }>();
     const [ramen, setRamen] = useState<RamenInfo | null>(null);
     const [reviews, setReviews] = useState<Review[]>([]);
+    const [bestReviews, setBestReviews] = useState<Review[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
 
@@ -98,10 +99,18 @@ const RamenDetailPage: React.FC = () => {
                     const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                         ...review,
                         rvRecommendCount: review.rvRecommendCount ?? 0,
-                        rvReportCount: review.rvReportCount ?? 0, // 기본값 설정
+                        rvReportCount: review.rvReportCount ?? 0,
                     }));
                     setReviews(reviewsWithDefaultValues);
                     setTotalPages(reviewsResponse.data.data.review.totalPages);
+
+                    const bestReviewsData = ramenResponse.data.data.bestReview || [];
+                    const bestReviewsWithDefaultValues = bestReviewsData.map((review: Review) => ({
+                        ...review,
+                        rvRecommendCount: review.rvRecommendCount ?? 0,
+                        rvReportCount: review.rvReportCount ?? 0,
+                    }));
+                    setBestReviews(bestReviewsWithDefaultValues);
                 })
                 .catch((error) => {
                     console.error("Failed to fetch data:", error);
@@ -124,7 +133,7 @@ const RamenDetailPage: React.FC = () => {
         const body = JSON.stringify({
             reviewContent: newContent,
             rate: newRating,
-            rvReportCount: 0, // 리뷰 작성 시 기본값 0으로 설정
+            rvReportCount: 0,
         });
         const blob = new Blob([body], {
             type: "application/json",
@@ -144,10 +153,10 @@ const RamenDetailPage: React.FC = () => {
                 const newReview: Review = {
                     ...response.data.data,
                     rvRecommendCount: response.data.data.rvRecommendCount || 0,
-                    rvReportCount: response.data.data.rvReportCount || 0, // 기본값 설정
+                    rvReportCount: response.data.data.rvReportCount || 0,
                 };
                 setReviews((prevReviews) => [newReview, ...prevReviews]);
-                updateAvgRate(newRating); // 평균 평점 업데이트
+                updateAvgRate(newRating);
             })
             .catch((error) => {
                 console.error("Failed to submit review:", error);
@@ -190,13 +199,21 @@ const RamenDetailPage: React.FC = () => {
             </div>
             <div className="average-rating">{/* <span>★ ★ ★ ★ ★</span> */}</div>
             {ramyunIdx && (
-                <ReviewList reviews={reviews} setReviews={setReviews} ramyunIdx={ramyunIdx} />
+                <>
+                    <ReviewList
+                        reviews={bestReviews}
+                        setReviews={setReviews}
+                        ramyunIdx={ramyunIdx}
+                        isBestReviewList={true}
+                    />
+                    <ReviewList reviews={reviews} setReviews={setReviews} ramyunIdx={ramyunIdx} />
+                </>
             )}
             <ReviewForm
                 initialContent=""
                 initialRating={3}
                 initialPhoto={null}
-                rvReportCount={0} // 기본값 설정
+                rvReportCount={0}
                 onSubmit={handleReviewSubmit}
                 onCancel={() => {}}
                 isEditMode={false}
