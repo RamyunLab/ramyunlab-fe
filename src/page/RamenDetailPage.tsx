@@ -37,6 +37,7 @@ interface Review {
     rvRecommendCount: number | null;
     rvReportCount: number;
     isRecommended: boolean;
+    rvIsReported: boolean;
 }
 
 const RamenDetailPage: React.FC = () => {
@@ -151,6 +152,9 @@ const RamenDetailPage: React.FC = () => {
                     "Error details:",
                     error.response ? error.response.data : error.message
                 );
+                if (error.response.data.error === "이미 리뷰를 작성하셨습니다.") {
+                    alert("이미 리뷰를 작성하셨습니다.");
+                }
             });
     };
 
@@ -183,23 +187,6 @@ const RamenDetailPage: React.FC = () => {
                 onCancel={() => {}}
                 isEditMode={false}
             />
-            {/* <div className="pagination">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    이전
-                </button>
-                <span>
-                    {currentPage} / {totalPages}
-                </span>
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    다음
-                </button>
-            </div> */}
         </div>
     );
 };

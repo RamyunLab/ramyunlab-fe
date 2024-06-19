@@ -437,7 +437,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                     {isLoggedIn && currentUserId !== review.userIdx && (
                                         <div className="report">
                                             <button onClick={() => openReportModal(review.rvIdx)}>
-                                                신고하기
+                                                신고
                                             </button>
                                         </div>
                                     )}
