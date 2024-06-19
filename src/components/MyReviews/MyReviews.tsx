@@ -4,6 +4,7 @@ import { FaStar, FaThumbsUp } from "react-icons/fa";
 import NavigationButtons from "../NavigationButtons/NavigationButtons.tsx";
 import Pagination from "../Pagination/Pagination.tsx"; // Pagination 컴포넌트 임포트
 import styles from "./MyReviews.module.scss";
+import { useNavigate } from "react-router-dom";
 
 interface Review {
     rvIdx: number;
@@ -37,6 +38,8 @@ const MyReviews: React.FC = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -44,6 +47,17 @@ const MyReviews: React.FC = () => {
             fetchReviews(1);
         }
     }, []);
+
+    const handleItemOnclick = async (reviewNo: number, ramyunIdx: number) => {
+        const url = `${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/my?reviewNo=${reviewNo}`;
+        await axios
+            .get(url)
+            .then((res) =>
+                navigate(
+                    `/main/ramyun/${ramyunIdx}/review?reviewNo=${reviewNo}&page=${res.data.data}`
+                )
+            );
+    };
 
     const fetchReviews = async (page: number) => {
         try {
@@ -94,7 +108,13 @@ const MyReviews: React.FC = () => {
                     <div className={styles.myReviewsList}>
                         {reviews && reviews.length > 0 ? (
                             reviews.map((review) => (
-                                <div key={review.rvIdx} className={styles.reviewItem}>
+                                <div
+                                    key={review.rvIdx}
+                                    className={styles.reviewItem}
+                                    onClick={() =>
+                                        handleItemOnclick(review.rvIdx, review.ramyunIdx)
+                                    }
+                                >
                                     <div className={styles.reviewContent}>
                                         <div className={styles.recommendCount}>
                                             <FaThumbsUp

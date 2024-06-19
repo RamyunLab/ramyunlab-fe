@@ -62,6 +62,10 @@ const App: React.FC = () => {
                         <Route path="/main/ramyun/:ramyunIdx" element={<RamenDetailPage />} />
                         <Route path="/UpDownGame" element={<UpDownGamePage />} />
                         <Route path="/UpDownGame/result" element={<ResultPage />} />{" "}
+                        <Route
+                            path="/main/ramyun/:ramyunIdx/review"
+                            element={<RamenDetailPage />}
+                        />
                         {/* 추가된 경로 */}
                         <Route path="/account" element={<AccountPage />} />
                         <Route path="/tournament/result/:ramenId" element={<FinalScreen />} />
