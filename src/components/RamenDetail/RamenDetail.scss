@@ -27,6 +27,22 @@
         margin-top: 10px;
         margin-bottom: 80px;
     }
+
+    .star {
+        margin: 0 2px;
+    }
+
+    .full {
+        color: #f39c12;
+    }
+
+    .half {
+        color: #f39c12;
+    }
+
+    .empty {
+        color: #ddd;
+    }
 }
 @media (max-width: 768px) {
     .ramen-detail {

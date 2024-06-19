@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./ReviewForm.scss"; // 스타일 파일 추가
+import "./ReviewForm.scss";
 
 interface ReviewFormProps {
     initialContent: string;
     initialRating: number;
     initialPhoto: string | null;
-    rvReportCount: number; // 새로운 prop 추가
+    rvReportCount: number;
     onSubmit: (content: string, rating: number, photo: File | null, reportCount: number) => void;
     onCancel: () => void;
     isEditMode: boolean;
@@ -17,7 +17,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     initialContent,
     initialRating,
     initialPhoto,
-    rvReportCount = 0, // 기본값 0으로 설정
+    rvReportCount = 0,
     onSubmit,
     onCancel,
     isEditMode,
@@ -72,6 +72,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
                 onChange={handleContentChange}
                 placeholder="리뷰를 입력하세요"
                 className="review-textarea"
+                rows={15}
             />
             <input type="file" onChange={handlePhotoChange} className="file-input" />
             {photoPreview && <img src={photoPreview} alt="Preview" className="photo-preview" />}

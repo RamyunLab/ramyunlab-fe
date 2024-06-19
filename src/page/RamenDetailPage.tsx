@@ -20,6 +20,7 @@ interface RamenInfo {
     r_na: number;
     r_scoville?: number;
     isLiked: boolean;
+    avgRate: number;
 }
 
 interface Review {
@@ -37,6 +38,7 @@ interface Review {
     rvRecommendCount: number | null;
     rvReportCount: number;
     isRecommended: boolean;
+    rvIsReported: boolean;
 }
 
 const RamenDetailPage: React.FC = () => {
@@ -88,6 +90,7 @@ const RamenDetailPage: React.FC = () => {
                         r_na: ramenData.ramyunNa,
                         r_scoville: ramenData.scoville || undefined,
                         isLiked: ramenResponse.data.data.isLiked,
+                        avgRate: ramenData.avgRate,
                     };
                     setRamen(mappedRamen);
 
@@ -144,6 +147,7 @@ const RamenDetailPage: React.FC = () => {
                     rvReportCount: response.data.data.rvReportCount || 0, // 기본값 설정
                 };
                 setReviews((prevReviews) => [newReview, ...prevReviews]);
+                updateAvgRate(newRating); // 평균 평점 업데이트
             })
             .catch((error) => {
                 console.error("Failed to submit review:", error);
@@ -151,7 +155,21 @@ const RamenDetailPage: React.FC = () => {
                     "Error details:",
                     error.response ? error.response.data : error.message
                 );
+                if (error.response.data.error === "이미 리뷰를 작성하셨습니다.") {
+                    alert("이미 리뷰를 작성하셨습니다.");
+                }
             });
+    };
+
+    const updateAvgRate = (newRating: number) => {
+        if (ramen) {
+            const totalReviews = reviews.length + 1;
+            const totalRating = ramen.avgRate * reviews.length + newRating;
+            const newAvgRate = totalRating / totalReviews;
+            setRamen((prevRamen) =>
+                prevRamen ? { ...prevRamen, avgRate: newAvgRate } : prevRamen
+            );
+        }
     };
 
     const handlePageChange = (newPage: number) => {
@@ -167,7 +185,7 @@ const RamenDetailPage: React.FC = () => {
     return (
         <div className="ramen-detail-page">
             <div className="ramen-info-container">
-                <RamenDetail image={ramen.r_img} />
+                <RamenDetail image={ramen.r_img} avgRate={ramen.avgRate} />
                 <RamenInfoTable ramen={ramen} />
             </div>
             <div className="average-rating">{/* <span>★ ★ ★ ★ ★</span> */}</div>
@@ -183,23 +201,6 @@ const RamenDetailPage: React.FC = () => {
                 onCancel={() => {}}
                 isEditMode={false}
             />
-            {/* <div className="pagination">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    이전
-                </button>
-                <span>
-                    {currentPage} / {totalPages}
-                </span>
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    다음
-                </button>
-            </div> */}
         </div>
     );
 };

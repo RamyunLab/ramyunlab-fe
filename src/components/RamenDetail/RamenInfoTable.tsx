@@ -29,25 +29,7 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
-        // 찜 상태 확인 로직 (임시로 찜 상태를 false로 설정)
-        // 실제 구현 시에는 서버에서 찜 상태를 확인하여 설정해야 함
         setIsFavorite(ramen.isLiked);
-
-        // 찜 상태 확인 로직
-        // axios
-        //     .get(`${process.env.REACT_APP_API_SERVER}/api/user/favorite`, {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         },
-        //     })
-        //     .then((response) => {
-        //         const favorites = response.data.data.content;
-        //         const isFav = favorites.some((fav: any) => fav.r_idx === ramen.r_idx);
-        //         setIsFavorite(isFav);
-        //     })
-        //     .catch((error) => {
-        //         console.error("찜 상태 확인 실패:", error);
-        //     });
     }, [ramen.r_idx]);
 
     const handleFavoriteToggle = () => {

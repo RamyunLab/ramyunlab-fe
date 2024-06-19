@@ -95,10 +95,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             });
     };
 
-    useEffect(() => {
-        console.log("Updated reviews state:", reviews);
-    }, [reviews]);
-
     const handleLikeToggle = async (rvIdx: number) => {
         if (!isLoggedIn) {
             alert("로그인 후 이용해주세요.");
@@ -118,7 +114,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         try {
             if (liked) {
                 const deleteResponse = await axios.delete(
-                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${currentReview.recommendIdx}`,
+                    `${process.env.REACT_APP_API_SERVER}/api/recReview/${rvIdx}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -240,7 +236,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         const body = JSON.stringify({
             reviewContent: newContent,
             rate: newRating,
-            rvReportCount: reportCount, // rvReportCount 추가
+            rvReportCount: reportCount,
         });
         const blob = new Blob([body], {
             type: "application/json",
@@ -275,8 +271,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                               review.reviewPhotoUrl,
                                           rvRecommendCount:
                                               response.data.data.rvRecommendCount ?? 0,
-                                          rvReportCount: reportCount, // 수정된 rvReportCount
-                                          isRecommended: response.data.data.isRecommended, // isRecommended 추가
+                                          rvReportCount: reportCount,
+                                          isRecommended: response.data.data.isRecommended,
                                       }
                                     : review
                             )
@@ -391,7 +387,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                                     />
                                                 </div>
                                             )}
-                                            <div className="content">{review.reviewContent}</div>
+                                            <div className="content">
+                                                {review.reviewContent
+                                                    .split("\n")
+                                                    .map((line, index) => (
+                                                        <React.Fragment key={index}>
+                                                            {line}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    ))}
+                                            </div>
                                         </>
                                     )}
                                 </div>
@@ -437,7 +442,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                     {isLoggedIn && currentUserId !== review.userIdx && (
                                         <div className="report">
                                             <button onClick={() => openReportModal(review.rvIdx)}>
-                                                신고하기
+                                                신고
                                             </button>
                                         </div>
                                     )}
