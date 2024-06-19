@@ -161,9 +161,7 @@ const RamenDetailPage: React.FC = () => {
                 <RamenDetail image={ramen.r_img} />
                 <RamenInfoTable ramen={ramen} />
             </div>
-
-<!--             <div className="average-rating">{/* <span>★ ★ ★ ★ ★</span> */}</div> -->
-
+            <div className="average-rating">{/* <span>★ ★ ★ ★ ★</span> */}</div>
             {ramyunIdx && (
                 <ReviewList reviews={reviews} setReviews={setReviews} ramyunIdx={ramyunIdx} />
             )}
@@ -176,6 +174,23 @@ const RamenDetailPage: React.FC = () => {
                 onCancel={() => {}}
                 isEditMode={false}
             />
+            {/* <div className="pagination">
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    이전
+                </button>
+                <span>
+                    {currentPage} / {totalPages}
+                </span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    다음
+                </button>
+            </div> */}
         </div>
     );
 };

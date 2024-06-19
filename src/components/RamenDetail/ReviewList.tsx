@@ -5,6 +5,7 @@ import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import ReviewForm from "./ReviewForm.tsx";
 import ReportModal from "./ReportModal.tsx";
+import Pagination from "../Pagination/Pagination.tsx"; // Import the Pagination component
 import "./ReviewList.scss";
 
 interface Review {
@@ -22,7 +23,7 @@ interface Review {
     rvRecommendCount: number | null;
     rvReportCount: number;
     isRecommended: boolean;
-    rvIsReported: boolean; // 추가된 필드
+    rvIsReported: boolean;
 }
 
 interface ReviewListProps {
@@ -76,7 +77,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     rvRecommendCount: review.rvRecommendCount ?? 0,
                     rvReportCount: review.rvReportCount ?? 0,
                     rvIsReported: review.rvIsReported ?? false,
-                    recommendIdx: review.recommendIdx ?? null, // ensure recommendIdx is set
+                    recommendIdx: review.recommendIdx ?? null,
                 }));
                 const sortedReviews = sortReviews(reviewsWithDefaultValues);
                 setReviews(sortedReviews);
@@ -118,13 +119,11 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
         const currentReview = reviews.find((review) => review.rvIdx === rvIdx);
         if (!currentReview) return;
-
         // 현재 사용자가 해당 리뷰의 작성자인지 확인
         if (currentReview.userIdx === currentUserId) {
             alert("자신의 리뷰에는 좋아요를 클릭할 수 없습니다.");
             return;
         }
-
         const liked = currentReview.isRecommended;
         const token = localStorage.getItem("token");
 
@@ -376,28 +375,19 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                         <>
                                             {review.reviewPhotoUrl && (
                                                 <div className="review-image">
-                                                    <img src={review.reviewPhotoUrl} alt="Review" />
+                                                    <img
+                                                        src={review.reviewPhotoUrl}
+                                                        alt="Review"
+                                                        onClick={() =>
+                                                            openImageModal(review.reviewPhotoUrl)
+                                                        }
+                                                        style={{ cursor: "pointer" }}
+                                                    />
                                                 </div>
                                             )}
                                             <div className="content">{review.reviewContent}</div>
                                         </>
                                     )}
-                                    <div className="date">
-                                        {new Date(review.rvCreatedAt).toLocaleDateString()}
-                                    </div>
-<!--                                     <div className="content">{review.reviewContent}</div>
-                                    {review.reviewPhotoUrl && (
-                                        <div className="review-image">
-                                            <img
-                                                src={review.reviewPhotoUrl}
-                                                alt="Review"
-                                                onClick={() =>
-                                                    openImageModal(review.reviewPhotoUrl)
-                                                }
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                        </div>
-                                    )} -->
                                 </div>
 
                                 <div className="likes-rating">
@@ -438,46 +428,28 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                             </button>
                                         </>
                                     )}
-
-                                </div>
-                                {isLoggedIn && currentUserId !== review.userIdx && (
-                                    <div className="report">
-                                        <button onClick={() => openReportModal(review.rvIdx)}>
-                                            신고하기
-                                        </button>
-                                    </div>
-                                )}
-
-<!--                                     <button onClick={() => openReportModal(review.rvIdx)}>
-                                        신고하기
-                                    </button>
+                                    {isLoggedIn && currentUserId !== review.userIdx && (
+                                        <div className="report">
+                                            <button onClick={() => openReportModal(review.rvIdx)}>
+                                                신고하기
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="date">
                                     {new Date(review.rvCreatedAt).toLocaleDateString()}
-                                </div> -->
+                                </div>
 
                             </>
                         )}
                     </div>
                 );
             })}
-            <div className="pagination">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    이전
-                </button>
-                <span>
-                    {currentPage} / {totalPages}
-                </span>
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    다음
-                </button>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
             {isReportModalOpen && (
                 <ReportModal
                     onSubmit={handleReportSubmit}
