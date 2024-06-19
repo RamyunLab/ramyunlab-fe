@@ -18,9 +18,10 @@ const FinalScreen: React.FC = () => {
             setChampion(championFromState);
         } else if (ramenId) {
             axios
-                .get(`/game/result/${ramenId}`)
+                .get(`${process.env.REACT_APP_API_SERVER}/game/result/${ramenId}`)
                 .then((response) => {
-                    setChampion(response.data.data.ramyun);
+                    console.log(response);
+                    setChampion(response.data.data);
                 })
                 .catch((error) => {
                     console.error("우승 라면 정보 조회 실패:", error);
