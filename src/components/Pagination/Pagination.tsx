@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPage
             <button
                 className={styles.nextButton}
                 onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
-                disabled={currentPage === totalPages}
+                disabled={currentPage === totalPages || totalPages === 0}
             >
                 Next
             </button>
