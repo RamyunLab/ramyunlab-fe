@@ -16,6 +16,7 @@ const Footer = () => {
                         <li>이대원</li>
                         <li>전재민</li>
                         <li>추수연</li>
+                        <li>&nbsp;</li>
                     </ul>
                 </div>
                 <div>
