@@ -236,7 +236,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
         const body = JSON.stringify({
             reviewContent: newContent,
             rate: newRating,
-            rvReportCount: reportCount, // rvReportCount 추가
+            rvReportCount: reportCount,
         });
         const blob = new Blob([body], {
             type: "application/json",
@@ -271,8 +271,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                               review.reviewPhotoUrl,
                                           rvRecommendCount:
                                               response.data.data.rvRecommendCount ?? 0,
-                                          rvReportCount: reportCount, // 수정된 rvReportCount
-                                          isRecommended: response.data.data.isRecommended, // isRecommended 추가
+                                          rvReportCount: reportCount,
+                                          isRecommended: response.data.data.isRecommended,
                                       }
                                     : review
                             )
@@ -387,7 +387,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                                     />
                                                 </div>
                                             )}
-                                            <div className="content">{review.reviewContent}</div>
+                                            <div className="content">
+                                                {review.reviewContent
+                                                    .split("\n")
+                                                    .map((line, index) => (
+                                                        <React.Fragment key={index}>
+                                                            {line}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    ))}
+                                            </div>
                                         </>
                                     )}
                                 </div>
