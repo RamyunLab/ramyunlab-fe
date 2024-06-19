@@ -95,10 +95,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
             });
     };
 
-    useEffect(() => {
-        console.log("Updated reviews state:", reviews);
-    }, [reviews]);
-
     const handleLikeToggle = async (rvIdx: number) => {
         if (!isLoggedIn) {
             alert("로그인 후 이용해주세요.");
