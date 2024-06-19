@@ -155,7 +155,7 @@ const RamenDetailPage: React.FC = () => {
                     rvRecommendCount: response.data.data.rvRecommendCount || 0,
                     rvReportCount: response.data.data.rvReportCount || 0,
                 };
-                setReviews((prevReviews) => [newReview, ...prevReviews]);
+                setReviews((prevReviews) => [...prevReviews, newReview]);
                 updateAvgRate(newRating);
             })
             .catch((error) => {
