@@ -180,7 +180,7 @@ const RamenDetailPage: React.FC = () => {
                     "Error details:",
                     error.response ? error.response.data : error.message
                 );
-                if (error.response.data.error === "이미 리뷰를 작성하셨습니다.") {
+                if (error.response.data.message === "이미 리뷰를 작성하셨습니다.") {
                     alert("이미 리뷰를 작성하셨습니다.");
                 }
             });
