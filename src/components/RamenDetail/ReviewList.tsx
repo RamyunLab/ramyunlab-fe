@@ -59,7 +59,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
     const [reportReviewId, setReportReviewId] = useState<number | null>(null);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
-    const [reviewNo, setReviewNo] = useState<number | null>();
+    const [reviewNo, setReviewNo] = useState<number | null>(null);
     const location = useLocation();
     const scrollRef = useRef<null | HTMLDivElement>(null);
 
@@ -224,9 +224,8 @@ const ReviewList: React.FC<ReviewListProps> = ({
                 .then((response) => {
                     console.log("Delete review response:", response.data);
                     if (response.data.statusCode === 200) {
-                        setReviews((prevReviews) =>
-                            prevReviews.filter((review) => review.rvIdx !== rvIdx)
-                        );
+                        const updatedReviews = reviews.filter((review) => review.rvIdx !== rvIdx);
+                        setReviews(updatedReviews);
                     }
                 })
                 .catch((error) => {
@@ -410,17 +409,37 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                 <div className="review-content">
                                     {review.rvIsReported ? (
                                         <div className="blind">블라인드 처리된 댓글입니다.</div>
-                                    ) : review.reviewContent ? (
-                                        <div className="content">
-                                            {review.reviewContent.split("\n").map((line, index) => (
-                                                <React.Fragment key={index}>
-                                                    {line}
-                                                    <br />
-                                                </React.Fragment>
-                                            ))}
-                                        </div>
                                     ) : (
-                                        <div className="content"></div>
+                                        <>
+                                            {review.reviewPhotoUrl && (
+                                                <div className="review-image">
+                                                    <img
+                                                        src={review.reviewPhotoUrl}
+                                                        alt="Review"
+                                                        onClick={() =>
+                                                            openImageModal(review.reviewPhotoUrl)
+                                                        }
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                </div>
+                                            )}
+                                            {review.reviewContent ? (
+                                                <div className="content">
+                                                    {review.reviewContent
+                                                        .split("\n")
+                                                        .map((line, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {line}
+                                                                <br />
+                                                            </React.Fragment>
+                                                        ))}
+                                                </div>
+                                            ) : (
+                                                <div className="content empty">
+                                                    리뷰 내용이 없습니다.
+                                                </div>
+                                            )}
+                                        </>
                                     )}
                                 </div>
 
