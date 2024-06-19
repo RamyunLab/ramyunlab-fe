@@ -48,10 +48,17 @@ const RamenDetailPage: React.FC = () => {
     const [bestReviews, setBestReviews] = useState<Review[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
+    const [nickname, setNickname] = useState<string | null>(null);
 
     useEffect(() => {
         if (ramyunIdx) {
             const token = localStorage.getItem("token");
+            const userInfo = localStorage.getItem("userInfo");
+
+            if (userInfo) {
+                const parsedUserInfo = JSON.parse(userInfo);
+                setNickname(parsedUserInfo.userId);
+            }
 
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
@@ -124,6 +131,8 @@ const RamenDetailPage: React.FC = () => {
 
     const handleReviewSubmit = (newContent: string, newRating: number, newPhoto: File | null) => {
         const token = localStorage.getItem("token");
+        const userInfo = localStorage.getItem("userInfo");
+
         const formData = new FormData();
 
         if (newPhoto) {
@@ -154,18 +163,19 @@ const RamenDetailPage: React.FC = () => {
                     ...response.data.data,
                     rvRecommendCount: response.data.data.rvRecommendCount || 0,
                     rvReportCount: response.data.data.rvReportCount || 0,
+                    nickname: nickname || "Unknown", // Add nickname to the new review
                 };
-                setReviews((prevReviews) => [...prevReviews, newReview]);
-                updateAvgRate(newRating);
 
-                // 페이지네이션 업데이트
+                // 업데이트된 리뷰 목록과 페이지네이션 설정
                 const newTotalPages = Math.ceil((reviews.length + 1) / 5);
+                setReviews((prevReviews) => [...prevReviews, newReview]);
                 setTotalPages(newTotalPages);
 
-                // 만약 새로운 페이지가 생겼다면 그 페이지로 이동
-                if (currentPage < newTotalPages) {
+                // 새로운 페이지가 생겼다면 그 페이지로 이동
+                if (newTotalPages > totalPages) {
                     setCurrentPage(newTotalPages);
                 }
+                updateAvgRate(newRating);
             })
             .catch((error) => {
                 console.error("Failed to submit review:", error);
@@ -196,6 +206,38 @@ const RamenDetailPage: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        if (ramyunIdx && currentPage <= totalPages) {
+            const token = localStorage.getItem("token");
+
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+            axios
+                .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`, {
+                    headers,
+                    params: {
+                        page: currentPage,
+                    },
+                })
+                .then((reviewsResponse) => {
+                    const reviewsData = reviewsResponse.data.data.review.content || [];
+                    const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
+                        ...review,
+                        rvRecommendCount: review.rvRecommendCount ?? 0,
+                        rvReportCount: review.rvReportCount ?? 0,
+                    }));
+                    setReviews(reviewsWithDefaultValues);
+                })
+                .catch((error) => {
+                    console.error("Failed to fetch reviews:", error);
+                    console.error(
+                        "Error details:",
+                        error.response ? error.response.data : error.message
+                    );
+                });
+        }
+    }, [currentPage, ramyunIdx]);
+
     if (!ramen) {
         return <div>Loading...</div>;
     }
@@ -214,8 +256,20 @@ const RamenDetailPage: React.FC = () => {
                         setReviews={setReviews}
                         ramyunIdx={ramyunIdx}
                         isBestReviewList={true}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                        setTotalPages={setTotalPages}
                     />
-                    <ReviewList reviews={reviews} setReviews={setReviews} ramyunIdx={ramyunIdx} />
+                    <ReviewList
+                        reviews={reviews}
+                        setReviews={setReviews}
+                        ramyunIdx={ramyunIdx}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                        setTotalPages={setTotalPages}
+                    />
                 </>
             )}
             <ReviewForm

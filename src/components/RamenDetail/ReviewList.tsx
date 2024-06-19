@@ -31,6 +31,10 @@ interface ReviewListProps {
     setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
     ramyunIdx: string;
     isBestReviewList?: boolean;
+    currentPage: number;
+    totalPages: number;
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    setTotalPages: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ReviewList: React.FC<ReviewListProps> = ({
@@ -38,6 +42,10 @@ const ReviewList: React.FC<ReviewListProps> = ({
     setReviews,
     ramyunIdx,
     isBestReviewList = false,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setTotalPages,
 }) => {
     const [editMode, setEditMode] = useState<number | null>(null);
     const [editContent, setEditContent] = useState<string>("");
@@ -48,8 +56,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
     const [reportReviewId, setReportReviewId] = useState<number | null>(null);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [totalPages, setTotalPages] = useState<number>(1);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
@@ -201,11 +207,13 @@ const ReviewList: React.FC<ReviewListProps> = ({
                             prevReviews.filter((review) => review.rvIdx !== rvIdx)
                         );
                         // 페이지 새로고침
-                        const newTotalPages = Math.ceil((reviews.length - 1) / 5);
+                        const newTotalPages = Math.ceil(reviews.length / 5);
                         setTotalPages(newTotalPages);
 
                         if (currentPage > newTotalPages) {
                             setCurrentPage(newTotalPages);
+                        } else {
+                            fetchReviews(currentPage);
                         }
                     }
                 })
@@ -387,31 +395,17 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                 <div className="review-content">
                                     {review.rvIsReported ? (
                                         <div className="blind">블라인드 처리된 댓글입니다.</div>
+                                    ) : review.reviewContent ? (
+                                        <div className="content">
+                                            {review.reviewContent.split("\n").map((line, index) => (
+                                                <React.Fragment key={index}>
+                                                    {line}
+                                                    <br />
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
                                     ) : (
-                                        <>
-                                            {review.reviewPhotoUrl && (
-                                                <div className="review-image">
-                                                    <img
-                                                        src={review.reviewPhotoUrl}
-                                                        alt="Review"
-                                                        onClick={() =>
-                                                            openImageModal(review.reviewPhotoUrl)
-                                                        }
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                </div>
-                                            )}
-                                            <div className="content">
-                                                {review.reviewContent
-                                                    .split("\n")
-                                                    .map((line, index) => (
-                                                        <React.Fragment key={index}>
-                                                            {line}
-                                                            <br />
-                                                        </React.Fragment>
-                                                    ))}
-                                            </div>
-                                        </>
+                                        <div className="content"></div>
                                     )}
                                 </div>
 
