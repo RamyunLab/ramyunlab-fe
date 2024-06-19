@@ -5,7 +5,7 @@ import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import ReviewForm from "./ReviewForm.tsx";
 import ReportModal from "./ReportModal.tsx";
-import Pagination from "../Pagination/Pagination.tsx"; // Import the Pagination component
+import Pagination from "../Pagination/Pagination.tsx";
 import "./ReviewList.scss";
 
 interface Review {
@@ -30,9 +30,15 @@ interface ReviewListProps {
     reviews: Review[];
     setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
     ramyunIdx: string;
+    isBestReviewList?: boolean;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx }) => {
+const ReviewList: React.FC<ReviewListProps> = ({
+    reviews,
+    setReviews,
+    ramyunIdx,
+    isBestReviewList = false,
+}) => {
     const [editMode, setEditMode] = useState<number | null>(null);
     const [editContent, setEditContent] = useState<string>("");
     const [editRating, setEditRating] = useState<number>(0);
@@ -194,6 +200,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                         setReviews((prevReviews) =>
                             prevReviews.filter((review) => review.rvIdx !== rvIdx)
                         );
+                        // 페이지 새로고침
+                        const newTotalPages = Math.ceil((reviews.length - 1) / 5);
+                        setTotalPages(newTotalPages);
+
+                        if (currentPage > newTotalPages) {
+                            setCurrentPage(newTotalPages);
+                        }
                     }
                 })
                 .catch((error) => {
@@ -344,7 +357,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     }
 
     return (
-        <div className="review-list">
+        <div className={`review-list ${isBestReviewList ? "best-review-list" : ""}`}>
+            {isBestReviewList && <h2>베스트 리뷰</h2>}
             {reviews.map((review, index) => {
                 return (
                     <div
@@ -428,7 +442,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                                         review.reviewContent,
                                                         review.rate,
                                                         review.reviewPhotoUrl,
-                                                        review.rvReportCount ?? 0 // 기본값 설정
+                                                        review.rvReportCount ?? 0
                                                     )
                                                 }
                                             >
@@ -455,11 +469,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     </div>
                 );
             })}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+            {!isBestReviewList && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
             {isReportModalOpen && (
                 <ReportModal
                     onSubmit={handleReportSubmit}
