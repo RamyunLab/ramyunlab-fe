@@ -127,15 +127,15 @@ const RamenInfoTable: React.FC<RamenInfoTableProps> = ({ ramen }) => {
                     </tr>
                     <tr>
                         <td>면 종류</td>
-                        <td>{ramen.r_noodle ? "유지" : "비유지"}</td>
+                        <td>{ramen.r_noodle ? "유탕면" : "건면"}</td>
                     </tr>
                     <tr>
                         <td>컵라면 여부</td>
-                        <td>{ramen.r_is_cup ? "예" : "아니오"}</td>
+                        <td>{ramen.r_is_cup ? "컵라면" : "봉지라면"}</td>
                     </tr>
                     <tr>
                         <td>조리 필요 여부</td>
-                        <td>{ramen.r_cooking ? "예" : "아니오"}</td>
+                        <td>{ramen.r_cooking ? "국물라면" : "볶음면 & 비빔면"}</td>
                     </tr>
                     <tr>
                         <td>중량</td>

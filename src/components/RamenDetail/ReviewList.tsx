@@ -5,6 +5,7 @@ import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as regularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import ReviewForm from "./ReviewForm.tsx";
 import ReportModal from "./ReportModal.tsx";
+import Pagination from "../Pagination/Pagination.tsx"; // Import the Pagination component
 import "./ReviewList.scss";
 
 interface Review {
@@ -22,6 +23,7 @@ interface Review {
     rvRecommendCount: number | null;
     rvReportCount: number;
     isRecommended: boolean;
+    rvIsReported: boolean;
 }
 
 interface ReviewListProps {
@@ -79,7 +81,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                 const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                     ...review,
                     rvRecommendCount: review.rvRecommendCount ?? 0,
-                    rvReportCount: review.rvReportCount ?? 0, // 기본값 설정
+                    rvReportCount: review.rvReportCount ?? 0,
+                    rvIsReported: review.rvIsReported ?? false,
+                    recommendIdx: review.recommendIdx ?? null,
                 }));
                 setReviews(reviewsWithDefaultValues);
                 setTotalPages(response.data.data.review.totalPages);
@@ -103,7 +107,11 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
 
         const currentReview = reviews.find((review) => review.rvIdx === rvIdx);
         if (!currentReview) return;
-
+        // 현재 사용자가 해당 리뷰의 작성자인지 확인
+        if (currentReview.userIdx === currentUserId) {
+            alert("자신의 리뷰에는 좋아요를 클릭할 수 없습니다.");
+            return;
+        }
         const liked = currentReview.isRecommended;
         const token = localStorage.getItem("token");
 
@@ -290,17 +298,11 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
     const handleReportSubmit = (reportReason: string) => {
         if (reportReviewId !== null) {
             const token = localStorage.getItem("token");
-            const userInfo = localStorage.getItem("userInfo");
-            const parsedUserInfo = userInfo ? JSON.parse(userInfo) : { userIdx: null };
 
             const reportDTO = {
                 reportReason: reportReason,
-                reportCreatedAt: new Date().toISOString(), // 현재 날짜와 시간 추가
-                userIdx: parsedUserInfo.userIdx,
-                reviewIdx: reportReviewId,
             };
 
-            console.log("Submitting report:", reportDTO);
             axios
                 .post(
                     `${process.env.REACT_APP_API_SERVER}/api/complaint/${reportReviewId}`,
@@ -313,11 +315,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     }
                 )
                 .then((response) => {
-                    console.log("Report submission response:", response.data);
                     setIsReportModalOpen(false);
+                    fetchReviews(currentPage);
                 })
                 .catch((error) => {
                     console.error("Failed to submit report:", error);
+                    if (error.response.data.error === "이미 신고한 리뷰입니다.") {
+                        alert("이미 신고한 리뷰입니다");
+                    }
                 });
         }
     };
@@ -370,18 +375,24 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                             <>
                                 <div className="nickname">{review.nickname}</div>
                                 <div className="review-content">
-                                    <div className="content">{review.reviewContent}</div>
-                                    {review.reviewPhotoUrl && (
-                                        <div className="review-image">
-                                            <img
-                                                src={review.reviewPhotoUrl}
-                                                alt="Review"
-                                                onClick={() =>
-                                                    openImageModal(review.reviewPhotoUrl)
-                                                }
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                        </div>
+                                    {review.rvIsReported ? (
+                                        <div className="blind">블라인드 처리된 댓글입니다.</div>
+                                    ) : (
+                                        <>
+                                            {review.reviewPhotoUrl && (
+                                                <div className="review-image">
+                                                    <img
+                                                        src={review.reviewPhotoUrl}
+                                                        alt="Review"
+                                                        onClick={() =>
+                                                            openImageModal(review.reviewPhotoUrl)
+                                                        }
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                </div>
+                                            )}
+                                            <div className="content">{review.reviewContent}</div>
+                                        </>
                                     )}
                                 </div>
 
@@ -423,9 +434,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                                             </button>
                                         </>
                                     )}
-                                    <button onClick={() => openReportModal(review.rvIdx)}>
-                                        신고하기
-                                    </button>
+                                    {isLoggedIn && currentUserId !== review.userIdx && (
+                                        <div className="report">
+                                            <button onClick={() => openReportModal(review.rvIdx)}>
+                                                신고하기
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="date">
                                     {new Date(review.rvCreatedAt).toLocaleDateString()}
@@ -435,23 +450,11 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, setReviews, ramyunIdx 
                     </div>
                 );
             })}
-            <div className="pagination">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    이전
-                </button>
-                <span>
-                    {currentPage} / {totalPages}
-                </span>
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    다음
-                </button>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
             {isReportModalOpen && (
                 <ReportModal
                     onSubmit={handleReportSubmit}
