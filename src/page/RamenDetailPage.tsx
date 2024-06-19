@@ -49,6 +49,7 @@ const RamenDetailPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [nickname, setNickname] = useState<string | null>(null);
+    const [avgRate, setAvgRate] = useState<number>(0);
 
     useEffect(() => {
         if (ramyunIdx) {
@@ -101,6 +102,7 @@ const RamenDetailPage: React.FC = () => {
                         avgRate: ramenData.avgRate,
                     };
                     setRamen(mappedRamen);
+                    setAvgRate(ramenData.avgRate);
 
                     const reviewsData = reviewsResponse.data.data.review.content || [];
                     const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
@@ -170,11 +172,6 @@ const RamenDetailPage: React.FC = () => {
                 const newTotalPages = Math.ceil((reviews.length + 1) / 5);
                 setReviews((prevReviews) => [...prevReviews, newReview]);
                 setTotalPages(newTotalPages);
-
-                // 새로운 페이지가 생겼다면 그 페이지로 이동
-                if (newTotalPages > totalPages) {
-                    setCurrentPage(newTotalPages);
-                }
                 updateAvgRate(newRating);
             })
             .catch((error) => {
