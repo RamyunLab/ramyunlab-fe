@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,7 @@ import ReviewForm from "./ReviewForm.tsx";
 import ReportModal from "./ReportModal.tsx";
 import Pagination from "../Pagination/Pagination.tsx";
 import "./ReviewList.scss";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Review {
     rvIdx: number;
@@ -58,6 +59,9 @@ const ReviewList: React.FC<ReviewListProps> = ({
     const [reportReviewId, setReportReviewId] = useState<number | null>(null);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
+    const [reviewNo, setReviewNo] = useState<number | null>();
+    const location = useLocation();
+    const scrollRef = useRef<null | HTMLDivElement>(null);
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
@@ -106,6 +110,23 @@ const ReviewList: React.FC<ReviewListProps> = ({
                 setReviews([]); // 실패 시 빈 배열로 설정
             });
     };
+
+    useEffect(() => {
+        // 라면 변경 시
+        const path = location.pathname.split("/").reverse()[0];
+        if (path === "review") {
+            const page = new URLSearchParams(location.search).get("page");
+            const reviewNo = new URLSearchParams(location.search).get("reviewNo");
+            setCurrentPage(parseInt(page));
+            setReviewNo(parseInt(reviewNo));
+            if (scrollRef) {
+                console.log("scrollRef 존재함!!!");
+            }
+            scrollRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+            fetchReviews(currentPage);
+        }
+    }, [ramyunIdx]);
 
     const handleLikeToggle = async (rvIdx: number) => {
         if (!isLoggedIn) {
@@ -390,7 +411,10 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                 ramyunIdx={ramyunIdx}
                             />
                         ) : (
-                            <>
+                            <div
+                                key={review.rvIdx}
+                                className={review.rvIdx == reviewNo ? "review-highlight" : ""}
+                            >
                                 <div className="nickname">{review.nickname}</div>
                                 <div className="review-content">
                                     {review.rvIsReported ? (
@@ -458,7 +482,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                 <div className="date">
                                     {new Date(review.rvCreatedAt).toLocaleDateString()}
                                 </div>
-                            </>
+                            </div>
                         )}
                     </div>
                 );
