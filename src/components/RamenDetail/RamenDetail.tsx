@@ -19,7 +19,12 @@ interface Ramyun {
     scoville: number | null;
 }
 
-const RamenDetail: React.FC = () => {
+interface RamenDetailProps {
+    image: string;
+    avgRate: number;
+}
+
+const RamenDetail: React.FC<RamenDetailProps> = ({ image, avgRate }) => {
     const { ramyunIdx } = useParams<{ ramyunIdx: string }>();
     const location = useLocation();
     const [ramyun, setRamyun] = useState<Ramyun | null>(location.state?.ramyun || null);
@@ -84,9 +89,9 @@ const RamenDetail: React.FC = () => {
 
     return (
         <div className="ramen-detail">
-            <img src={ramyun.ramyunImg} alt={ramyun.ramyunName} className="ramen-image" />
+            <img src={image} alt={ramyun.ramyunName} className="ramen-image" />
             <p className="rating">
-                {renderStars(ramyun.avgRate)} {ramyun.avgRate.toFixed(1)}
+                {renderStars(avgRate)} {avgRate.toFixed(1)}
             </p>
         </div>
     );
