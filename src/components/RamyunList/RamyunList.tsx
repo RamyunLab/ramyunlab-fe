@@ -535,7 +535,7 @@ const RamyunList: React.FC = () => {
             </div>
             <div className={styles.ramyunList}>
                 {ramyunList.length === 0 ? (
-                    <div className={styles.noRamyunMessage}>적절한 라면이 없습니다!</div>
+                    <div className={styles.noRamyunMessage}>해당되는 라면이 없습니다!</div>
                 ) : (
                     ramyunList.map((ramyun, index) => (
                         <div

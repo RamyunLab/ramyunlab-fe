@@ -13,8 +13,8 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegisterModal }) => {
-    const [id, setId] = useState("");
-    const [password, setPassword] = useState("");
+    const [id, setId] = useState("test11");
+    const [password, setPassword] = useState("test123!");
     const [rememberId, setRememberId] = useState(false);
     const [idError, setIdError] = useState("");
     const [passwordError, setPasswordError] = useState("");

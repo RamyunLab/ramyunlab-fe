@@ -111,7 +111,7 @@ const UpDownGame: React.FC = () => {
                             message: "축하합니다! 스코빌이 가장 높은 라면을 맞추셨습니다.",
                         })
                     );
-                    navigate("/UpDownGame/result", { state: { finalRamen: selectedRamen } });
+                    // navigate("/UpDownGame/result", { state: { finalRamen: selectedRamen } });
                 } else {
                     dispatch(setRamen({ current: selectedRamen, next: null }));
                     fetchNextRamen(); // 새로운 라면 데이터를 가져와서 nextRamen으로 설정

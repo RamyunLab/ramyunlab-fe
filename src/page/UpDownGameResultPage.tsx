@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styles from "../components/UpDownGame/UpDownGame.module.scss";
@@ -11,10 +11,23 @@ const ResultPage: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { width, height } = useWindowSize();
-    const finalRamen = location.state?.finalRamen;
+    const { finalRamen, currentRamen, nextRamen } = location.state || {};
+
+    useEffect(() => {
+        const handleBackButton = (event) => {
+            event.preventDefault();
+            dispatch(resetGame());
+            navigate("/UpDownGame");
+        };
+
+        window.addEventListener("popstate", handleBackButton);
+
+        return () => {
+            window.removeEventListener("popstate", handleBackButton);
+        };
+    }, [dispatch, navigate]);
 
     const handleGoHome = () => {
-        dispatch(resetGame()); // 게임 상태 초기화
         navigate("/");
     };
 
@@ -51,11 +64,29 @@ const ResultPage: React.FC = () => {
                     </div>
                 </>
             )}
-            {!finalRamen && <p>결과를 불러오지 못했습니다.</p>}
+            {!finalRamen && (
+                <>
+                    <p>결과를 불러오지 못했습니다.</p>
+                    <div className={styles.ramenContainer}>
+                        <div className={styles.ramen}>
+                            <img src={currentRamen.r_img} alt={currentRamen.r_name} />
+                            <p>{currentRamen.r_name}</p>
+                            <p>스코빌 지수: {currentRamen.r_scoville}</p>
+                        </div>
+                        <div className={styles.ramen}>
+                            <img src={nextRamen.r_img} alt={nextRamen.r_name} />
+                            <p>{nextRamen.r_name}</p>
+                            <p>스코빌 지수: {nextRamen.r_scoville}</p>
+                        </div>
+                    </div>
+                </>
+            )}
             <div className={styles.buttonContainer}>
                 <button onClick={handleGoHome}>홈으로 가기</button>
                 <button onClick={handleRestart}>다시 하기</button>
-                {finalRamen && <button onClick={handleShareResult}>결과 공유하기</button>}
+                {finalRamen?.r_name && (
+                    <button onClick={handleShareResult}>카카오톡 공유하기</button>
+                )}
             </div>
         </div>
     );
