@@ -21,11 +21,13 @@ import LikedReviewsPage from "./page/LikedReviewsPage.tsx";
 import RecentlyViewed from "./components/RecentlyViewed/RecentlyViewed.tsx";
 import LoginToKakao from "./components/Auth/LoginToKakao.tsx";
 import NotFoundPage from "./page/404Page.tsx";
+
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
+    const [nickname, setNickname] = useState<string | null>(null);
 
     const toggleLoginModal = () => {
         setShowLoginModal((prev) => !prev);
@@ -53,7 +55,7 @@ const App: React.FC = () => {
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <Header toggleLoginModal={toggleLoginModal} />
+                    <Header toggleLoginModal={toggleLoginModal} updatedNickname={nickname} />
                     <Routes>
                         <Route path="/" element={<RedirectToMain />} />
                         <Route path="/main" element={<MainPage />} />
@@ -61,13 +63,15 @@ const App: React.FC = () => {
                         <Route path="/tournament" element={<Tournament />} />
                         <Route path="/main/ramyun/:ramyunIdx" element={<RamenDetailPage />} />
                         <Route path="/UpDownGame" element={<UpDownGamePage />} />
-                        <Route path="/UpDownGame/result" element={<ResultPage />} />{" "}
+                        <Route path="/UpDownGame/result" element={<ResultPage />} />
                         <Route
                             path="/main/ramyun/:ramyunIdx/review"
                             element={<RamenDetailPage />}
                         />
-                        {/* 추가된 경로 */}
-                        <Route path="/account" element={<AccountPage />} />
+                        <Route
+                            path="/account"
+                            element={<AccountPage onNicknameChange={setNickname} />} // 닉네임 변경 함수 전달
+                        />
                         <Route path="/tournament/result/:ramenId" element={<FinalScreen />} />
                         <Route path="/FavoriteListPage" element={<FavoriteListPage />} />
                         <Route path="/MyReviewsPage" element={<MyReviewsPage />} />
