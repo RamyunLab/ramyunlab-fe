@@ -12,30 +12,31 @@
 }
 
 .logo {
-    width: 100px; /* 원하는 로고 너비로 조절 */
+    width: 80px; /* 원하는 로고 너비로 조절 */
     height: auto; /* 높이는 자동 조절 */
-    margin-left: 80px;
+    margin-left: 20px; /* 여백 줄이기 */
 }
 
 .button {
-    font-size: 1.4em;
+    font-size: 1.4em; /* 폰트 크기 줄이기 */
     cursor: pointer;
-    margin-top: 10px;
+
     background: #ffab21;
     border: none;
     color: white;
-
     font-family: inherit;
     position: relative;
-    right: 30px; // 버튼을 약간 왼쪽으로 이동
+    right: 10px; /* 버튼을 왼쪽으로 이동 */
 }
 
 .menuIcon {
     @extend .button;
 }
+
 .button:hover {
     background: #ffab21;
 }
+
 .loginButton {
     @extend .button;
 }
@@ -43,9 +44,11 @@
 .menu {
     display: none;
     position: absolute;
-    top: 50px; // 드롭다운 메뉴의 위치 조정
-    right: 62px; // 드롭다운 메뉴의 위치 조정
+    top: 50px; /* 드롭다운 메뉴의 위치 조정 */
+    right: 10px; /* 드롭다운 메뉴의 위치 조정 */
+    width: 120px; /* 기본 너비 설정 */
     background-color: #ffab21;
+    box-sizing: border-box; /* 패딩과 보더를 포함하여 크기를 계산 */
 }
 
 .menu.show {
@@ -59,8 +62,20 @@
 }
 
 .menu li {
-    padding: 10px 20px;
-    cursor: pointer;
+    padding: 0; /* 패딩 제거 */
+    margin: 0; /* 마진 제거 */
+    height: 40.8px; /* 높이 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffab21; /* 기본 배경색 설정 */
+    color: white; /* 텍스트 색상 */
+    box-sizing: border-box; /* 패딩과 보더를 포함하여 크기를 계산 */
+    border-bottom: 1px solid #ffab21 !important; /* 버튼 사이의 경계선을 없애기 위한 설정 */
+}
+
+.menu li:last-child {
+    border-bottom: none; /* 마지막 버튼의 경계선을 없앰 */
 }
 
 .menu li:hover {
@@ -70,24 +85,23 @@
 /* 반응형 스타일 */
 @media (max-width: 768px) {
     .header {
-        padding: 10px 10px; // 패딩을 조금 줄임
+        padding: 10px 10px; /* 패딩을 조금 줄임 */
     }
 
     .logo {
-        margin-left: 20px; // 작은 화면에서는 더 작은 여백
+        margin-left: 20px; /* 작은 화면에서는 더 작은 여백 */
     }
 
     .button {
-        right: 40px; // 작은 화면에서는 오른쪽 이동을 줄임
+        right: 40px; /* 작은 화면에서는 오른쪽 이동을 줄임 */
     }
 
     .menu {
-        top: 70px; // 드롭다운 메뉴 위치를 조금 조정
-        width: 100%; // 작은 화면에서 드롭다운 메뉴의 너비를 100%로 설정
-        left: 0;
-
+        top: 50px; /* 드롭다운 메뉴 위치를 조정 */
+        left: 0; /* 드롭다운 메뉴를 화면 좌측에 위치 */
+        width: 100%; /* 작은 화면에서 드롭다운 메뉴의 너비를 100%로 설정 */
         margin: 0 auto;
-        border-radius: 0; // 작은 화면에서는 모서리 반경을 제거
+        border-radius: 0; /* 작은 화면에서는 모서리 반경을 제거 */
     }
 
     .menu ul {
@@ -95,27 +109,31 @@
     }
 
     .menu li {
-        padding: 10px 15px; // 작은 화면에서는 패딩을 줄임
-        text-align: center; // 항목을 가운데 정렬
+        padding: 10px 15px; /* 작은 화면에서는 패딩을 줄임 */
+        text-align: center; /* 항목을 가운데 정렬 */
+        border-bottom: 1px solid #ff6347; /* 반응형일 때 버튼 사이의 경계선 */
     }
 }
 
 @media (max-width: 480px) {
     .logo {
-        font-size: 1.2em; // 더 작은 화면에서는 폰트 크기를 줄임
+        font-size: 1.2em; /* 더 작은 화면에서는 폰트 크기를 줄임 */
     }
 
     .button {
-        font-size: 1.2em; // 더 작은 화면에서는 폰트 크기를 줄임
-        right: 40px; // 더 작은 화면에서는 오른쪽 이동을 줄임
+        font-size: 1.2em; /* 더 작은 화면에서는 폰트 크기를 줄임 */
+        right: 40px; /* 더 작은 화면에서는 오른쪽 이동을 줄임 */
     }
 
     .menu {
-        margin-top: 0px; // 드롭다운 메뉴 위치를 더 조정
+        top: 50px; /* 드롭다운 메뉴 위치를 조정 */
+        left: 0; /* 드롭다운 메뉴를 화면 좌측에 위치 */
+        width: 100%; /* 더 작은 화면에서 드롭다운 메뉴의 너비를 100%로 설정 */
+        margin: 0 auto;
     }
 
     .menu li {
-        padding: 10px 10px; // 더 작은 화면에서는 패딩을 줄임
-        text-align: center; // 항목을 가운데 정렬
+        padding: 10px 10px; /* 더 작은 화면에서는 패딩을 줄임 */
+        text-align: center; /* 항목을 가운데 정렬 */
     }
 }
