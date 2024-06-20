@@ -92,9 +92,10 @@
     cursor: pointer;
     font-size: 14px;
     margin-left: 10px;
+    margin-right: -1px;
     transition: background-color 0.3s ease;
 }
 
 .modalContent .buttonGroup button:hover {
-    background-color: #0056b3;
+    background-color: #ffab21;
 }

@@ -203,8 +203,8 @@
 
 @media (max-width: 600px) {
     .modal-content .kakao {
-        padding: 10px;
-        font-size: 14px;
+        padding: -10px;
+        height: 43px;
     }
 }
 /* 반응형 디자인을 위한 미디어 쿼리 */
