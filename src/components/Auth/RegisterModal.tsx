@@ -199,7 +199,11 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                         중복 확인
                     </button>
                 </div>
-                <div className={`error-message ${idValid ? "valid" : "invalid"}`}>{idError}</div>
+                <div className="usermsg">
+                    <div className={`error-message ${idValid ? "valid" : "invalid"}`}>
+                        {idError}
+                    </div>
+                </div>
                 <div className="nickname">
                     <input
                         type="text"
@@ -211,8 +215,10 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                         중복 확인
                     </button>
                 </div>
-                <div className={`error-message ${nicknameValid ? "valid" : "invalid"}`}>
-                    {nicknameError}
+                <div className="nickmsg">
+                    <div className={`error-message ${nicknameValid ? "valid" : "invalid"}`}>
+                        {nicknameError}
+                    </div>
                 </div>
                 <div className="password">
                     <div className="input-container">
@@ -229,8 +235,10 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ toggleRegisterModal, togg
                         />
                     </div>
                 </div>
-                <div className={`error-message ${passwordError ? "invalid" : "valid"}`}>
-                    {passwordError}
+                <div className="passmsg">
+                    <div className={`error-message ${passwordError ? "invalid" : "valid"}`}>
+                        {passwordError}
+                    </div>
                 </div>
                 <div className="confirm-password">
                     <div className="input-container">
