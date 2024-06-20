@@ -124,7 +124,7 @@
     width: 100px;
     // width: 150px !important; /* 원하는 너비로 설정 */
     &:focus {
-        border-color: #007bff;
+        border-color: #387adf;
         outline: none;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
@@ -137,7 +137,6 @@
     margin-top: -20px;
     transform: translateY(-50%);
     cursor: pointer;
-    // color: #007bff;
 }
 
 .checkPasswordBtn,
@@ -147,7 +146,7 @@
     background-color: #ff9100;
     color: white;
     cursor: pointer;
-    margin-top: 0px;
+    margin-top: -2px !important;
     position: relative;
     border-radius: 4px;
     transition: background-color 0.3s ease;
@@ -177,7 +176,7 @@
 .changePasswordBtn {
     padding: 10px 20px;
     border: none;
-    background-color: #dc3545;
+    background-color: #ff6347;
     color: white;
     cursor: pointer;
     border-radius: 4px;
@@ -185,7 +184,7 @@
     margin-top: 10px;
 
     &:hover {
-        background-color: #c82333;
+        background-color: #ff6347;
     }
 
     &:disabled {
@@ -216,4 +215,10 @@
     margin-left: 5px;
     margin-bottom: -1px;
     // align-self: flex-start;
+}
+.deleteicon {
+    margin-top: 15px !important;
+}
+.deleteicon1 {
+    margin-top: 13px !important;
 }
