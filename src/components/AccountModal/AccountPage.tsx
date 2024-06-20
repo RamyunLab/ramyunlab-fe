@@ -95,7 +95,7 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNicknameChange }) => {
             setCurrentPasswordError("입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다.");
         } else {
             setCurrentPasswordError(
-                <span className={styles.successMessage}>형식에 맞는 닉네임입니다.</span>
+                <span className={styles.successMessage}>비밀번호가 일치합니다.</span>
             );
         }
     };
