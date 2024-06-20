@@ -16,6 +16,7 @@ interface Review {
     userIdx: number;
     ramyunIdx: number;
     isRecommended: boolean; // 공감 여부를 추가
+    rvIsReported: boolean;
 }
 
 interface ReviewResponse {
@@ -76,6 +77,7 @@ const MyReviews: React.FC = () => {
                 setReviews(data.content);
                 setCurrentPage(data.number + 1); // 페이지 번호는 0부터 시작하므로 1을 더해줌
                 setTotalPages(data.totalPages);
+                console.log(reviews);
             } else {
                 setReviews([]);
             }
@@ -124,7 +126,11 @@ const MyReviews: React.FC = () => {
                                             />
                                             {review.rvRecommendCount}
                                         </div>
-                                        <div className={styles.content}>{review.reviewContent}</div>
+                                        <div className={styles.content}>
+                                            {review.rvIsReported
+                                                ? "블라인드 처리 된 댓글입니다."
+                                                : review.reviewContent}
+                                        </div>
                                         <div className={styles.rating}>
                                             {renderStars(review.rate)}
                                         </div>
