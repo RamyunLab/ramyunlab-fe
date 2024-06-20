@@ -181,7 +181,32 @@
 .modal-content .links span:hover {
     color: #c0392b;
 }
+.modal-content .kakao {
+    display: block;
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 0px;
+    background-color: #fee500;
+    color: #3c1e1e;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
 
+.modal-content .kakao:hover {
+    background-color: #fcc900;
+}
+
+@media (max-width: 600px) {
+    .modal-content .kakao {
+        padding: -10px;
+        height: 43px;
+    }
+}
 /* 반응형 디자인을 위한 미디어 쿼리 */
 @media (max-width: 600px) {
     .modal-content {

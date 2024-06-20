@@ -78,7 +78,7 @@
 .review .content {
     font-size: 14px;
     color: #555;
-    width: 100%;
+    width: 80%;
     // border: 1px solid red;
     margin: 10px 0;
 }
@@ -139,6 +139,7 @@
         height: 30px;
         color: white;
         transition: background-color 0.3s;
+        margin-right: -7px;
     }
 
     button:nth-child(2) {

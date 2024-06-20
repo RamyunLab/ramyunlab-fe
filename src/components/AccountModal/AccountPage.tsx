@@ -320,21 +320,21 @@ const AccountPage: React.FC = () => {
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         const userInfoString = localStorage.getItem("userInfo");
         console.log(userInfoString);
-        
-        if(userInfoString) {
+
+        if (userInfoString) {
             const userInfo = JSON.parse(userInfoString);
             console.log("userInfo:: ", userInfo);
             const userId = userInfo.userId;
             console.log("userId:: ", userId);
 
-            if(!userId.startsWith("kakao_")) {
-                setShowTap(true)
+            if (!userId.startsWith("kakao_")) {
+                setShowTap(true);
             } else setShowTap(false);
         }
-    },[]);
+    }, []);
 
     return (
         <div className={styles.accountPage} onKeyPress={handleKeyPress}>
@@ -362,7 +362,7 @@ const AccountPage: React.FC = () => {
                                 activeTab === "changePassword" ? styles.active : ""
                             }`}
                             onClick={() => handleTabChange("changePassword")}
-                            style={showTap?{display:"block"}:{display:"none"}}
+                            style={showTap ? { display: "block" } : { display: "none" }}
                         >
                             비밀번호 변경
                         </button>
@@ -381,11 +381,13 @@ const AccountPage: React.FC = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-                                <FontAwesomeIcon
-                                    icon={showPassword ? faEyeSlash : faEye}
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className={styles.passwordIcon}
-                                />
+                                <div className={styles.deleteicon}>
+                                    <FontAwesomeIcon
+                                        icon={showPassword ? faEyeSlash : faEye}
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className={styles.passwordIcon}
+                                    />
+                                </div>
                                 <button
                                     className={styles.checkPasswordBtn}
                                     onClick={handlePasswordCheck}

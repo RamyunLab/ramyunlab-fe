@@ -185,7 +185,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                     <span onClick={toggleRegisterModal}>회원 가입</span>
                 </div>
                 <div onClick={handleKakaoLogin}>
-                    <img src={kakao} alt="카카오 로그인 이미지" />
+                    <img className="kakao" src={kakao} alt="카카오 로그인 이미지" />
                 </div>
             </div>
         </div>

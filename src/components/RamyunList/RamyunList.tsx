@@ -322,7 +322,7 @@ const RamyunList: React.FC = () => {
                     className={styles.searchInput}
                 />
                 <button onClick={handleSearchButtonClick} className={styles.searchButton}>
-                    Search
+                    검색
                 </button>
             </div>
 
