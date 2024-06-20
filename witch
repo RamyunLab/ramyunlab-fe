@@ -1,0 +1,1988 @@
+[33mcommit fc9d60ba96df9d3258ad7ef964afb3a624001b39[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeat/detailReview-FE[m[33m)[m
+Author: HJ17J <hyeonj0130@gmail.com>
+Date:   Thu Jun 20 19:28:06 2024 +0900
+
+    feat: [FE] 베스트 리뷰 없을 경우 컴포넌트 제외
+
+[33mcommit 97225d5691dfa1ec88fffefcfd3b6e89291164f7[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mdevelop[m[33m)[m
+Merge: 576f9f0 5bb0659
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Thu Jun 20 16:49:41 2024 +0900
+
+    Merge pull request #86 from RamyunLab/fix/review-img
+    
+    Fix/review img
+
+[33mcommit 5bb0659947fd0d3c69625fcd392af866bd32a192[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 20 16:48:47 2024 +0900
+
+    fix: 전체 css수정
+
+[33mcommit cbc773f440dcdb0c86d805f82173940d981a216c[m[33m ([m[1;31morigin/fix/review-img[m[33m)[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 20 16:12:32 2024 +0900
+
+    fix : 전체 css
+
+[33mcommit 576f9f07df3e4f0476c86b87f481ab23fa18231a[m
+Merge: 1ef751f f1b9689
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Thu Jun 20 15:27:28 2024 +0900
+
+    Merge pull request #85 from RamyunLab/fix/footercss1
+    
+    Fix/footercss1
+
+[33mcommit f1b96892b9ba20a100b2d9757ffed41f6fb0f5f0[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 20 15:26:59 2024 +0900
+
+    fix: 월드컵반응형
+
+[33mcommit 314c163339e25ff1293c497685b3025ee74bef12[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 20 15:02:33 2024 +0900
+
+    fix: 토너먼트 모달
+
+[33mcommit 1ef751fb0d270d9e2e55ef11412a60f84d81b571[m
+Merge: 1f2f79d c4e8973
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 19 21:34:32 2024 +0900
+
+    Merge pull request #84 from RamyunLab/fix/footercss1
+    
+    fix : 리뷰 css와 모달 편의성
+
+[33mcommit c4e89734b6bad669c27d482a1b1199ca9194947b[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 21:34:01 2024 +0900
+
+    fix : 리뷰 css와 모달 편의성
+
+[33mcommit 1f2f79d72d51f888c224c6995fe941202484d6d9[m
+Merge: d51034c b439aee
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 19 21:01:07 2024 +0900
+
+    Merge pull request #83 from RamyunLab/fix/Review
+    
+    fix: [FE] 리뷰 사진 위치 변경, 리뷰 중복 등록 알림
+
+[33mcommit b439aeed107b75f894e137cb5b75313245fa085f[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 21:00:13 2024 +0900
+
+    fix: [FE] 리뷰 사진 위치 변경, 리뷰 중복 등록 알림
+
+[33mcommit d51034c918ab7155557651783e597f3fbcd135aa[m
+Merge: 738285a 3f58e2c
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 19 20:51:20 2024 +0900
+
+    Merge pull request #82 from RamyunLab/feat/RamenReview
+    
+    fix: [FE] 라면 리뷰 이미지 복원
+
+[33mcommit 3f58e2cd3b1366bcf525524ed608801c1e9447dc[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 20:50:18 2024 +0900
+
+    fix: [FE] 라면 리뷰 이미지 복원
+
+[33mcommit 738285af7644f8aeecfb8e8ede1c49e58705795d[m
+Merge: 0413b7d c9dd923
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 19 20:21:21 2024 +0900
+
+    Merge pull request #81 from RamyunLab/feat/RamenInfo
+    
+    Feat/ramen info
+
+[33mcommit 0413b7d6424dd4d865f4bff0a93214933d98616a[m
+Merge: 5298ad5 75f157b
+Author: HJ17J <57437315+HJ17J@users.noreply.github.com>
+Date:   Wed Jun 19 20:20:36 2024 +0900
+
+    Merge pull request #80 from RamyunLab/feat/game
+    
+    fix: [FE] 게임 조회 수정
+
+[33mcommit 75f157bf279aa076514896671f0381c1c12784de[m[33m ([m[1;32mfeat/game[m[33m)[m
+Author: HJ17J <hyeonj0130@gmail.com>
+Date:   Wed Jun 19 20:19:44 2024 +0900
+
+    fix: [FE] 게임 조회 수정
+
+[33mcommit c9dd923a54e9b223a83c3036f33142f5c0f889e8[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 19:44:57 2024 +0900
+
+    feat: [FE] 리뷰 등록시 바로 별점 반영
+
+[33mcommit 7ad0ea922957be1d5185609ea48b39a54c5a3a58[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 19:24:31 2024 +0900
+
+    fix: [FE] 리뷰 등록, 삭제시 페이지 이동 취소
+
+[33mcommit 5298ad55035cba755b12814c13485e260ac62a55[m
+Merge: 138a9f1 565c24a
+Author: HJ17J <57437315+HJ17J@users.noreply.github.com>
+Date:   Wed Jun 19 19:07:45 2024 +0900
+
+    Merge pull request #79 from RamyunLab/feat/detail-FE
+    
+    Feat/detail fe
+
+[33mcommit 565c24ae8bf3c3b0a3dc4e7a15a4147c438bf6f6[m[33m ([m[1;32mfeat/detail-FE[m[33m)[m
+Author: HJ17J <hyeonj0130@gmail.com>
+Date:   Wed Jun 19 19:06:34 2024 +0900
+
+    feat: 본인 리뷰 조회 시 css 추가
+
+[33mcommit 28066463fa8271fd3a101977bbc960a0826fa49e[m
+Author: HJ17J <hyeonj0130@gmail.com>
+Date:   Wed Jun 19 18:45:54 2024 +0900
+
+    feat: 상세페이지 이동
+
+[33mcommit 138a9f15af08bae6fb2ee1898a39342b3ceb7228[m
+Merge: da24494 8b533f5
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 19 18:26:58 2024 +0900
+
+    Merge pull request #78 from RamyunLab/feat/RamenReview
+    
+    Feat/ramen review
+
+[33mcommit 8b533f5b2f766a737ab557f366b73bd9ed46c8a7[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 18:24:38 2024 +0900
+
+    fix: [FE] 빈 댓글 조회 완료
+
+[33mcommit da24494af75ee84b6bab696f39d30519e21f4765[m
+Merge: 478ea86 213fef1
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 19 18:21:03 2024 +0900
+
+    Merge pull request #77 from RamyunLab/feat/filteringresult
+    
+    Feat/filteringresult
+
+[33mcommit 213fef187a4426a45e3e812b79cad5bbcd63417d[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 18:20:13 2024 +0900
+
+    fix:로그인 alert
+
+[33mcommit ec545308716d9b93a516fe40bb19204a97a8d062[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 18:10:30 2024 +0900
+
+    fix paginaiton
+
+[33mcommit 6e98c8c5a5bca34d9068b8d3903d7e0a88079714[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 18:07:10 2024 +0900
+
+    feat: 필터링시 아이템이없을때
+
+[33mcommit e85ff2edb6eb81e8934db1f9759e73b9c99e9701[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 18:04:49 2024 +0900
+
+    fix: [FE] 리뷰 삭제시 페이지 즉각 반영
+
+[33mcommit 0ed3c7881495d423dae1d48ec61a460864890650[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 17:40:22 2024 +0900
+
+    fix: [FE] 리뷰 추가시 새 페이지 이동
+
+[33mcommit 478ea86235ac780a8f9a7222efe25145ad7d6f20[m
+Merge: 91e04c7 2a68120
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 19 17:31:54 2024 +0900
+
+    Merge pull request #76 from RamyunLab/feat-반응형
+    
+    feat: 반응형 리뷰리스트 리뷰폼 x
+
+[33mcommit 2a68120d2b65a8c712de36b2e0ef4fd23119ac95[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 17:30:40 2024 +0900
+
+    feat: 반응형 리뷰리스트 리뷰폼 x
+
+[33mcommit a1ff8ba1f00f8b423ccba5b4e1f4b95deae15fa8[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 17:00:08 2024 +0900
+
+    fix: [FE] 닉네임 표기 정상 출력
+
+[33mcommit 91e04c74b4e04edae723b6e8a8c424a293466c8c[m
+Merge: e89df05 0603a02
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 19 16:47:44 2024 +0900
+
+    Merge pull request #75 from RamyunLab/feat/ReviewList
+    
+    Feat/review list
+
+[33mcommit 0603a0260a1e6d43e9bc76e5b0cb50692d44742f[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 16:46:22 2024 +0900
+
+    fix: [FE] 리뷰 목록 수정 중
+
+[33mcommit af12aba256703f79dd340dcb7f19d7975878d074[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 16:12:38 2024 +0900
+
+    design: [FE] 등록, 수정, 취소 버튼 디자인 개선
+
+[33mcommit a0de20f0bbe7995253f80cc08a809aee236fb4cb[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 16:10:15 2024 +0900
+
+    fix: [FE] 새로운 리뷰 맨 뒤에 등록
+
+[33mcommit e89df05eb705a2adc8bbd7b59e9e5206d5233b11[m[33m ([m[1;31morigin/faet/remendetailscss-[m[33m)[m
+Merge: 5a97420 9e39386
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 19 16:04:35 2024 +0900
+
+    Merge pull request #74 from RamyunLab/fix-updowngame-detail
+    
+    feat:404 페이지
+
+[33mcommit 9e393868ae7b085561350dfbd44eb93071a7ef64[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 16:03:50 2024 +0900
+
+    feat:404 페이지
+
+[33mcommit 5a9742014efb257225179060caf26850ef69e1fc[m
+Merge: 7962ca9 68212ae
+Author: lee_dw <49604611+1ee-dw@users.noreply.github.com>
+Date:   Wed Jun 19 15:37:52 2024 +0900
+
+    Merge pull request #73 from RamyunLab/feat/editChangePw
+    
+    feat: 카카오 로그인 시 비밀번호 변경 탭 안 보이게 수정 -fe
+
+[33mcommit 68212ae8a9c046a68a7b659c71fb31dfa203df71[m
+Author: 이대원 <1ee_DW@naver.com>
+Date:   Wed Jun 19 15:37:03 2024 +0900
+
+    feat: 카카오 로그인 시 비밀번호 변경 탭 안 보이게 수정 -fe
+
+[33mcommit fa82c27b6581b3b826fbc18b5e289810bcd6b9a1[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 15:26:28 2024 +0900
+
+    design: [FE] 베스트 리뷰 디자인 개선
+
+[33mcommit 55fa67ebc9c27bd34df3e61c88e42ddf2500b876[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 15:24:58 2024 +0900
+
+    feat: [FE] 베스트 리뷰 구현 완료
+
+[33mcommit 7962ca95358db9b4274f8bd2ee5b08c1befa1ef9[m
+Merge: ef31a6a d93e802
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 19 15:20:44 2024 +0900
+
+    Merge pull request #72 from RamyunLab/feat/ReviewList
+    
+    Feat/review list
+
+[33mcommit d93e8025e7080209c3c3bbbe0e530e2103d24bc7[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 15:13:47 2024 +0900
+
+    feat: [FE] 리뷰 등록시 별점 실시간 반영
+
+[33mcommit a2be045007f93919cc1559745e6f37d437080e07[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 15:12:57 2024 +0900
+
+    fix: [FE] 별점 연동
+
+[33mcommit a738dfb88f5bce9a6f5e322c87186505cd4e3838[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 14:53:21 2024 +0900
+
+    fix: [FE] 추천 취소 오류 개선
+
+[33mcommit 6f67c089376e4bb8d14e4a3a7f646dd0fc0d9b15[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 14:39:41 2024 +0900
+
+    feat: [FE] 리뷰 목록 엔터키(줄바꿈)  적용
+
+[33mcommit 5362a9226e992a82d2f50666978ab612847f587d[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 14:36:23 2024 +0900
+
+    fix: [FE] 리뷰 등록폼 15줄 이내 제한
+
+[33mcommit 86eb4279658b01316dad56757804acea20f5e92b[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 14:22:13 2024 +0900
+
+    design: [FE] 신고모달 반응형 디자인 개선
+
+[33mcommit 65cd763272df69c5ac19678e48c7da123021097b[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 19 14:15:41 2024 +0900
+
+    feat: [FE] 리뷰 중복 등록 알람 추가
+
+[33mcommit ef31a6a3c718eeab59d45ae09556f44f3b481435[m
+Merge: ffb2150 1fe6031
+Author: lee_dw <49604611+1ee-dw@users.noreply.github.com>
+Date:   Wed Jun 19 14:06:29 2024 +0900
+
+    Merge pull request #71 from RamyunLab/feat/social-login
+    
+    feat: 이대원 소셜 로그인
+
+[33mcommit 1fe603110dd2464b052990030ccbfd9ca8c7b661[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 14:06:02 2024 +0900
+
+    feat: 이대원 소셜 로그인
+
+[33mcommit ffb215060c74cbbeb13ad667ef8efc604be0efd5[m
+Merge: d0eedc1 abb2ddf
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 19 11:52:36 2024 +0900
+
+    Merge pull request #69 from RamyunLab/fix/csss
+    
+    fix : 신동원 코드 머지
+
+[33mcommit abb2ddf9df2bd694f5caa8ff7bf8124cd4f1e01f[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 19 11:51:53 2024 +0900
+
+    fix : 신동원 코드 머지
+
+[33mcommit d0eedc148cf6bf10a10fd94e172ed2d13c254f9c[m[33m ([m[1;31morigin/feat/rollback[m[33m)[m
+Merge: 5b6125d a3c9d76
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 18 21:16:32 2024 +0900
+
+    Merge pull request #67 from RamyunLab/feat/accountmodal
+    
+    fix: 480px
+
+[33mcommit a3c9d76cfe064989f394aad400f9931eeedceff8[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 18 21:15:11 2024 +0900
+
+    fix: 480px
+
+[33mcommit 5b6125dd275bdea6e51830d76a8ea07d7cf99664[m
+Merge: f240911 139b4a4
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 18 21:14:12 2024 +0900
+
+    Merge pull request #66 from RamyunLab/feat/accountmodal
+    
+    fix: 480px
+
+[33mcommit 139b4a4b0777cc6bd32a1193b554c5d098f3b59f[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 18 21:13:25 2024 +0900
+
+    fix: 480px
+
+[33mcommit f240911aa1e0a308cec30d1cb2b1957e443944e2[m
+Merge: d58bcc9 c4d19e2
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 18 20:08:13 2024 +0900
+
+    Merge pull request #65 from RamyunLab/feat/accountmodal
+    
+    Feat/accountmodal
+
+[33mcommit c4d19e2cb896da951a25446ce54e8a2ad0ce87c6[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 18 19:40:07 2024 +0900
+
+    fix:768px 반응형
+
+[33mcommit 32eb2012f075f999dbe4e7d85887d2cb378beab5[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 18 16:48:53 2024 +0900
+
+    fix: 라면상세페이지 css
+
+[33mcommit d58bcc9398e142a31c2f19147b7fc0f562120cda[m
+Merge: 8c382e0 8aeb0f6
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 18 12:59:08 2024 +0900
+
+    Merge pull request #64 from RamyunLab/fix/recently
+    
+    fix: 최근본라면
+
+[33mcommit 8aeb0f6013dc97e8b6d1b9f4326b8f05ef6f54b4[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 21:29:50 2024 +0900
+
+    fix: 최근본라면
+
+[33mcommit 8c382e0ff6225e7d043fad617b96b90c76a58674[m
+Merge: 01563ca 979d1ca
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 19:32:46 2024 +0900
+
+    Merge pull request #63 from RamyunLab/fix/css-
+    
+    Fix/css
+
+[33mcommit 979d1ca53f45a11506b685903a78bee9f01cc9a8[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 19:29:25 2024 +0900
+
+    fix: css
+
+[33mcommit e459d45df646a0f6ea2beca9c4a3462c5da821bc[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 18:29:25 2024 +0900
+
+    fix:footer
+
+[33mcommit 01563cab1ddd3409b7cd2b881b656c997834a25e[m
+Merge: b256735 c541723
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 17:33:27 2024 +0900
+
+    Merge pull request #62 from RamyunLab/fix/reviewlist-
+    
+    fix: 리뷰들 수정
+
+[33mcommit c5417231686d5174f7e9302c6619c842a284cff0[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 17:32:19 2024 +0900
+
+    fix: 리뷰들 수정
+
+[33mcommit b25673572c014acb151853eb16f72a0b852caf42[m
+Merge: fda9fef ee31397
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 16:07:07 2024 +0900
+
+    Merge pull request #61 from RamyunLab/feat/css
+    
+    충돌해결
+
+[33mcommit ee313975d1d04366028acb074dab7a0435dce30f[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 16:06:32 2024 +0900
+
+    충돌해결
+
+[33mcommit fda9fef7c880e10e852e689bca55d00dee41566a[m
+Merge: f06563d dde7b35
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 15:58:11 2024 +0900
+
+    Merge pull request #60 from RamyunLab/fix/reviewlists
+    
+    feat: 내가쓴 리뷰
+
+[33mcommit dde7b3502c33f7d745f8ec38d8d8609f522d4a00[m
+Merge: 4085f5a f06563d
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 15:58:03 2024 +0900
+
+    Merge branch 'develop' into fix/reviewlists
+
+[33mcommit 4085f5ad1eb345de3cb0d4a6f4f97c59e0bba6a4[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 15:55:23 2024 +0900
+
+    fix:공감한리뷰
+
+[33mcommit e1dc5df27e278ac47587918a222d468d8a4e1adc[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 15:51:38 2024 +0900
+
+    feat: 내가쓴 리뷰
+
+[33mcommit f06563daf0df0572583749585083d8ab0890dc91[m
+Merge: c017e88 7bf444b
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Mon Jun 17 15:08:00 2024 +0900
+
+    Merge pull request #59 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit 7bf444b4a036a0703f1bc9df41036e1fdbe8a1b4[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 15:05:37 2024 +0900
+
+    fix: [FE] 수정, 삭제 버튼 작성자와 동일할 때 표시
+
+[33mcommit d1b200ca1c138671a2f048c7751e84314adf7652[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 14:47:26 2024 +0900
+
+    fix: [FE] 리뷰 등록하면 초기화
+
+[33mcommit 17819ba63f8e5f74e662e1bedf4c28026123f758[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 14:46:36 2024 +0900
+
+    feat: [FE] 베스트 리뷰 기능 개선
+
+[33mcommit c017e885eae5c7dec1adaa4779c433acf11e0a36[m
+Merge: bb16d6a 8ef9a84
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 14:34:22 2024 +0900
+
+    Merge pull request #58 from RamyunLab/feat/ramenimg
+    
+    feat: ramyun
+
+[33mcommit 8ef9a848a5de26dad8089ff7a721934664814579[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 14:33:45 2024 +0900
+
+    feat: ramyun
+    
+    라면이미지 url경로 수정
+
+[33mcommit bb16d6a27f3e7d4f56c7267a9b1d171d1bbb722b[m
+Merge: 3942c3b d58bb46
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Mon Jun 17 14:31:09 2024 +0900
+
+    Merge pull request #57 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit d58bb465fdc9382ca4fe5c48226d18622caeeeee[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 14:29:01 2024 +0900
+
+    fix: [FE] 신고하기 기능 성공
+
+[33mcommit a81239df70af74c8da738e10716cca5301c6b539[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 13:54:08 2024 +0900
+
+    fix: [FE] 토너먼트 초기화 오류 수정 완료
+
+[33mcommit 9a386dc9f1160143c748d599d7b4094e54198aed[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 13:36:50 2024 +0900
+
+    design: [FE] ReviewForm 디자인 수정
+
+[33mcommit 24cda45e3b0391b3e2858621e02a1c21b0d4976d[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 13:02:45 2024 +0900
+
+    fix: [FE] 라면 상세정보, 리뷰조회, 리뷰 수정 오류 개선
+
+[33mcommit 3942c3b440ed99405eb3e7b0e7a3a4e2f49e5c39[m
+Merge: 04fa9ce a18940c
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 12:38:49 2024 +0900
+
+    Merge pull request #56 from RamyunLab/feat/pagination
+    
+    Feat/pagination
+
+[33mcommit a18940caea397f2156254360b5cb5e45bab58fc7[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 12:36:56 2024 +0900
+
+    feat:네비게이션바
+
+[33mcommit a624479f49fc44611f8bbe4c5364aa11f9c0cbfa[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 17 10:50:59 2024 +0900
+
+    feat:페이지네이션컴포넌트
+
+[33mcommit 04fa9ce4eecd7c0a49d2255df5e112a3a73515d1[m
+Merge: 2988dbb 9516709
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Mon Jun 17 10:11:56 2024 +0900
+
+    Merge pull request #55 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit 9516709190499ad09d4c249169f5048cb1396707[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 17 03:42:34 2024 +0900
+
+    fix: [FE] 신고하기 기능 전송 실패
+
+[33mcommit 2988dbb2c58a2729783dbc5b7c33313a55cb89c0[m
+Merge: 67ef91a 514f49f
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 17 00:01:09 2024 +0900
+
+    Merge pull request #54 from RamyunLab/fix/favoritelist
+    
+    feat/무한스크롤
+
+[33mcommit 514f49f5261dd33cbe9942c5aac0918777d1aeda[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 16 23:58:04 2024 +0900
+
+    feat: 무한스크롤 훅
+
+[33mcommit eebf87661d33533bea166fb9ad97097e843be240[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 16 23:40:52 2024 +0900
+
+    fix: 찜목록 하트 로직
+
+[33mcommit 67ef91ab4a3251a7f49b585878da634ea093c9d0[m
+Merge: b0e6255 16a7300
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Sun Jun 16 23:28:09 2024 +0900
+
+    Merge pull request #53 from RamyunLab/feat/reviewlist
+    
+    Fix/favoritelist
+
+[33mcommit 16a730008cd1fde56e3524720fbf6344e64d96c3[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 16 23:25:35 2024 +0900
+
+    fix: 찜목록 경로 수정
+
+[33mcommit d256d5e55c528506f3db6d7c43917b83d2698a11[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 16 23:22:10 2024 +0900
+
+    fix:찜목록조회
+
+[33mcommit 1117456b5f076a8d58450e0189ad85f0a8ef0d23[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 16 22:36:57 2024 +0900
+
+    feat: 라면랜덤조회
+
+[33mcommit adac73279120960fcd7ad093cb5ac7acfa270b8a[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 16 17:39:11 2024 +0900
+
+    design: [FE] 신고하기 모달 디자인 개선
+
+[33mcommit e48619152cd522b35fb86e0fbcac648e6cb647ba[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 16 04:41:13 2024 +0900
+
+    feat: [FE] 신고하기 기능 추가
+
+[33mcommit dd29d098cd0adb7b66c45ceba0a0a2eca9574e0b[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 16 04:09:06 2024 +0900
+
+    design: [FE] 수정, 삭제 버튼 디자인 변경
+
+[33mcommit b5a62747f7161a968ebc67a3da3159f84e94cafb[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 16 02:25:44 2024 +0900
+
+    fix: [FE] 좋아요 수 빼고는 조회 완료
+
+[33mcommit b0e6255ffa8a8c5e24f30661de5416cfdb69e9ce[m
+Merge: f4cc545 21a8015
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Sat Jun 15 20:04:27 2024 +0900
+
+    Merge pull request #52 from RamyunLab/feat/reviewlist
+    
+    Feat/reviewlist
+
+[33mcommit 21a801583f6dd684b1204783c12b72da0022d9ee[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sat Jun 15 19:47:33 2024 +0900
+
+    feat: 최근본 라면
+
+[33mcommit 5cebfd0ec37e50131d739004ba18de9cd67e12ce[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sat Jun 15 17:56:41 2024 +0900
+
+    fix: [FE] 리뷰 목록 닉네임, 추천 수 제외하고 조회 가능
+
+[33mcommit b7e5de5bce45feffdd334a3d778a1f7194be9952[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sat Jun 15 17:50:41 2024 +0900
+
+    fix: 찜문구 alert 개선
+
+[33mcommit a5501203c3b9b4075103e97a8dd1709fab05a5f3[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sat Jun 15 17:35:49 2024 +0900
+
+    fix: 베너반응형 수정
+
+[33mcommit 27175c1b9c2bf9bde3ac120dc60cfc9d427fae9d[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sat Jun 15 17:28:00 2024 +0900
+
+    feat: 랜덤라면조회 이미지 추가
+
+[33mcommit e9d1072e6159d3c029b42a86d50f8c0f03386650[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sat Jun 15 17:05:40 2024 +0900
+
+    feat: 공감한 리뷰페이지
+
+[33mcommit ff547762ad74dc554e7c9c1eae967bf7b657db9f[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sat Jun 15 16:54:14 2024 +0900
+
+    feat: 내가쓴리뷰페이지
+
+[33mcommit f4cc5457130303db62cd324f259884f3cda36c07[m
+Merge: f0831b4 ab850fc
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 14 21:58:22 2024 +0900
+
+    Merge pull request #51 from RamyunLab/feat/favoritelist
+    
+    feat: 찜목록
+
+[33mcommit ab850fc9c8b47d160570ef30e4ad9d61f2ea4b56[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 21:57:36 2024 +0900
+
+    feat: 찜목록
+
+[33mcommit f0831b489eb2e8fb63f32934766d6c8520c27604[m
+Merge: a34e6f4 4dabf7d
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 14 20:42:34 2024 +0900
+
+    Merge pull request #50 from RamyunLab/feat/filter
+    
+    Feat/filter
+
+[33mcommit a34e6f408760ce435e1fcbd8521dea63dee95434[m
+Merge: 34815fb 2640f7f
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 14 20:23:40 2024 +0900
+
+    Merge pull request #49 from RamyunLab/feat/RamenDetailPage2
+    
+    Feat/ramen detail page2
+
+[33mcommit 2640f7f7d42984e4495da9fd75dcf5759505b283[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 20:22:07 2024 +0900
+
+    fix: [FE] 날짜 표시 변경
+
+[33mcommit fcc6231d67cb19e91b19add5fefba886c339813e[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 19:58:10 2024 +0900
+
+    fix: [FE] 삭제된 리뷰 반영
+
+[33mcommit 80365088581bb751927257f93258b6520a980daa[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 19:49:59 2024 +0900
+
+    feat: [FE] 리뷰 수정, 삭제 서버 연결 완료
+
+[33mcommit 4dabf7d2eb9846f711a17c3a629594215277f7df[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 19:15:10 2024 +0900
+
+    fix : isliked
+
+[33mcommit 7856273f4b86a477c0b4f0b32299bdd518483c15[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 17:54:35 2024 +0900
+
+    fix: 이름순 필터링
+
+[33mcommit 34815fb658272ab38c8228f04499cb6201cc6f65[m
+Merge: da591f9 adf9355
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 14 16:48:45 2024 +0900
+
+    Merge pull request #48 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit adf93557c8ee4db35371d8287f38cbedcb61aa75[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 16:47:18 2024 +0900
+
+    feat: [FE] 리뷰목록 실시간 동기화 중
+
+[33mcommit da591f92abd936d24abeb2de47dac472ecfe6ea0[m
+Merge: 57a5ff0 929ffae
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 14 16:46:28 2024 +0900
+
+    Merge pull request #47 from RamyunLab/feat/updownresult
+    
+    Feat/updownresult
+
+[33mcommit 929ffae9d5491ef53144e537ba80f4a9ed369541[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 16:19:44 2024 +0900
+
+    fix:관리자페이지 경로 수정
+
+[33mcommit b4f20c634120bd10190d598fa076a54d69ad282c[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 16:16:12 2024 +0900
+
+    feat: 관리자페이지로 이동
+
+[33mcommit cdc238092c25a61ceaee71fa49f376cb9f09047a[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 15:54:52 2024 +0900
+
+    fix: [FE] 스코빌 지수 표기 완료
+
+[33mcommit bf9e8c0921e22a2cf4c10f502e46fe5b3af01430[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 15:44:04 2024 +0900
+
+    fix: result 게임초기화
+
+[33mcommit 57a5ff0fa01fa1729d65aa9ceaf4509fe0103a99[m
+Merge: 7d0269a 1a9e007
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 14 15:37:42 2024 +0900
+
+    Merge pull request #46 from RamyunLab/feat/-favorite-icon
+    
+    Feat/ favorite icon
+
+[33mcommit 1a9e00753a309fac5e645ac3a9a9e24de8a8b1e6[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 15:36:58 2024 +0900
+
+    fix:  업앤다운게임 결과페이지 따로 구현
+
+[33mcommit 1dec74b15b7e7f8943b2eb4a094b2b23b1fa9c74[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 15:24:11 2024 +0900
+
+    fix: 업앤다운게임 중복클릭방지
+
+[33mcommit d8f617c7727bf10b0396262beb1791116bb717fd[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 15:22:42 2024 +0900
+
+    fix: [FE] 라면 상세데이터 조회 성공
+
+[33mcommit 679ed9b02574128d4c2d3a9ef071c506e175e747[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 15:02:08 2024 +0900
+
+    fix;반응형, 찜표시 &hover변경
+
+[33mcommit fb790aa0be221c8488192192a1b5d5ebdb986564[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 13:41:36 2024 +0900
+
+    feat: 찜목록 토글 아이콘 추가
+
+[33mcommit 7d0269a98f6549d8fe1a48b21053a90042c6f0a3[m
+Merge: fb5c915 f5cef4e
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 14 12:44:55 2024 +0900
+
+    Merge pull request #45 from RamyunLab/feat/favorite-
+    
+    Feat/favorite
+
+[33mcommit fb5c915979f706710e630dd35031d147adcd8996[m
+Merge: 1057d90 6615ee6
+Author: lee_dw <49604611+1ee-dw@users.noreply.github.com>
+Date:   Fri Jun 14 12:44:06 2024 +0900
+
+    Merge pull request #44 from RamyunLab/feat/accountPageCss
+    
+    feat: 회원 정보 수정 페이지 css -fe
+
+[33mcommit 6615ee6526ac895690abe4bd1ee5dc9894b9b409[m
+Author: 이대원 <1ee_DW@naver.com>
+Date:   Fri Jun 14 12:40:30 2024 +0900
+
+    feat: 회원 정보 수정 페이지 css -fe
+
+[33mcommit f5cef4e70e22034fbd534d1d5ddf508ef3853f0a[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 12:40:14 2024 +0900
+
+    feat: 메엔페이지 상세 정보  경로
+
+[33mcommit ab1c9108f1b139dbcdd7855d8ae1e19c4b9f5c50[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 12:19:58 2024 +0900
+
+    feat: 건의사항 기능 구현 완료
+
+[33mcommit fec282c9643649f7a8d9ed6639e2d97ec4af8731[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 11:30:28 2024 +0900
+
+    feat: [FE] 찜 추가, 삭제 기능 구현
+
+[33mcommit 1057d9012278e71e396369f4c9d0b6635aaa1985[m
+Merge: a35d41c f7a81b0
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 14 11:25:21 2024 +0900
+
+    Merge pull request #43 from RamyunLab/feat/pagination
+    
+    Feat/pagination
+
+[33mcommit f7a81b0c24df0a75bf110e739be4ba689b6b5a22[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 11:24:03 2024 +0900
+
+    fix:메인페이지 필터링
+
+[33mcommit a35d41c9beb7f574625b9f800de1830ee8db4892[m
+Merge: b99bb6e aba5794
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 14 11:19:56 2024 +0900
+
+    Merge pull request #42 from RamyunLab/feat/Tournament
+    
+    Feat/tournament
+
+[33mcommit aba5794389a4e2077cd702984df79fe83d84152c[m
+Merge: 21c06c9 b99bb6e
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 14 11:18:53 2024 +0900
+
+    Merge branch 'develop' into feat/Tournament
+
+[33mcommit 21c06c98ba9a9d57cbaa444f9689562b36a0ab69[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 14 11:16:18 2024 +0900
+
+    fix: [FE] 카카오톡 공유하기 결과화면 전송
+
+[33mcommit 6cdd651b725a7bf45ad7bc6ff3f775a243eda2ce[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 14 11:04:20 2024 +0900
+
+    fix: 마우스스크롤
+
+[33mcommit b99bb6ee828c34f98fd9640838bf2b55e26376bb[m
+Merge: 5635062 c2f20fc
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Thu Jun 13 21:54:15 2024 +0900
+
+    Merge pull request #41 from RamyunLab/feat/FavoriteList
+    
+    Feat/favorite list
+
+[33mcommit c2f20fc7681ea918465837009ab483cef2c13456[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 13 21:23:48 2024 +0900
+
+    fix: footer toggle
+
+[33mcommit f83bd3000dc7db418c6eedd0f6e89edc875e3ad5[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 13 20:53:52 2024 +0900
+
+    feat: 찜목록 조회페이지 프로토타입
+
+[33mcommit 56350622732316ff462bbc5aef689f7132a2c043[m
+Merge: 00a123c 388bad5
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Thu Jun 13 20:14:11 2024 +0900
+
+    Merge pull request #40 from RamyunLab/feat/pagination
+    
+    Feat/pagination
+
+[33mcommit 388bad5df39f2ffedf8f4468b055ea17f3f58622[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 13 20:12:38 2024 +0900
+
+    fix: 건의하기 모달
+
+[33mcommit 328e01141931049fe55283c55443769242175e50[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 13 19:42:19 2024 +0900
+
+    feat: 건의하기
+
+[33mcommit b62c79bc4b6b400fa40610acd4053f3b9cb1de43[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 13 17:47:26 2024 +0900
+
+    fix: 회원 편의성
+
+[33mcommit f4127599fd3646869686b6ac744f7f099883b29a[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 13 17:29:40 2024 +0900
+
+    fix : 마이페이지 css
+
+[33mcommit 00a123c9d16736bed7b2e3df55496dde5c891d78[m
+Merge: 674af48 3a2ed88
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Thu Jun 13 16:33:23 2024 +0900
+
+    Merge pull request #39 from RamyunLab/feat/filtering
+    
+    Feat/filtering
+
+[33mcommit 3a2ed888954f8116ac6fc2a1e345e208352c4484[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 13 16:32:31 2024 +0900
+
+    fix: 페이지네이션 수정
+    
+    스크롤 해결X
+
+[33mcommit c4b6470b2aff1a28494f75784ecd1601305e5f1f[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 12 20:08:00 2024 +0900
+
+    feat: 전체 태그필터링 프로토타입
+
+[33mcommit 674af4836589650f7fc96f825f78ee39f6253adf[m
+Merge: d405960 42b999d
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 12 18:23:55 2024 +0900
+
+    Merge pull request #38 from RamyunLab/feat/mypage
+    
+    Feat/mypage
+
+[33mcommit 42b999da5e78c3ced7fc448f02b8750103f66870[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 12 18:23:05 2024 +0900
+
+    fix: scss
+
+[33mcommit 0140b3994b4e3dfbdea39100ef451fecf1e33ad3[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 17:54:38 2024 +0900
+
+    fix: [FE] 64강 삭제, 8강 추가
+
+[33mcommit d40596057286378f94b20799e1f0017b301e7c3c[m
+Merge: 852e415 99b4c11
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 12 16:38:44 2024 +0900
+
+    Merge pull request #37 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit 99b4c112f818dd7b3a5a59c901fee60166428de2[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 16:36:42 2024 +0900
+
+    fix: [FE] 카카오톡 공유하기 버그 수정
+
+[33mcommit aa33c6f4d93e455f4a9a3e8083efbe6592e71c10[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 12 15:04:16 2024 +0900
+
+    fix: 시작점 /main
+
+[33mcommit b9ffb99e953e7cef65a0be6600928a84df4b8c16[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 15:00:33 2024 +0900
+
+    fix: [FE] 베스트 리뷰 1개에서 3개로 변경
+
+[33mcommit 64d5917bd62ff4e0a2d505161715bb3417b5adeb[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 12:32:53 2024 +0900
+
+    fix: [FE] 리뷰 공감 삭제 api 변경
+
+[33mcommit 852e41567f391596306866fff3e34167eebf97a4[m
+Merge: 3fe8f47 d94aa76
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 12 12:20:43 2024 +0900
+
+    Merge pull request #36 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit d94aa7688f9f805be0a1b758b7b27491e0087101[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 12:19:07 2024 +0900
+
+    feat: [FE] 리뷰 공감 기능 구현
+
+[33mcommit 3fe8f47e593ed8b6fb9165ac3ccb7eeaab5dae1d[m
+Merge: 803563e 3186735
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 12 12:11:40 2024 +0900
+
+    Merge pull request #35 from RamyunLab/feat/pagination-url
+    
+    Feat/pagination url
+
+[33mcommit 318673533d719e788bfafbbd3a13de619b660242[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 12 12:10:14 2024 +0900
+
+    fix: 페이지네이션 url 수정
+
+[33mcommit 1f62017d30659a9309bf97dae69c52ac58539261[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 12 11:49:06 2024 +0900
+
+    feat: 페이지네이션 url 추가
+
+[33mcommit 803563e2323d4d7321c5bcae8137de16cc9e67da[m
+Merge: f3da0c6 a988c8c
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 12 11:18:03 2024 +0900
+
+    Merge pull request #34 from RamyunLab/fix/filter-css
+    
+    fix: 필터 css 변경
+
+[33mcommit a988c8c0037ed83a4269d00165464edaf2d85156[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 12 11:15:50 2024 +0900
+
+    fix: 필터 css 변경
+    
+    변
+
+[33mcommit 2d380af3be561b6382152d3f3f83c383f8c4bfea[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 11:06:24 2024 +0900
+
+    fix: [FE] 찜 아이콘 변경
+
+[33mcommit cdcb859f80779a41f9c928efab95fdaec61270cf[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 10:59:13 2024 +0900
+
+    feat: [FE] 찜 기능 구현
+
+[33mcommit 801297c96c82f5b01e6ab9a68db0329cbafe5531[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 12 10:49:04 2024 +0900
+
+    fix: [FE] 리뷰 수정 api 변경
+
+[33mcommit f3da0c6949a35c3caa43fbca36d3966e2ee24d55[m
+Merge: c0a413b abbb9e8
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 12 10:28:58 2024 +0900
+
+    Merge pull request #33 from RamyunLab/feat/RamenDetailPage
+    
+    feat: [FE] 리뷰 이미지 공간 생성
+
+[33mcommit c0a413bb450010c55a35efa87a2d287d5924d81d[m
+Merge: c61412c a8bc237
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 11 22:02:52 2024 +0900
+
+    Merge pull request #32 from RamyunLab/feat/mainpage
+    
+    Feat/mainpage
+
+[33mcommit a8bc23795bfc2279868937153d07f07a9972366c[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 11 22:02:22 2024 +0900
+
+    fix:마이페이지
+
+[33mcommit d9ecb1d4393b3fcbe5955aedfe7602419ea7fc8e[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 11 20:33:11 2024 +0900
+
+    fix: 베너 반응형
+
+[33mcommit c61412c594f528f045b71e48dacefd5e7dc1a0fc[m
+Merge: 655b36e 429823f
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 11 19:14:41 2024 +0900
+
+    Merge pull request #31 from RamyunLab/feat/ramyunlist
+    
+    Feat/ramyunlist
+
+[33mcommit 429823f8693127c4f40ba6403c37db42b3db7c83[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 11 19:13:50 2024 +0900
+
+    feat: 라면리스트 별점/리뷰수
+
+[33mcommit b933ad8804bbbd35fa3e9c05d610f60d4e7505b6[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 11 18:53:56 2024 +0900
+
+    feat: 라면리스트,필터 반응형
+
+[33mcommit 34ca2adb96fabdbaac526e14e8f532f26b1c04d8[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 11 14:54:24 2024 +0900
+
+    feat: 라면리스트 반응형
+
+[33mcommit 655b36ecb9e12f8f9ef68dcd76de542696f3955c[m
+Merge: 7354652 c763178
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 10 21:56:16 2024 +0900
+
+    Merge pull request #30 from RamyunLab/feat/ramyunlist
+    
+    faet: 라면리스트 map
+
+[33mcommit c7631787ff57017426c7576f5d993efd1cfabed2[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 10 21:55:31 2024 +0900
+
+    faet: 라면리스트 map
+
+[33mcommit abbb9e827d2a471e59579a0cf65ab8ae7c2bb323[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 20:36:21 2024 +0900
+
+    feat: [FE] 리뷰 이미지 공간 생성
+
+[33mcommit 735465218d172496cfa0d8346881bdca12fb36cf[m
+Merge: f30af32 b6eda1d
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 10 20:23:16 2024 +0900
+
+    Merge pull request #29 from RamyunLab/feat/mypage-css
+    
+    feat/ mainpage
+
+[33mcommit b6eda1dbb17d66f0480b55a848f06b0edf17179c[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 10 20:22:49 2024 +0900
+
+    feat/ mainpage
+
+[33mcommit f30af32be5daf690447df5e4952d0a1d4d0dbd02[m
+Merge: b3a1972 560e698
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 10 20:20:55 2024 +0900
+
+    Merge pull request #28 from RamyunLab/fix/image-path
+    
+    Fix/image path
+
+[33mcommit 560e698db89865557af731024f31c04db6ed6a41[m
+Merge: c7e160f b3a1972
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 10 20:20:46 2024 +0900
+
+    Merge branch 'develop' into fix/image-path
+
+[33mcommit c7e160fcd5a4eed04792be467601282cc4c5bee5[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 10 20:18:38 2024 +0900
+
+    feat:  마이페이지
+
+[33mcommit b3a19728a9d1a677f1550af8f62b0bdd5d9194fc[m
+Merge: 94d1179 7653f71
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Mon Jun 10 19:32:24 2024 +0900
+
+    Merge pull request #27 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit 7653f71245fdcf563797c6aefd63a55de248169d[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 19:30:37 2024 +0900
+
+    err: [FE] 공감 아이콘 클릭시 CORS 오류
+
+[33mcommit 381a202c3fcdca2064464f6137334964b0fa5e67[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 19:07:16 2024 +0900
+
+    feat: [FE] 댓글 추천 비로그인시 비활성화
+
+[33mcommit 80c8b23455430b1a75cbb02b7a00fa569f586b4c[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 16:51:51 2024 +0900
+
+    fix: [FE] 리뷰 등록 오류 수정 및 공감 아이콘 변경
+
+[33mcommit 94d11793498649abd1845060e31d68113590fd12[m
+Merge: 0a82261 21fc775
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Mon Jun 10 14:44:48 2024 +0900
+
+    Merge pull request #26 from RamyunLab/feat/Tournament
+    
+    Feat/tournament
+
+[33mcommit 21fc7754b3899a402b71b8b150603b948d2dc0ee[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 14:37:26 2024 +0900
+
+    fix: [FE] 메인페이지에서 토너먼트 모달 띄우기
+
+[33mcommit 8088a246c19986c62529fc4b3af3939e578ad94b[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 11:32:54 2024 +0900
+
+    fix: [FE] 토너먼트 4강, 2강 명칭 변경
+
+[33mcommit 06401ebdbdc7ac60a237db89991e751a934a9d0a[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 11:22:12 2024 +0900
+
+    design: [FE] 토너먼트 매치 반응형 디자인 개선
+
+[33mcommit c75935e95c745a97b5a3bf26ee4a317a0a46c89c[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Mon Jun 10 10:59:32 2024 +0900
+
+    fix:이미지 경로 변경&풋터 토글
+
+[33mcommit 0a82261b8f9cbae5877ef6754ee1d19941a2b03d[m
+Merge: ddff7d4 da75ba7
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Mon Jun 10 10:08:52 2024 +0900
+
+    Merge pull request #25 from RamyunLab/feat/Tournament
+    
+    Feat/tournament
+
+[33mcommit da75ba79273cc5f8a29407b206b473d12c35da2e[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 02:51:04 2024 +0900
+
+    fix: [FE] 페이지 이동시 토너먼트 초기화
+
+[33mcommit 83d62cee081ce005315862aeebc4a6068e50e7ca[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 02:45:22 2024 +0900
+
+    feat: [FE] Tournament typescript 분리
+
+[33mcommit 134af5ad4f08c5c65db5aa84a2fa1a021d4a9679[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Mon Jun 10 02:33:13 2024 +0900
+
+    feat: [FE] Tournament Reducer 분리
+
+[33mcommit ddff7d42111341b387327be9c00d81f490caaa8d[m
+Merge: 4b991c2 fa4627a
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Mon Jun 10 02:20:14 2024 +0900
+
+    Merge pull request #24 from RamyunLab/feat/mypage-css-
+    
+    Feat/mypage css
+
+[33mcommit fa4627a27d9d8723344c636f9cd16e6414911767[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 22:36:24 2024 +0900
+
+    feat: 배너 로고
+
+[33mcommit fbb8d724210ecad1fdd48bdbfa5e1edbfce5a74e[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 21:08:32 2024 +0900
+
+    fix: 결과창 버튼 반응형
+
+[33mcommit 5431d8b81c59a0376a9109aae4d10c9bc2952b6a[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 20:55:30 2024 +0900
+
+    feat: 로고 누를시 메인페이지 이동
+
+[33mcommit 0eec55b55d5a6b1456c2db66ee635729d9a6e1b2[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 20:36:24 2024 +0900
+
+    feat: mbti 유형에 따른 색변경
+
+[33mcommit 389616acddb98fdfde42997931482e7894ba3829[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 20:08:28 2024 +0900
+
+    fix: result 로직변경
+
+[33mcommit 7cd64c3e9d2a63374062fa48406567116be9f7aa[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 19:51:13 2024 +0900
+
+    fix: 라면 질문 수정
+
+[33mcommit 4b991c2a5253e68b130b0f842446b251f02068b4[m
+Merge: a02b651 e0af2af
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Sun Jun 9 19:33:18 2024 +0900
+
+    Merge pull request #23 from RamyunLab/feat/mypage
+    
+    Feat/mypage
+
+[33mcommit e0af2af217482bb033321ac61affb93c1b96dcc4[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 19:17:12 2024 +0900
+
+    fix:header 반응형
+
+[33mcommit f0c1232c26ed35f4b31fb29339adaa0c23eecc3f[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 19:10:35 2024 +0900
+
+    fix: 업앤다운게임 반응형
+
+[33mcommit 0e8245d598e95801e240eeebde98ff4f2b5b0acd[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 18:53:12 2024 +0900
+
+    fix: 라면 이미지 hover
+
+[33mcommit 16d0a6f38e8502c8985d9690dbe8161f6d5a7e6e[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 18:22:03 2024 +0900
+
+    feat: 게임오버이펙트
+
+[33mcommit 47cf466096b8c72d9dde652733957d4defeb254e[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 18:08:23 2024 +0900
+
+    feat: 업앤다운게임 이펙트 구현
+
+[33mcommit 014a0af7b328147d0b267d9ff3e83ba131b119b1[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 17:12:06 2024 +0900
+
+    feat: 전역폰트 적용/ 로고 적용
+
+[33mcommit 1f8e61b12742dea4b72f4baf39724b97642ef509[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 16:48:47 2024 +0900
+
+    feat: header 로고 추가
+
+[33mcommit eeca38dc210c95c2b54bb63913743496719e1262[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Sun Jun 9 16:30:23 2024 +0900
+
+    feat/ 회원탈퇴 기능 구현
+
+[33mcommit a02b651db5565abe58f255ead0e6459d7afde452[m
+Merge: f032313 8f08ffd
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Sun Jun 9 03:07:28 2024 +0900
+
+    Merge pull request #22 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit 8f08ffd8fdabd58504a352657961b7609c5864d8[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 9 02:57:02 2024 +0900
+
+    design: [FE] FinalScreen 디자인 변경
+
+[33mcommit 238f8f196a717c83cf61a01b832ed05c5cf28739[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 9 02:40:34 2024 +0900
+
+    fix: [FE] 리뷰 수정 api 수정
+
+[33mcommit c8ac5eadcdfe4399c8b2083d52c9a942e8f8033b[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 9 02:35:41 2024 +0900
+
+    design: [FE] RamenInfoTable 디자인 변경
+
+[33mcommit 35af89fbfaaa5dd4392bb2ce6115b102ddc2c26f[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 9 01:25:20 2024 +0900
+
+    feat: [FE] 찜 기능 구현
+
+[33mcommit 3da319d65d35b0836cf2ff90661b8b1170e8c475[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 9 00:14:42 2024 +0900
+
+    design: [FE] 이미지 업로드 폼 디자인 개선
+
+[33mcommit 33914ade9981fafb78b3474016ad04939e3069de[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sun Jun 9 00:07:21 2024 +0900
+
+    feat: [FE] 이미지 업로드시 미리보기 기능 구현
+
+[33mcommit f032313d267ab65e4a008aea7e8ea62aad6aebf5[m
+Merge: c73dc0c c6ffd0d
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Sat Jun 8 21:46:02 2024 +0900
+
+    Merge pull request #21 from RamyunLab/feat/Tournament
+    
+    feat: [FE] 이상형 월드컵 라면 조회 구현
+
+[33mcommit c6ffd0d8fa95a07446091b3837d2b67261f0950e[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Sat Jun 8 01:28:09 2024 +0900
+
+    feat: [FE] 이상형 월드컵 라면 조회 구현
+
+[33mcommit c73dc0cc2e262ca2425d9821e5697ee1226949b5[m
+Merge: daf9141 f18bd1a
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 7 21:58:28 2024 +0900
+
+    Merge pull request #20 from RamyunLab/fix/updowngame-css-
+    
+    Fix/updowngame css
+
+[33mcommit f18bd1ad289d90aafee4ff9f2e666657947d53d5[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 21:57:46 2024 +0900
+
+    fix:  업앤다운게임 반응형
+
+[33mcommit 487a47521edb96ffe1def0ce022688dc16f5559c[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 21:50:23 2024 +0900
+
+    feat: 업앤다운게임 반응형&진행바
+
+[33mcommit a908a675f437d4758df501818b5c3e7b363a7469[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 21:32:02 2024 +0900
+
+    feat: 업앤다운게임 상태관리
+
+[33mcommit daf9141e511c7a324a8491529255eccf39981914[m
+Merge: 7c6ad37 ffb06bb
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 7 21:06:17 2024 +0900
+
+    Merge pull request #19 from RamyunLab/fix/css-
+    
+    Fix/css
+
+[33mcommit ffb06bb57b2e21cf9332574248025c335e8692d9[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 21:05:29 2024 +0900
+
+    feat:업다운게임 프로토타입
+
+[33mcommit 7c6ad378d273bbe6b283e4a09829c7bd558d4df9[m
+Merge: d8f1f9e 9260232
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 7 20:30:03 2024 +0900
+
+    Merge pull request #18 from RamyunLab/feat/RamenDetailPage
+    
+    Feat/ramen detail page
+
+[33mcommit 9260232119833be6f6936383f49e4c635ccb90b8[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 7 20:27:24 2024 +0900
+
+    feat: [FE] 리뷰 서버 전송 성공
+
+[33mcommit dd967a0d92ad4a060ce2c69b4ecb7e32f66e78ef[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 20:12:19 2024 +0900
+
+    feat: updown 게임 프로토타입
+
+[33mcommit f8ead767dc37b678cdf401c828d9e25560b98e1c[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 19:04:13 2024 +0900
+
+    feat: imag 추가
+
+[33mcommit a97f91a2cf9c78849c17b058ad5ae28d21becdd2[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 7 16:57:58 2024 +0900
+
+    feat: [FE] 라면 상세정보, 리뷰 서버에서 받아오기
+
+[33mcommit 08437fc97fbf3f1e9a7d868ab9616a4f4072d2a9[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 16:30:01 2024 +0900
+
+    fix: 각종css
+
+[33mcommit d8f1f9e494b64d0fa090a65fb05a2d02a97277a7[m
+Merge: ea949c3 dd3a37d
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 7 15:34:57 2024 +0900
+
+    Merge pull request #17 from RamyunLab/feat-validation-back-
+    
+    Feat validation
+
+[33mcommit dd3a37dbf51145ec89efd25a7cf38d5c141f9618[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 15:34:09 2024 +0900
+
+    feat: 비밀번호확인
+
+[33mcommit ea949c38def1ecea2613d74303e667e57d92c6fd[m
+Merge: 749ba71 a5f9561
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 7 15:05:57 2024 +0900
+
+    Merge pull request #16 from RamyunLab/feat/RamenDetailPage
+    
+    feat: [FE] 베스트 댓글 기능 구현
+
+[33mcommit a5f9561410458dcf1539a62f89e828e29f19b26d[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 7 14:58:44 2024 +0900
+
+    feat: [FE] 베스트 댓글 기능 구현
+
+[33mcommit 326ce160d4b086234d1ffd068a67a27d2f448fe5[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 14:54:06 2024 +0900
+
+    fix: footer css
+
+[33mcommit 065290d687b9db9fe62d3945e034831942138eb7[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 14:36:40 2024 +0900
+
+    fix :  모달 css
+
+[33mcommit 749ba71d99030fefa52c0e4263749a3f9ba743d1[m
+Merge: 8c031ea cd542d4
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 7 12:55:15 2024 +0900
+
+    Merge pull request #15 from RamyunLab/feat-validation-back-
+    
+    feat/유효성검사
+
+[33mcommit cd542d4b194647bdee9d1a0d8367fea56dfd12da[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 12:54:42 2024 +0900
+
+    feat/유효성검사
+    
+    유효성검사 끝
+
+[33mcommit 8c031ea17532d861904e0073edeaa62d2a6bbd64[m
+Merge: 28c1425 825aa0c
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Fri Jun 7 12:34:46 2024 +0900
+
+    Merge pull request #14 from RamyunLab/feat/validation
+    
+    feat: validation
+
+[33mcommit 825aa0c5de0a6fbe9c4cf6efcf7f3942bb8fbe82[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Fri Jun 7 12:32:35 2024 +0900
+
+    feat: validation
+
+[33mcommit 28c142583e35d7234071f26740b85bf0274c455d[m
+Merge: ee28a93 b55fdf3
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 7 11:44:16 2024 +0900
+
+    Merge pull request #13 from RamyunLab/feat/Tournament+RamenDetailPage
+    
+    Feat/tournament+ramen detail page
+
+[33mcommit b55fdf3c06294b434db797a8b7ea375f0d3ca099[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 7 11:41:16 2024 +0900
+
+    feat: [FE] 토너먼트 모달 바깥 클릭시 홈 이동
+
+[33mcommit b1a69ecccdb3af41cb7e5740c9bcc30daad10cc1[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 7 11:31:10 2024 +0900
+
+    feat: [FE] 라면 상세페이지 기초 구성
+
+[33mcommit ee28a9322f34b1ecb7d007b7af055386efdb08ba[m
+Merge: 9958205 9b4f726
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Fri Jun 7 10:21:10 2024 +0900
+
+    Merge pull request #12 from RamyunLab/feat/RamenDetailPage
+    
+    feat: [FE] 라면 상세페이지 생성
+
+[33mcommit 9b4f7262ecab31108e31a50cf1732fc633f50ee0[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Fri Jun 7 10:18:58 2024 +0900
+
+    feat: [FE] 라면 상세페이지 생성
+
+[33mcommit 9958205909839be7419c06dff0ac079e9996b714[m
+Merge: aa45f05 0d64b1b
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Thu Jun 6 14:19:23 2024 +0900
+
+    Merge pull request #11 from RamyunLab/fix/mbit
+    
+    feat: 로그인 토큰 상태관리
+
+[33mcommit 0d64b1b34a5dc5833da27001e68611983dbb3d1d[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 6 14:13:35 2024 +0900
+
+    feat: 모달 꺼지는 효과 구현
+    
+    모달 바깥쪽 누를시 모달 화면 꺼짐
+
+[33mcommit 504a9f6639383e196677c6bf098541950e4167f5[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Thu Jun 6 13:58:51 2024 +0900
+
+    feat: 로그인 토큰 상태관리
+
+[33mcommit aa45f054cb8ae89ee86c4cc6de19b1670cbed14b[m
+Merge: d7663e8 7752459
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 5 20:12:38 2024 +0900
+
+    Merge pull request #10 from RamyunLab/fix/mbit
+    
+    Fix/mbit
+
+[33mcommit 77524599318f92285d318a820f452f58725bc8c7[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 5 20:11:58 2024 +0900
+
+    fix: axios 연결 백업
+
+[33mcommit b756b7b51cd7ea4214b9fdd750ea3d9b9e3b8ec7[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 5 19:48:59 2024 +0900
+
+    fix: mbti css 프로토타입
+
+[33mcommit d7663e874294071a499e989467645c7c52c17f64[m
+Merge: 1694c44 480a2b8
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 5 18:50:32 2024 +0900
+
+    Merge pull request #9 from RamyunLab/feat/login-state
+    
+    Feat/login state
+
+[33mcommit 480a2b81d7ad471d840545b2f85a9806ac16becb[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 5 18:49:07 2024 +0900
+
+    fix: 색변경( 수정 필요)
+
+[33mcommit a574b6c1a7d46e597afcee3f1f1eae781db42017[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 5 18:40:15 2024 +0900
+
+    fix: 라면 mbti 사진첨부& 질문갯수 추가
+
+[33mcommit 803899aacc7857f2335b8c647f8eb502466e1297[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 5 18:15:13 2024 +0900
+
+    feat: 풋터 깃허브아이콘
+
+[33mcommit 738ce681aaa473d694e2deeeeee9e5183402e291[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 5 17:18:52 2024 +0900
+
+    feat/ 로그인/회원가입 백업용
+    
+    axios만 연결후, 로그인 , 내메뉴 컨버트
+
+[33mcommit 1694c446710bd2d4c54ce012f938a5d2b0f20f94[m
+Merge: 13a9e09 7ecfdbd
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 5 15:26:15 2024 +0900
+
+    Merge pull request #8 from RamyunLab/feat/Tournament.tsx
+    
+    feat: [FE] 일반 공유, 카카오톡 공유 기능 구현
+
+[33mcommit 7ecfdbd14f2645d403561c184a0ff93392a87cdb[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 5 15:25:13 2024 +0900
+
+    feat: [FE] 일반 공유, 카카오톡 공유 기능 구현
+
+[33mcommit 13a9e09015a118e53ba592f35f6b4723a196e551[m
+Merge: e4f25b3 c66676e
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Wed Jun 5 12:46:04 2024 +0900
+
+    Merge pull request #7 from RamyunLab/fix/-tournament
+    
+    fix:tournament 경로수정
+
+[33mcommit c66676ea329c2bb54a8dcf4be92ce7505aaba805[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Wed Jun 5 12:45:31 2024 +0900
+
+    fix:tournament 경로수정
+
+[33mcommit e4f25b34ebb5aa21db0fce4f5a96a786fb2dd282[m
+Merge: 5e8af07 674f9db
+Author: eastorigin <154948846+eastorigin@users.noreply.github.com>
+Date:   Wed Jun 5 12:39:24 2024 +0900
+
+    Merge pull request #6 from RamyunLab/feat/Login_RegisterModal_Tournament-FE
+    
+    feat: [FE] 로그인 회원가입 모달 및 토너먼트 페이지 생성
+
+[33mcommit 674f9dbff1b46b117a109a0b095cff47432c3625[m
+Author: eastorigin <eastorigin21@gmail.com>
+Date:   Wed Jun 5 10:45:11 2024 +0900
+
+    로그인 회원가입 모달 및 토너먼트 페이지 생성
+
+[33mcommit 5e8af07663788074611b0b05fa3e932869fcfe43[m
+Merge: 930bb42 61c7f06
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 4 21:31:58 2024 +0900
+
+    Merge pull request #5 from RamyunLab/fix-banner
+    
+    fix:banner 수정
+
+[33mcommit 61c7f06dc272682f9c2c71eddd78ea4ffac7c90f[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 21:31:14 2024 +0900
+
+    fix:banner 수정
+
+[33mcommit 930bb42b7dbb7f6e91cc7af988754f0bbda82246[m
+Merge: 3cfcf01 4fa2934
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 4 21:27:55 2024 +0900
+
+    Merge pull request #4 from RamyunLab/feat/-mbti-css-수정-
+    
+    Feat/ mbti css 수정
+
+[33mcommit 4fa29347b8b47b4911b727389211078427258171[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 21:20:29 2024 +0900
+
+    fix: footer, header 비율 변경
+
+[33mcommit 6a7df6a480cae6b1d374756828a4740c2a221063[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 21:11:46 2024 +0900
+
+    fix: mbti 결과창 수정(사진 첨부필요)
+
+[33mcommit 378f5bf3d8f30d71ec37368ae9bf8f007ef5a7d1[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 20:19:33 2024 +0900
+
+    FIX: MBTI 설명 추가
+
+[33mcommit 8d55dcdebbecbb1c2ebd31948db7c127d7d08696[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 19:35:43 2024 +0900
+
+    fix: footer css (stack 부분 수정 필요)
+
+[33mcommit 9d54c37fc8729836923e1f0cac6f2bc695c8cd15[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 19:26:40 2024 +0900
+
+    feat: footer 백업용
+
+[33mcommit b4c6327dc6e3c9bc420eeecf4e45511902add5b5[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 18:06:48 2024 +0900
+
+    fix : redux 수정 백업
+
+[33mcommit 3cfcf01ad45bb47d29cb3c91b95a98c0ef2fef06[m
+Merge: 27ab0d3 7b81dc2
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 4 16:38:48 2024 +0900
+
+    Merge pull request #3 from RamyunLab/feat/mbti
+    
+    feat: 월드컵 기본& redux 기본세팅
+
+[33mcommit 7b81dc290033936c82125c29477cfbb3426fd332[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 16:34:06 2024 +0900
+
+    feat: 월드컵 기본& redux 기본세팅
+
+[33mcommit 27ab0d391d50011057490ce83f2b2df3b82d35c2[m
+Merge: 37b21b3 9205723
+Author: jjm <48465915+jaeminjeon123@users.noreply.github.com>
+Date:   Tue Jun 4 15:11:05 2024 +0900
+
+    Merge pull request #2 from RamyunLab/feat/Header
+    
+    Feat/header
+
+[33mcommit 920572329d79cdc382498974554dd83ef6aa1828[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 15:09:59 2024 +0900
+
+    feat: Header 기본형
+
+[33mcommit 544a4afe42bd2b5bc93896a3bc4e468af4ef8b8a[m
+Author: jjm <jaeminjeon123@gmail.com>
+Date:   Tue Jun 4 13:59:44 2024 +0900
+
+    chore:초기셋팅
+
+[33mcommit 37b21b3cea066c61c7f52d2d393f7da5799cb4f2[m
+Merge: 2d14a75 8a987b2
+Author: HJ17J <57437315+HJ17J@users.noreply.github.com>
+Date:   Tue Jun 4 13:39:38 2024 +0900
+
+    Merge pull request #1 from RamyunLab/chore/initConfig-FE
+    
+    chore: [FE] 초기 설정
+
+[33mcommit 8a987b287681ee592e0aef669604c0b365e7eb90[m[33m ([m[1;32mchore/initConfig-FE[m[33m)[m
+Author: HJ17J <hyeonj0130@gmail.com>
+Date:   Tue Jun 4 13:31:30 2024 +0900
+
+    chore: [FE] 초기 설정
+
+[33mcommit 2d14a75fb837211013aca2e7506824e48c734243[m[33m ([m[1;32mmain[m[33m)[m
+Author: HJ17J <57437315+HJ17J@users.noreply.github.com>
+Date:   Mon Jun 3 17:39:07 2024 +0900
+
+    Initial commit
