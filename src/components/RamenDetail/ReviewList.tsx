@@ -441,7 +441,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                                 </div>
                                             ) : (
                                                 <div className="content empty">
-                                                    리뷰 내용이 없습니다.
+                                                    {/* 리뷰 내용이 없습니다. */}
                                                 </div>
                                             )}
                                             {review.reviewPhotoUrl && (
