@@ -42,6 +42,14 @@
     background: #fff5e1;
 }
 
+.modal-content .userid {
+    top: 20px;
+}
+
+.modal-content .nickname {
+    top: 6px;
+}
+
 .input-container {
     position: relative;
 }
@@ -103,7 +111,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    margin-top: 2px;
+    // margin-top: 2px;
     margin-bottom: 10px !important;
 }
 .modal-content .password {
@@ -155,11 +163,13 @@
 .modal-content .remember-me input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
+    margin-top: 2px;
 }
 
 .modal-content .remember-me label {
     font-size: 14px;
     margin-right: 230px;
+    margin-top: 2px;
 }
 
 .modal-content .links {
