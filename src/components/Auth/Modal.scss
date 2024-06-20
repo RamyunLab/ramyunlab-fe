@@ -111,8 +111,10 @@
     position: absolute;
     top: 100%;
     left: 0;
+
     // margin-top: 2px;
-    margin-bottom: 10px !important;
+    margin-top: 4px !important;
+    margin-bottom: 0px !important;
 }
 .modal-content .password {
     margin-top: 15px !important;
@@ -165,7 +167,46 @@
     margin-right: 10px;
     margin-top: 2px;
 }
-
+.usermsg {
+    .error-message {
+        // font-size: 14px;
+        &.valid {
+            color: green;
+            margin-top: 15px !important;
+        }
+        &.invalid {
+            color: red;
+            margin-top: 15px !important;
+        }
+    }
+}
+.nickmsg {
+    // margin-top: -13px !important;
+    .error-message {
+        // font-size: 14px;
+        &.valid {
+            margin-top: 0px !important;
+            color: green;
+        }
+        &.invalid {
+            color: red;
+            margin-top: 0px !important;
+        }
+    }
+}
+.passmsg {
+    .error-message {
+        // font-size: 14px;
+        &.valid {
+            margin-top: 0px !important;
+            color: green;
+        }
+        &.invalid {
+            color: red;
+            margin-top: 0px !important;
+        }
+    }
+}
 .modal-content .remember-me label {
     font-size: 14px;
     margin-right: 230px;
