@@ -118,9 +118,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
             const reviewNo = new URLSearchParams(location.search).get("reviewNo");
             setCurrentPage(parseInt(page));
             setReviewNo(parseInt(reviewNo));
-            if (scrollRef) {
-                console.log("scrollRef 존재함!!!");
-            }
             scrollRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" });
         } else {
             fetchReviews(currentPage);
@@ -137,7 +134,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
         if (!currentReview) return;
         // 현재 사용자가 해당 리뷰의 작성자인지 확인
         if (currentReview.userIdx === currentUserId) {
-            alert("자신의 리뷰에는 좋아요를 클릭할 수 없습니다.");
+            alert("본인의 리뷰는 추천할 수 없습니다.");
             return;
         }
         const liked = currentReview.isRecommended;

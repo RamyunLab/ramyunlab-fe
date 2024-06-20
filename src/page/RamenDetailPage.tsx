@@ -58,7 +58,7 @@ const RamenDetailPage: React.FC = () => {
 
             if (userInfo) {
                 const parsedUserInfo = JSON.parse(userInfo);
-                setNickname(parsedUserInfo.userId);
+                setNickname(parsedUserInfo.nickname);
             }
 
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
