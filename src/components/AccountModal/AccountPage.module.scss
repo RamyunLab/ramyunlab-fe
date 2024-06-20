@@ -61,7 +61,7 @@
     transition: background-color 0.3s ease;
 
     &.active {
-        background-color: #d38e0f;
+        background-color: #e1850c;
         border-radius: 4px 4px 0 0;
     }
 
@@ -134,7 +134,7 @@
     position: relative;
     right: 25px;
     top: 50%;
-    margin-top: -23px;
+    margin-top: -20px;
     transform: translateY(-50%);
     cursor: pointer;
     // color: #007bff;
@@ -144,19 +144,19 @@
 .checkNicknameBtn {
     padding: 10px;
     border: none;
-    background-color: #e74c3c;
+    background-color: #ff9100;
     color: white;
     cursor: pointer;
-    margin-top: -2px;
+    margin-top: 0px;
     position: relative;
     border-radius: 4px;
     transition: background-color 0.3s ease;
-    width: 70px;
+    width: 60px;
     margin-left: 10px;
     margin-right: 20px !important;
     font-size: 13px;
     &:hover {
-        background-color: #c0392b;
+        background-color: #ed8600;
     }
 }
 
@@ -207,7 +207,13 @@
 // }
 
 .checkPasswordBtn {
-    margin-left: -10px;
-    margin-top: 0;
-    align-self: flex-start;
+    margin-left: -13px;
+    margin-bottom: -1px;
+    // align-self: flex-start;
+}
+
+.checkNicknameBtn {
+    margin-left: 5px;
+    margin-bottom: -1px;
+    // align-self: flex-start;
 }

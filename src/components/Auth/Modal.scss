@@ -27,7 +27,7 @@
 .modal-content h2 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #e74c3c;
+    color: #ed8600;
 }
 
 .modal-content input {
@@ -83,7 +83,7 @@
 .modal-content .checkIdBtn,
 .modal-content .checkNicknameBtn {
     padding: 10px 0;
-    background-color: #e74c3c;
+    background-color: #ff9100;
     color: white;
     border: none;
     border-radius: 4px;
@@ -91,13 +91,14 @@
     font-size: 12px;
     transition: background-color 0.3s;
     width: 60px;
-    height: 42px;
+    height: 44px;
     margin-top: 10px;
+    margin-left: 3px;
 }
 
 .modal-content .checkIdBtn:hover,
 .modal-content .checkNicknameBtn:hover {
-    background-color: #c0392b;
+    background-color: #ed8600;
 }
 
 .modal-content .confirm-password {
@@ -122,19 +123,23 @@
 }
 .modal-content .error-message {
     font-size: 12px;
-
     margin-bottom: 10px;
     text-align: left;
     margin-left: 14px;
 }
 
+.userid .useridInput {
+    margin-bottom: 15px;
+}
+
 .modal-content .error-message.valid {
+    // margin-top: 15px;
     color: green;
 }
 
 .modal-content .error-message.invalid {
     color: red;
-    margin-top: 15px;
+    // margin-top: 15px;
 }
 
 .modal-content button {
@@ -142,7 +147,7 @@
     width: calc(100% - 20px);
     margin: 38px auto 10px; // 위쪽에 여유 공간 추가
     padding: 12px;
-    background-color: #e74c3c;
+    background-color: #ff9100;
     color: white;
     border: none;
     border-radius: 4px;
@@ -152,7 +157,7 @@
 }
 
 .modal-content button:hover {
-    background-color: #c0392b;
+    background-color: #ed8600;
 }
 
 .modal-content .remember-me {
@@ -221,7 +226,7 @@
 
 .modal-content .links a,
 .modal-content .links span {
-    color: #e74c3c;
+    color: #ed8600;
     text-decoration: none;
     font-size: 14px;
     cursor: pointer;
@@ -230,7 +235,7 @@
 
 .modal-content .links a:hover,
 .modal-content .links span:hover {
-    color: #c0392b;
+    color: #ed8600;
 }
 .modal-content .kakao {
     display: block;
