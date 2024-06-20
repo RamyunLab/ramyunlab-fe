@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { resetTournament, setRound } from "../../Redux/slices/TournamentSlice.tsx";
 
 interface TournamentModalProps {
     onSelect: (rounds: number) => void;
@@ -7,6 +9,7 @@ interface TournamentModalProps {
 
 const TournamentModal: React.FC<TournamentModalProps> = ({ onSelect, onClose }) => {
     const modalRef = useRef<HTMLDivElement>(null);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -22,7 +25,10 @@ const TournamentModal: React.FC<TournamentModalProps> = ({ onSelect, onClose }) 
     }, [onClose]);
 
     const handleSelect = (rounds: number) => {
-        onSelect(rounds);
+        dispatch(resetTournament()); // 토너먼트 상태 초기화
+        dispatch(setRound(rounds)); // 라운드 설정
+        onSelect(rounds); // 필요하다면 이 부분도 유지
+        onClose(); // 모달 닫기
     };
 
     return (
