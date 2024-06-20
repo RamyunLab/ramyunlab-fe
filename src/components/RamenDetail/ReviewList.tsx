@@ -75,8 +75,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
             console.log("userIdx: ", parsedUserInfo.userIdx);
             setIsLoggedIn(true);
         }
-        console.log("list :: 베스트리뷰?", isBestReviewList);
-
         fetchReviews(currentPage);
     }, [ramyunIdx, currentPage]);
 
@@ -427,7 +425,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
                                 <div className="nickname">{review.nickname}</div>
                                 <div className="review-content">
                                     {review.rvIsReported ? (
-                                        <div className="blind">블라인드 처리된 댓글입니다.</div>
+                                        <div className="blind">블라인드 처리 된 댓글입니다.</div>
                                     ) : (
                                         <>
                                             {review.reviewContent ? (
