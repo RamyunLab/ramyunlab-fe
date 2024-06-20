@@ -544,12 +544,13 @@ h3 {
 }
 
 .searchInput:focus {
-    border-color: #007bff;
+    border-color: #ffab21;
     outline: none;
 }
 
 .searchButton {
-    margin-top: 0px;
+    margin: 0 auto;
+
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
@@ -561,7 +562,7 @@ h3 {
 }
 
 .searchButton:hover {
-    background-color: #0056b3;
+    background-color: #e79c24fc;
 }
 
 @media (max-width: 768px) {
