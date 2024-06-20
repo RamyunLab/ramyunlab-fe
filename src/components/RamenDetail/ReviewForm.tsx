@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./ReviewForm.scss";
 
 interface ReviewFormProps {
@@ -28,6 +29,15 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     const [rating, setRating] = useState<number>(initialRating);
     const [photo, setPhoto] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(initialPhoto);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     useEffect(() => {
         setContent(initialContent);
@@ -51,6 +61,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!isLoggedIn) {
+            alert("로그인을 해주세요!");
+            return;
+        }
+        if (rating === 0) {
+            alert("별점을 등록해주세요");
+            return;
+        }
         onSubmit(content, rating, photo, rvReportCount);
         resetForm();
     };
@@ -60,6 +78,36 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         setRating(0);
         setPhoto(null);
         setPhotoPreview(null);
+    };
+
+    const handleDeletePhoto = async () => {
+        if (rvIdx && photoPreview) {
+            setLoading(true);
+            try {
+                const token = localStorage.getItem("token");
+                const response = await axios.delete(
+                    `${process.env.REACT_APP_API_SERVER}/api/reviewImg/${rvIdx}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                if (response.data.statusCode === 200) {
+                    alert("리뷰 이미지 삭제 성공");
+                    setPhotoPreview(null);
+                    setPhoto(null);
+                } else {
+                    alert("리뷰 이미지 삭제에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("이미지 삭제 오류:", error);
+                alert("이미지 삭제에 실패했습니다.");
+            } finally {
+                setLoading(false);
+            }
+        }
     };
 
     return (
@@ -75,9 +123,22 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
                 rows={15}
             />
             <input type="file" onChange={handlePhotoChange} className="file-input" />
-            {photoPreview && <img src={photoPreview} alt="Preview" className="photo-preview" />}
+            {photoPreview && (
+                <div className="photo-container">
+                    <img src={photoPreview} alt="Preview" className="photo-preview" />
+                    <button
+                        type="button"
+                        onClick={handleDeletePhoto}
+                        className="delete-button"
+                        disabled={loading}
+                        style={{ width: "30px" }}
+                    >
+                        X
+                    </button>
+                </div>
+            )}
             <div className="button-group">
-                <button type="submit" className="submit-button">
+                <button type="submit" className="submit-button" disabled={loading}>
                     {isEditMode ? "수정 완료" : "리뷰 등록"}
                 </button>
                 {isEditMode && (

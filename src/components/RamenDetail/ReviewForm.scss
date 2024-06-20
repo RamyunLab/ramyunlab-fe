@@ -1,3 +1,4 @@
+/* ReviewForm.scss */
 .review-form {
     background-color: #ffffff;
     padding: 20px;
@@ -74,12 +75,55 @@
 }
 
 .photo-preview {
-    max-width: 100%;
-    max-height: 200px;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
     margin-bottom: 15px;
     border-radius: 8px;
+    margin-left: 63px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     object-fit: contain;
+}
+
+.photo-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.delete-button {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+
+    margin-right: 54px;
+    margin-top: -5px;
+    background-color: rgb(231, 76, 60);
+    opacity: 0.6;
+    color: white;
+    border: none;
+
+    // border-radius: 50%;
+
+    // width: 15px !important;
+    height: 30px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+
+    &:hover {
+        background-color: rgb(231, 76, 60);
+        opacity: 1;
+        transform: none;
+    }
+
+    &:disabled {
+        background-color: rgb(231, 76, 60);
+        cursor: not-allowed;
+    }
 }
 
 .button-group {

@@ -323,7 +323,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
         setIsReportModalOpen(true);
     };
 
-    const handleReportSubmit = (reportReason: string) => {
+    const handleReportSubmit = async (reportReason: string) => {
         if (reportReviewId !== null) {
             const token = localStorage.getItem("token");
 
@@ -331,8 +331,8 @@ const ReviewList: React.FC<ReviewListProps> = ({
                 reportReason: reportReason,
             };
 
-            axios
-                .post(
+            try {
+                const response = await axios.post(
                     `${process.env.REACT_APP_API_SERVER}/api/complaint/${reportReviewId}`,
                     reportDTO,
                     {
@@ -341,18 +341,19 @@ const ReviewList: React.FC<ReviewListProps> = ({
                             "Content-Type": "application/json",
                         },
                     }
-                )
-                .then((response) => {
-                    setIsReportModalOpen(false);
-                    fetchReviews(currentPage);
-                })
-                .catch((error) => {
-                    console.error("Failed to submit report:", error);
-                    if (error.response.data.error === "이미 신고한 리뷰입니다.") {
-                        alert("이미 신고한 리뷰입니다");
-                    }
-                });
+                );
+                setIsReportModalOpen(false);
+                fetchReviews(currentPage);
+                return true; // 신고 성공
+            } catch (error) {
+                console.error("Failed to submit report:", error);
+                if (error.response.data.error === "이미 신고한 리뷰입니다.") {
+                    alert("이미 신고한 리뷰입니다");
+                }
+                return false; // 신고 실패 또는 이미 신고된 리뷰
+            }
         }
+        return false;
     };
 
     const handlePageChange = (newPage: number) => {

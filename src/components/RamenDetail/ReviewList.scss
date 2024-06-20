@@ -59,6 +59,7 @@
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
+    width: 100% !important;
 }
 
 .review-image {
@@ -78,11 +79,14 @@
 .review .content {
     font-size: 14px;
     color: #555;
-    width: 80%;
-    // border: 1px solid red;
-    margin: 10px 0;
-}
 
+    // border: 1px solid red;
+    word-wrap: break-word;
+    width: 80% !important;
+}
+// .review-image {
+//     width: 55%;
+// }
 .review .date {
     color: #888;
     font-size: 14px;
@@ -234,15 +238,23 @@
     .nickname {
         font-size: 16px;
     }
-
+    .review-content {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+        // width: 70% !important;
+    }
     .review .content {
         font-size: 14px;
     }
-
+    // .review-image {
+    //     width: 55%;
+    // }
     .review-image img {
         max-width: 100px !important;
         max-height: 100px !important;
         margin-left: 330px;
+        margin-right: 000px;
     }
 
     .review .date {
@@ -336,6 +348,7 @@
     .review-image img {
         max-width: 80px !important;
         max-height: 80px !important;
+        margin-right: 200px;
     }
 
     .review .date {

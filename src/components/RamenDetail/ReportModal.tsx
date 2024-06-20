@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./ReportModal.scss";
 
 interface ReportModalProps {
-    onSubmit: (reportReason: string) => void;
+    onSubmit: (reportReason: string) => Promise<boolean>; // onSubmit이 백엔드에 요청을 보내고, 성공 여부를 반환하는 Promise를 반환한다고 가정합니다.
     onCancel: () => void;
 }
 
@@ -12,9 +12,15 @@ const ReportModal: React.FC<ReportModalProps> = ({ onSubmit, onCancel }) => {
 
     const reasons = ["욕설 및 비방", "스팸성 광고", "개인 정보 노출", "허위 정보", "기타"];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const reportReason = selectedReason === "기타" ? otherReason : selectedReason;
-        onSubmit(reportReason);
+        const isSuccessful = await onSubmit(reportReason);
+
+        if (isSuccessful) {
+            alert("신고가 접수되었습니다");
+        } else {
+            alert("신고가 이미 접수되었습니다.");
+        }
     };
 
     return (
