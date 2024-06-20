@@ -53,7 +53,7 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNicknameChange }) => {
 
         if (!isValidNickname(value)) {
             setNicknameError(
-                "닉네임은 2~10자 사이이며, 영어, 한글, 숫자가 포함되어야 하고 숫자로 시작할 수 없습니다."
+                "닉네임은 2~10자 사이이며, 영어, 한글, 숫자가 포함되어야 하고 숫자로 시작할 수 있습니다. "
             );
             setIsNicknameChecked(false);
         } else {

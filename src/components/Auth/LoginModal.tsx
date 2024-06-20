@@ -80,7 +80,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
         }
 
         try {
-            const response = await axiosInstance.post(`/auth/login`, {
+            const response = await axiosInstance.post("/auth/login", {
                 userId: id,
                 password,
             });
@@ -117,7 +117,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ toggleLoginModal, toggleRegiste
                 );
             }
         } catch (error) {
-            const errorMessage = error.response?.data?.error;
+            console.error("Error response:", error.response); // 응답 데이터 확인을 위한 콘솔 로그
+            const errorMessage = error.response?.data?.message; // 서버에서 보내는 에러 메시지 필드명 확인
             if (errorMessage) {
                 if (errorMessage === "존재하지 않는 아이디입니다.") {
                     alert("아이디가 존재하지 않습니다.");

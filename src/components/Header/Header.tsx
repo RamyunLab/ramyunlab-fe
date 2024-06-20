@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../Redux/store";
@@ -19,6 +19,8 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) =>
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const menuIconRef = useRef<HTMLButtonElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
@@ -44,6 +46,30 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) =>
         }
     }, [isAuthenticated]);
 
+    useEffect(() => {
+        const updateMenuPosition = () => {
+            if (menuOpen && menuIconRef.current && menuRef.current) {
+                const menuIconRect = menuIconRef.current.getBoundingClientRect();
+                const menuWidth = 120;
+                const leftPosition =
+                    window.innerWidth <= 768
+                        ? 0
+                        : menuIconRect.left + menuIconRect.width / 2 - menuWidth / 2;
+                menuRef.current.style.top = `${menuIconRect.bottom}px`;
+                menuRef.current.style.left = `${leftPosition}px`;
+                menuRef.current.style.width = window.innerWidth <= 768 ? "100%" : `${menuWidth}px`;
+                menuRef.current.style.height = "40.8px !important"; // 높이 설정
+            }
+        };
+
+        updateMenuPosition();
+        window.addEventListener("resize", updateMenuPosition);
+
+        return () => {
+            window.removeEventListener("resize", updateMenuPosition);
+        };
+    }, [menuOpen]);
+
     const toggleMenu = useCallback(
         (event: React.MouseEvent) => {
             event.stopPropagation();
@@ -53,8 +79,8 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) =>
     );
 
     const handleClickOutside = useCallback((event: MouseEvent) => {
-        const menu = document.querySelector(`.${styles.menu}`);
-        const menuIcon = document.querySelector(`.${styles.menuIcon}`);
+        const menu = menuRef.current;
+        const menuIcon = menuIconRef.current;
         if (
             menu &&
             !menu.contains(event.target as Node) &&
@@ -125,10 +151,10 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) =>
             </Link>
             {isAuthenticated ? (
                 <div>
-                    <button className={styles.menuIcon} onClick={toggleMenu}>
+                    <button ref={menuIconRef} className={styles.menuIcon} onClick={toggleMenu}>
                         {nickname || "내 메뉴"}
                     </button>
-                    <div className={`${styles.menu} ${menuOpen ? styles.show : ""}`}>
+                    <div ref={menuRef} className={`${styles.menu} ${menuOpen ? styles.show : ""}`}>
                         <ul>
                             <li onClick={handleAccountPage}>마이페이지</li>
                             <li onClick={handleLogout}>로그아웃</li>
