@@ -9,7 +9,7 @@ import Modal from "../Suggest/Suggest.tsx";
 
 interface HeaderProps {
     toggleLoginModal: () => void;
-    updatedNickname?: string; // 추가된 부분
+    updatedNickname?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) => {
@@ -33,6 +33,16 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) =>
             setNickname(updatedNickname);
         }
     }, [updatedNickname]);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            const userInfo = localStorage.getItem("userInfo");
+            if (userInfo) {
+                const { nickname } = JSON.parse(userInfo);
+                setNickname(nickname);
+            }
+        }
+    }, [isAuthenticated]);
 
     const toggleMenu = useCallback(
         (event: React.MouseEvent) => {
@@ -70,6 +80,7 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) =>
         localStorage.removeItem("userInfo");
         dispatch(logout());
         setMenuOpen(false);
+        setNickname(null);
         navigate("/");
     };
 
