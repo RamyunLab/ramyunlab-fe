@@ -75,6 +75,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
             console.log("userIdx: ", parsedUserInfo.userIdx);
             setIsLoggedIn(true);
         }
+        console.log("list :: 베스트리뷰?", isBestReviewList);
 
         fetchReviews(currentPage);
     }, [ramyunIdx, currentPage]);

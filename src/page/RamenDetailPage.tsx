@@ -120,6 +120,7 @@ const RamenDetailPage: React.FC = () => {
                         rvReportCount: review.rvReportCount ?? 0,
                     }));
                     setBestReviews(bestReviewsWithDefaultValues);
+                    console.log("베스트리뷰?", bestReviews);
                 })
                 .catch((error) => {
                     console.error("Failed to fetch data:", error);
@@ -248,16 +249,18 @@ const RamenDetailPage: React.FC = () => {
             <div className="average-rating">{/* <span>★ ★ ★ ★ ★</span> */}</div>
             {ramyunIdx && (
                 <>
-                    <ReviewList
-                        reviews={bestReviews}
-                        setReviews={setReviews}
-                        ramyunIdx={ramyunIdx}
-                        isBestReviewList={true}
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        setCurrentPage={setCurrentPage}
-                        setTotalPages={setTotalPages}
-                    />
+                    {bestReviews.length > 0 && (
+                        <ReviewList
+                            reviews={bestReviews}
+                            setReviews={setReviews}
+                            ramyunIdx={ramyunIdx}
+                            isBestReviewList={true}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            setCurrentPage={setCurrentPage}
+                            setTotalPages={setTotalPages}
+                        />
+                    )}
                     <ReviewList
                         reviews={reviews}
                         setReviews={setReviews}
