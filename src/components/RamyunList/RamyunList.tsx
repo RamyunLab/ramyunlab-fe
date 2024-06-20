@@ -378,7 +378,7 @@ const RamyunList: React.FC = () => {
                                                 handleFilterChange("noodle", key, e.target.checked)
                                             }
                                         />
-                                        {noodleMapping[key] ? "건면" : "유탕면"}
+                                        {noodleMapping[key] ? "유탕면" : "건면"}
                                     </label>
                                 ))}
                             </div>
