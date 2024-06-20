@@ -136,11 +136,11 @@
     gap: 10px;
 
     button {
-        padding: 0px;
+        padding: 0px 0px !important;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        font-size: 11px;
+        font-size: 14px;
         margin-top: 10px;
         width: 50px;
         height: 30px;
@@ -178,11 +178,11 @@
     margin-top: 10px;
 
     button {
-        padding: 5px 10px;
+        padding: 0px 0px !important;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 14px !important;
         background-color: #e74c3c;
         color: white;
         transition: background-color 0.3s;
@@ -200,11 +200,11 @@
     margin-top: 20px;
 
     button {
-        padding: 8px 16px;
+        padding: 8px 10px !important;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 13px;
         background-color: #387adf;
         color: white;
         margin: 0 10px;
