@@ -4,6 +4,7 @@ import axios from "axios";
 import { GameDTO } from "../Redux/types.ts";
 import { useDispatch } from "react-redux";
 import { resetTournament } from "../Redux/slices/TournamentSlice.tsx";
+import "./FinalScreen.scss";
 
 const FinalScreen: React.FC = () => {
     const { ramenId } = useParams<{ ramenId: string }>();
@@ -102,11 +103,13 @@ const FinalScreen: React.FC = () => {
             <div className="championImg">
                 <img src={champion.r_img} alt={champion.r_name} />
             </div>
-            <button onClick={handleHome}>홈으로</button>
-            <button onClick={handleDetailPage}>상세 페이지 이동</button>
-            <button className="kakao-share-button" onClick={handleKakaoShare}>
-                카카오톡으로 공유
-            </button>
+            <div className="button-container">
+                <button onClick={handleHome}>홈으로</button>
+                <button onClick={handleDetailPage}>상세 페이지 이동</button>
+                <button className="kakao-share-button" onClick={handleKakaoShare}>
+                    카카오톡으로 공유
+                </button>
+            </div>
         </div>
     );
 };
