@@ -57,7 +57,9 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNicknameChange }) => {
             );
             setIsNicknameChecked(false);
         } else {
-            setNicknameError("형식에 맞는 닉네임입니다.");
+            setNicknameError(
+                <span className={styles.successMessage}>형식에 맞는 닉네임입니다.</span>
+            );
         }
     };
 
@@ -92,7 +94,9 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNicknameChange }) => {
         if (!isValidPassword(value)) {
             setCurrentPasswordError("입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다.");
         } else {
-            setCurrentPasswordError("비밀번호가 일치합니다.");
+            setCurrentPasswordError(
+                <span className={styles.successMessage}>형식에 맞는 닉네임입니다.</span>
+            );
         }
     };
 

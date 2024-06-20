@@ -226,6 +226,12 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .review-list {
+        width: 93%;
+        height: auto;
+    }
+}
 @media (max-width: 768px) {
     .review-list {
         background-color: #ffffff;

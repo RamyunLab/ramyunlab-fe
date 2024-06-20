@@ -20,13 +20,14 @@
 .button {
     font-size: 1.4em;
     cursor: pointer;
-    margin-top: 1px;
+    margin-top: 10px;
     background: #ffab21;
     border: none;
     color: white;
+
     font-family: inherit;
     position: relative;
-    right: 70px; // 버튼을 약간 왼쪽으로 이동
+    right: 30px; // 버튼을 약간 왼쪽으로 이동
 }
 
 .menuIcon {
