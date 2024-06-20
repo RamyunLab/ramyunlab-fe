@@ -7,7 +7,12 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { logout } from "../../Redux/slices/AuthSlice.tsx"; // 로그아웃 액션 임포트
 import styles from "./AccountPage.module.scss"; // styles 파일 이름 변경
 
-const AccountPage: React.FC = () => {
+interface AccountPageProps {
+    onNicknameChange: (newNickname: string) => void; // 추가된 부분
+}
+
+const AccountPage: React.FC<AccountPageProps> = ({ onNicknameChange }) => {
+    // 추가된 부분
     const dispatch = useDispatch();
     const navigate = useNavigate(); // useNavigate 훅을 사용합니다.
     const [activeTab, setActiveTab] = useState("changeNickname");
@@ -172,6 +177,10 @@ const AccountPage: React.FC = () => {
 
             if (response.data.statusCode === 200) {
                 alert(`${nickname}으로 변경되었습니다.`);
+                const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+                userInfo.nickname = nickname;
+                localStorage.setItem("userInfo", JSON.stringify(userInfo));
+                onNicknameChange(nickname); // 추가된 부분
                 navigate("/"); // 메인 페이지로 이동합니다.
             } else {
                 alert("닉네임 변경에 실패했습니다.");

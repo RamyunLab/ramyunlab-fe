@@ -9,14 +9,30 @@ import Modal from "../Suggest/Suggest.tsx";
 
 interface HeaderProps {
     toggleLoginModal: () => void;
+    updatedNickname?: string; // 추가된 부분
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
+const Header: React.FC<HeaderProps> = ({ toggleLoginModal, updatedNickname }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [nickname, setNickname] = useState<string | null>(null);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const userInfo = localStorage.getItem("userInfo");
+        if (userInfo) {
+            const { nickname } = JSON.parse(userInfo);
+            setNickname(nickname);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (updatedNickname) {
+            setNickname(updatedNickname);
+        }
+    }, [updatedNickname]);
 
     const toggleMenu = useCallback(
         (event: React.MouseEvent) => {
@@ -99,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ toggleLoginModal }) => {
             {isAuthenticated ? (
                 <div>
                     <button className={styles.menuIcon} onClick={toggleMenu}>
-                        내 메뉴
+                        {nickname || "내 메뉴"}
                     </button>
                     <div className={`${styles.menu} ${menuOpen ? styles.show : ""}`}>
                         <ul>

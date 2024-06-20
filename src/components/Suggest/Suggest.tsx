@@ -8,9 +8,11 @@ interface ModalProps {
 }
 
 const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-    const [userEmail, setUserEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [title, setTitle] = useState("");
+    const [userEmail, setUserEmail] = useState("chu@name.com"); // 초기값 설정
+    const [message, setMessage] = useState(
+        "저 불닭볶음면에 댓글달아놨는데 이거 너무 매워서 불호라고 썻는데 며칠지나고 보니까 블라인드가 되어있어요. 이거 블라인드 풀어주세요"
+    ); // 초기값 설정
+    const [title, setTitle] = useState("제 댓글이 왜 블라인드 처리가 되었을까요?"); // 초기값 설정
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [userId, setUserId] = useState("");
 
@@ -60,9 +62,11 @@ const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             if (response.status === 200) {
                 alert("이메일 발송이 완료되었습니다.");
                 // 입력 필드 초기화
-                setUserEmail("");
-                setTitle("");
-                setMessage("");
+                setUserEmail("chu@name.com"); // 초기값으로 재설정
+                setTitle("제 댓글이 블라인드 처리가 되었을까요?"); // 초기값으로 재설정
+                setMessage(
+                    "저 불닭볶음면에 댓글달아놨는데 이거 너무 매워서 불호라고 썻는데 며칠지나고 보니까 블라인드가 되어있어요. 이거 블라인드 풀어주세요"
+                ); // 초기값으로 재설정
                 onClose();
             } else {
                 alert("이메일 발송에 실패했습니다: " + response.data.message);
@@ -76,7 +80,7 @@ const Suggest: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={styles.modalBackdrop}>
+        <div className={styles.modalBackdrop} onClick={onClose}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <h2>건의하기</h2>
                 <form onSubmit={handleSendEmail}>
