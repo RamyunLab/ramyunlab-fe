@@ -465,12 +465,13 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNicknameChange }) => {
                                     onChange={handleCurrentPasswordInputChange}
                                     placeholder="현재 비밀번호"
                                 />
-                                <FontAwesomeIcon
-                                    icon={showCurrentPassword ? faEyeSlash : faEye}
-                                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                    className={styles.passwordIcon}
-                                />
-
+                                <div className={styles.deleteicon1}>
+                                    <FontAwesomeIcon
+                                        icon={showCurrentPassword ? faEyeSlash : faEye}
+                                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                        className={styles.passwordIcon}
+                                    />
+                                </div>
                                 <button
                                     className={styles.checkPasswordBtn}
                                     onClick={handleCurrentPasswordCheck}

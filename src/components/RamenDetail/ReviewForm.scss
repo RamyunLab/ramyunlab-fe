@@ -32,7 +32,7 @@
     overflow-y: auto; /* 수직 스크롤 */
 
     &:focus {
-        border-color: #007bff;
+        border-color: #387adf;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
 }
@@ -66,7 +66,7 @@
     transition: border-color 0.3s, box-shadow 0.3s;
 
     &:hover {
-        border-color: #007bff;
+        border-color: #387adf;
     }
 
     &:focus {
@@ -134,14 +134,15 @@
 
 .submit-button,
 .cancel-button {
-    padding: 12px 20px;
+    padding: 5px 10px;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
     transition: background-color 0.3s, transform 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
+    margin-right: -7px;
 
     &:hover {
         transform: translateY(-2px);
@@ -154,7 +155,7 @@
 }
 
 .submit-button {
-    background-color: #007bff;
+    background-color: #387adf;
     color: white;
 
     &:hover {
@@ -163,7 +164,7 @@
 }
 
 .cancel-button {
-    background-color: #f39c12;
+    background-color: #ff6347 !important;
     color: white;
 
     &:hover {
