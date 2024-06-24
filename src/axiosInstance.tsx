@@ -10,7 +10,7 @@ axiosInstance.interceptors.request.use(
     (config) => {
         const state: RootState = store.getState();
         const token = state.auth.token;
-        console.log("Token from Redux state:", token); // 토큰 로그 확인
+
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

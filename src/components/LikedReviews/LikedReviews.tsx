@@ -49,7 +49,7 @@ const LikedReviews: React.FC = () => {
 
     const handleItemOnclick = async (reviewNo: number, ramyunIdx: number) => {
         const url = `${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/my?reviewNo=${reviewNo}`;
-        console.log("요청 url:: ", url);
+
         await axios
             .get(url)
             .then((res) =>

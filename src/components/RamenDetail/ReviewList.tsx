@@ -66,13 +66,12 @@ const ReviewList: React.FC<ReviewListProps> = ({
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
         const token = localStorage.getItem("token");
-        console.log("Local Storage userInfo:", userInfo);
-        console.log("Local Storage token:", token);
+
         if (userInfo && token) {
             const parsedUserInfo = JSON.parse(userInfo);
-            console.log("Parsed userInfo:", parsedUserInfo);
+
             setCurrentUserId(parsedUserInfo.userIdx);
-            console.log("userIdx: ", parsedUserInfo.userIdx);
+
             setIsLoggedIn(true);
         }
         fetchReviews(currentPage);
@@ -80,7 +79,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
 
     const fetchReviews = (page: number) => {
         const token = localStorage.getItem("token");
-        console.log(`Fetching reviews for ramyunIdx: ${ramyunIdx} on page: ${page}`);
+
         axios
             .get(`${process.env.REACT_APP_API_SERVER}/main/ramyun/${ramyunIdx}/review`, {
                 headers: {
@@ -91,7 +90,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
                 },
             })
             .then((response) => {
-                console.log("Reviews response from server:", response.data);
                 const reviewsData = response.data.data.review.content || [];
                 const reviewsWithDefaultValues = reviewsData.map((review: Review) => ({
                     ...review,
@@ -102,7 +100,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
                 }));
                 setReviews(reviewsWithDefaultValues);
                 setTotalPages(response.data.data.review.totalPages);
-                console.log("Set reviews:", reviewsWithDefaultValues);
             })
             .catch((error) => {
                 console.error("Failed to fetch reviews:", error);
@@ -150,7 +147,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
                         },
                     }
                 );
-                console.log("Delete like response:", deleteResponse.data);
+
                 currentReview.recommendIdx = null;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 1) - 1;
                 currentReview.isRecommended = false;
@@ -164,7 +161,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
                         },
                     }
                 );
-                console.log("Add like response:", response.data);
+
                 currentReview.recommendIdx = response.data.data.recommendIdx;
                 currentReview.rvRecommendCount = (currentReview.rvRecommendCount || 0) + 1;
                 currentReview.isRecommended = true;
@@ -218,7 +215,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
                     },
                 })
                 .then((response) => {
-                    console.log("Delete review response:", response.data);
                     if (response.data.statusCode === 200) {
                         const updatedReviews = reviews.filter((review) => review.rvIdx !== rvIdx);
                         setReviews(updatedReviews);
@@ -271,7 +267,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
         });
         formData.append("reviewDTO", blob);
 
-        console.log("Saving edited review:", { newContent, newRating, newPhoto, reportCount });
         if (editMode && ramyunIdx) {
             axios
                 .patch(
@@ -285,7 +280,6 @@ const ReviewList: React.FC<ReviewListProps> = ({
                     }
                 )
                 .then((response) => {
-                    console.log("Edit review response:", response.data);
                     if (response.data.statusCode === 200) {
                         setReviews((prevReviews) =>
                             prevReviews.map((review) =>

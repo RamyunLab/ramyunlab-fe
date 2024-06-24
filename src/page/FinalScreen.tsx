@@ -21,7 +21,6 @@ const FinalScreen: React.FC = () => {
             axios
                 .get(`${process.env.REACT_APP_API_SERVER}/game/result/${ramenId}`)
                 .then((response) => {
-                    console.log(response);
                     setChampion(response.data.data);
                 })
                 .catch((error) => {

@@ -56,7 +56,7 @@ const FavoriteList: React.FC = () => {
                     },
                 }
             );
-            console.log("API Response:", response.data); // 응답 데이터 로그
+
             if (response.data.statusCode === 200) {
                 setFavoriteList(
                     response.data.data.content.map((item) => ({ ...item, isLiked: true }))
@@ -96,7 +96,7 @@ const FavoriteList: React.FC = () => {
                         data: { ramyunIdx }, // 요청 본문에 ramyunIdx 포함
                     }
                 );
-                console.log("Response Data (Delete):", response.data); // 응답 데이터 로그
+
                 alert("찜 해제 완료!");
             } else {
                 const response = await axios.post(
@@ -109,7 +109,7 @@ const FavoriteList: React.FC = () => {
                         },
                     }
                 );
-                console.log("Response Data (Post):", response.data); // 응답 데이터 로그
+
                 alert("찜 완료!");
             }
         } catch (error) {

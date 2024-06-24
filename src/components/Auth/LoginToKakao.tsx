@@ -11,7 +11,6 @@ const LoginToKakao: React.FC = () => {
 
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get("code");
-    console.log(`Authorization code: ${code}`); // code 값 로그 확인
 
     const loginToKakao = async () => {
         try {
@@ -19,7 +18,6 @@ const LoginToKakao: React.FC = () => {
                 const response = await axiosInstance.get(
                     `${process.env.REACT_APP_API_SERVER}/auth/callback?code=${code}`
                 );
-                console.log(response.data);
 
                 if (response.data.statusCode === 200) {
                     const { token, userId, userIdx } = response.data.data;
@@ -37,7 +35,6 @@ const LoginToKakao: React.FC = () => {
                         navigate("/");
                     }
                 } else {
-                    console.log(response.data);
                     alert("로그인에 실패했습니다.");
                 }
             } else {

@@ -82,9 +82,6 @@ const RamenDetailPage: React.FC = () => {
 
             Promise.all([fetchRamenDetails, fetchReviews])
                 .then(([ramenResponse, reviewsResponse]) => {
-                    console.log("Ramen details response:", ramenResponse);
-                    console.log("Reviews response:", reviewsResponse);
-
                     const ramenData = ramenResponse.data.data.ramyun;
                     const mappedRamen: RamenInfo = {
                         r_idx: ramenData.ramyunIdx,
@@ -120,7 +117,6 @@ const RamenDetailPage: React.FC = () => {
                         rvReportCount: review.rvReportCount ?? 0,
                     }));
                     setBestReviews(bestReviewsWithDefaultValues);
-                    console.log("베스트리뷰?", bestReviews);
                 })
                 .catch((error) => {
                     console.error("Failed to fetch data:", error);
@@ -152,7 +148,6 @@ const RamenDetailPage: React.FC = () => {
         });
         formData.append("reviewDTO", blob);
 
-        console.log("Submitting new review:", { newContent, newRating, newPhoto });
         axios
             .post(`${process.env.REACT_APP_API_SERVER}/api/review/${ramyunIdx}`, formData, {
                 headers: {
