@@ -77,7 +77,6 @@ const MyReviews: React.FC = () => {
                 setReviews(data.content);
                 setCurrentPage(data.number + 1); // 페이지 번호는 0부터 시작하므로 1을 더해줌
                 setTotalPages(data.totalPages);
-                console.log(reviews);
             } else {
                 setReviews([]);
             }

@@ -11,15 +11,12 @@ const Result: React.FC = () => {
     const result = useSelector((state: RootState) => state.mbti.result);
 
     useEffect(() => {
-        console.log("useEffect triggered with answers:", answers);
         if (answers.length === questionsCount) {
             dispatch(calculateMBTI(answers));
         }
     }, [answers, dispatch]);
 
-    useEffect(() => {
-        console.log("Result updated:", result);
-    }, [result]);
+    useEffect(() => {}, [result]);
 
     const handleShareResult = () => {
         alert("결과를 공유합니다: " + JSON.stringify(result));

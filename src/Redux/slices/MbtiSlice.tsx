@@ -49,7 +49,6 @@ export const { addAnswer, setResult, resetResult } = mbtiSlice.actions;
 const questionsCount = 8; // 질문의 수를 8로 정의합니다.
 
 const calculateMBTI = (answers: string[]) => (dispatch: any) => {
-    console.log("Calculating MBTI with answers:", answers);
     const typeCount = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
 
     answers.forEach((answer) => {
@@ -62,7 +61,6 @@ const calculateMBTI = (answers: string[]) => (dispatch: any) => {
         (typeCount.T >= typeCount.F ? "T" : "F") +
         (typeCount.J >= typeCount.P ? "J" : "P");
 
-    console.log("Determined MBTI type:", mbtiType);
     const ramenRecommendationMap = {
         ENTJ: {
             ramen: "왕뚜껑",

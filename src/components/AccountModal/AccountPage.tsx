@@ -335,13 +335,11 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNicknameChange }) => {
 
     useEffect(() => {
         const userInfoString = localStorage.getItem("userInfo");
-        console.log(userInfoString);
 
         if (userInfoString) {
             const userInfo = JSON.parse(userInfoString);
-            console.log("userInfo:: ", userInfo);
+
             const userId = userInfo.userId;
-            console.log("userId:: ", userId);
 
             if (!userId.startsWith("kakao_")) {
                 setShowTap(true);
